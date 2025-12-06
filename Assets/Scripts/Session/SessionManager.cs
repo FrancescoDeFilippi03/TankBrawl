@@ -15,10 +15,20 @@ public class SessionManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) return;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
+
+    async void Start()
+    {
+        await InitializeServicesAsync();
+    }
     
     public async Task InitializeServicesAsync()
     {
@@ -47,10 +57,9 @@ public class SessionManager : MonoBehaviour
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
             Debug.Log($"Host Session Created: {currentSession.Id}");
             Debug.Log($"Code :{currentSession.Code}");
+            
             currentSession.PlayerJoined += OnPlayerJoined;
-
             NetworkManager.Singleton.StartHost();
-
         }
         catch (Exception e) 
         { 
@@ -61,7 +70,8 @@ public class SessionManager : MonoBehaviour
 
     public async Task StartGame(){
         
-        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        if(!currentSession.IsHost) return;
+        NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
     //CLIENT LOGIC 
 
@@ -72,10 +82,9 @@ public class SessionManager : MonoBehaviour
         {
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
             Debug.Log($"Joined session. Waiting for Host to assign team...");
+            
             currentSession.PlayerJoined += OnPlayerJoined;
-
             NetworkManager.Singleton.StartClient();
-
         }
         catch (Exception e) 
         { 

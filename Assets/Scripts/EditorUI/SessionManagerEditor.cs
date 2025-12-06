@@ -13,6 +13,7 @@ public class SessionManagerEditor : Editor
     private TextField joinCodeInput;
     private Button hostButton;
     private Button joinButton;
+    private Button startGameButton;
     private Button leaveButton;
     private Label statusLabel;
     private Label sessionCodeLabel; // To display the code when hosting
@@ -133,6 +134,14 @@ public class SessionManagerEditor : Editor
         joinBox.Add(joinCodeInput);
         joinBox.Add(joinButton);
         root.Add(joinBox);
+
+        // Start Game Button
+        startGameButton = new Button(async () => { await manager.StartGame(); });
+        startGameButton.text = "Start Game";
+        startGameButton.style.height = 30;
+        startGameButton.style.marginTop = 10;
+        startGameButton.style.backgroundColor = new StyleColor(new Color(0.2f, 0.6f, 0.2f));
+        root.Add(startGameButton);
     }
 
     private void CreatePlayerListSection()
@@ -192,6 +201,7 @@ public class SessionManagerEditor : Editor
         hostButton.SetEnabled(!inSession && isInitialized);
         joinButton.SetEnabled(!inSession && isInitialized);
         joinCodeInput.SetEnabled(!inSession && isInitialized);
+        startGameButton.SetEnabled(inSession && manager.CurrentSession.IsHost);
         leaveButton.SetEnabled(inSession);
 
         // 3. Refresh Player List (CRITICAL FIX: Uses ISession only)
