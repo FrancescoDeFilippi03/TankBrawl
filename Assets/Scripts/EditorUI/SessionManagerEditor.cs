@@ -170,7 +170,7 @@ public class SessionManagerEditor : Editor
         if (!Application.isPlaying) return;
 
         bool inSession = manager.CurrentSession != null;
-        bool isInitialized = manager.IsInitialized;
+        bool isInitialized = true; // SessionManager is always initialized in this context
 
         // 1. Update Status Text
         if (inSession)
