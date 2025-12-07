@@ -2,20 +2,16 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Threading.Tasks;
 
-
-
 [RequireComponent(typeof(TeamManager))]
 public class GameManager : NetworkBehaviour
 {
-
-    
+    [Header("Setup")]
     [SerializeField] private Transform[] redTeamSpawns;
     [SerializeField] private Transform[] blueTeamSpawns;
     [SerializeField] private NetworkObject tankPrefab;
 
     private TeamManager teamManager;
 
-    //Gestione della partita 
     public enum GameState
     {   
         WaitingForPlayers,
@@ -31,110 +27,129 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-
             teamManager = GetComponent<TeamManager>();
-
             NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
-
         CurrentGameState.OnValueChanged += OnGameStateChanged;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer && NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+        }
+        CurrentGameState.OnValueChanged -= OnGameStateChanged;
     }
 
     private async void OnGameStateChanged(GameState previous, GameState current)
     {
-        Debug.Log($"Game State changed from {previous} to {current}");
-        // Handle state-specific logic here
+        Debug.Log($"Game State: {current}");
 
         switch (current)
         {
             case GameState.WaitingForPlayers:
-                // Logic for waiting state
-                break;
+                break; 
 
             case GameState.AssigningTeams:
                 await AssignTeams();
                 CurrentGameState.Value = GameState.Intro; 
+                break;
 
-                break;
             case GameState.Intro:
-                ShowIntroSequence();
+                Invoke(nameof(StartMainGame), 5f);
                 break;
+
             case GameState.InGame:
-                // Logic for in-game state
-                PlayingGame();
+                Debug.Log("Game Started!");
+                Invoke(nameof(EndGame), 10f);
                 break;
+
             case GameState.GameOver:
-                // Logic for game over state
-                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
-                NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
+                EndGameSequence();
                 break;
+        }
+    }
+
+    // HOST CONTROL: Metodo pubblico per il bottone dell'Editor
+    public void StartMatch()
+    {
+        if (IsServer && CurrentGameState.Value == GameState.WaitingForPlayers)
+        {
+            CurrentGameState.Value = GameState.AssigningTeams;
         }
     }
 
     private void OnSceneLoaded(ulong clientId, string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
     {
-        CurrentGameState.Value = GameState.AssigningTeams;
-    }
-
-
-    private void ShowIntroSequence()
-    {
-        Debug.Log("Showing Intro Sequence...");
-        Invoke(nameof(StartMainGame), 5f);
+        if (CurrentGameState.Value == GameState.WaitingForPlayers)
+        {
+            Debug.Log($"Client {clientId} loaded. Ready.");
+        }
     }
 
     private void StartMainGame()
     {
-        if (IsServer)
-        {
-            CurrentGameState.Value = GameState.InGame;
-        }
-    }
-
-    private void PlayingGame()
-    {
-        Debug.Log("Game is now in progress!");
-        Invoke(nameof(EndGame), 10f);
+        if (IsServer) CurrentGameState.Value = GameState.InGame;
     }
 
     private void EndGame()
     {
-        if (IsServer)
+        if (IsServer) CurrentGameState.Value = GameState.GameOver;
+    }
+
+    // LOGICA DI USCITA PULITA
+    private async void EndGameSequence()
+    {
+        if (SessionManager.Instance != null)
         {
-            CurrentGameState.Value = GameState.GameOver;
-            
+            await SessionManager.Instance.CleanupAfterGame();
         }
+
+        NetworkManager.Singleton.Shutdown();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
     }
 
     private async Task AssignTeams()
     {
         if (!IsServer) return;
-
         await teamManager.InitializeTeams();
-        //AssignAutoTeam();
-    }
-    private void AssignAutoTeam()
-    {
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            Vector3 spawnPosition;
-            // Logica semplice pari/dispari per 3v3
-            // ID 0, 2, 4 -> Red
-            // ID 1, 3, 5 -> Blue
-            if (client.ClientId % 2 == 0)
-            {
-                spawnPosition = redTeamSpawns[client.ClientId / 2].position;
-            }
-            else
-            {
-                spawnPosition = blueTeamSpawns[client.ClientId / 2].position;
-            }
-            NetworkObject tank = Instantiate(tankPrefab , spawnPosition, Quaternion.identity);
-            tank.SpawnWithOwnership(client.ClientId, true);
-            
-            TankPlayer tankPlayer = tank.GetComponent<TankPlayer>();
-            tankPlayer.InitializeServerRpc((client.ClientId % 2 == 0) ? TankPlayer.TeamColor.Red : TankPlayer.TeamColor.Blue);
-        }
 
+        SpawnRedTeam();
+        SpawnBlueTeam();
+    }
+
+    private void SpawnRedTeam()
+    {
+        foreach(ulong clientId in teamManager.RedTeamPlayers.Value)
+        {
+            int spawnIndex = (int)(clientId / 2);
+
+            Transform spawnPoint = redTeamSpawns[spawnIndex];
+            SpawnTankForPlayer(clientId, TeamManager.Team.Red, spawnPoint);
+        }
+    }
+
+    private void SpawnBlueTeam()
+    {
+        foreach(ulong clientId in teamManager.BlueTeamPlayers.Value)
+        {
+            int spawnIndex = (int)(clientId / 2);
+            Transform spawnPoint = blueTeamSpawns[spawnIndex];
+            SpawnTankForPlayer(clientId, TeamManager.Team.Blue, spawnPoint);
+        }
+    }
+
+
+    void SpawnTankForPlayer(ulong clientId, TeamManager.Team team , Transform spawnPoint)
+    {
+        NetworkObject tank = Instantiate(tankPrefab, spawnPoint.position, Quaternion.identity);
+        tank.SpawnAsPlayerObject(clientId, true);
+
+        TankPlayer tankPlayer = tank.GetComponent<TankPlayer>();
+        if (tankPlayer != null)
+        {
+            tankPlayer.InitializeServerRpc(team == TeamManager.Team.Red ? TankPlayer.TeamColor.Red : TankPlayer.TeamColor.Blue);
+        }
     }
 }

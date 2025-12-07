@@ -59,7 +59,10 @@ public class SessionManager : MonoBehaviour
             Debug.Log($"Code :{currentSession.Code}");
             
             currentSession.PlayerJoined += OnPlayerJoined;
+
             NetworkManager.Singleton.StartHost();
+
+
         }
         catch (Exception e) 
         { 
@@ -68,22 +71,18 @@ public class SessionManager : MonoBehaviour
     }
 
 
-    public async Task StartGame(){
-        
-        if(!currentSession.IsHost) return;
-        NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
-    }
+    
     //CLIENT LOGIC 
 
     public async Task JoinSessionAsClient(string joinCode)
     {
-
         try
         {
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
             Debug.Log($"Joined session. Waiting for Host to assign team...");
             
             currentSession.PlayerJoined += OnPlayerJoined;
+
             NetworkManager.Singleton.StartClient();
         }
         catch (Exception e) 
@@ -92,28 +91,58 @@ public class SessionManager : MonoBehaviour
         }
     }
 
+
+    //COMMON LOGIC
     public async Task LeaveSession()
     {
         if (currentSession != null)
         {
-            try
+            try 
             {
-                Debug.Log($"Leaving session... {currentSession.CurrentPlayer.Id} {currentSession.Id}");
                 await currentSession.LeaveAsync();
-
-                NetworkManager.Singleton.Shutdown();
+                Debug.Log("Left session.");
             }
-            catch (Exception e) { 
-                Debug.Log($"Could not leave session (likely already closed): {e.Message}");
+            catch(Exception e) 
+            { 
+                Debug.LogException(e);
             }
-            finally
-            {
-                currentSession = null;
-            }
+            currentSession = null;
         }
     }
 
-    private void OnPlayerJoined(string playerId) { Debug.Log($"Player Joined: {playerId}"); }
+    private void OnPlayerJoined(string playerId) {
+         Debug.Log($"Player Joined: {playerId}"); 
+    }
 
+    public async Task StartGame(){
+        
+        if(!currentSession.IsHost) return;
+        
+        Debug.Log("Starting game and loading scene...");
+        
+        NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        
+    }
+
+    public async Task CleanupAfterGame()
+    {
+        Debug.Log("Cleaning up session and network...");
+
+        if (currentSession != null)
+        {
+            try 
+            {
+                await currentSession.AsHost().DeleteAsync();
+                Debug.Log("Session deleted from cloud.");
+            }
+            catch(Exception e) 
+            { 
+                Debug.LogException(e);
+                
+            }
+            currentSession = null;
+        }
+        Destroy(gameObject);
+    }
 
 }
