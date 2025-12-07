@@ -1,18 +1,25 @@
 using UnityEngine;
 using Unity.Netcode;
-using Unity.Services.Matchmaker.Models;
+using System.Threading.Tasks;
 
+
+
+[RequireComponent(typeof(TeamManager))]
 public class GameManager : NetworkBehaviour
 {
 
+    
     [SerializeField] private Transform[] redTeamSpawns;
     [SerializeField] private Transform[] blueTeamSpawns;
-
     [SerializeField] private NetworkObject tankPrefab;
 
+    private TeamManager teamManager;
+
+    //Gestione della partita 
     public enum GameState
     {   
         WaitingForPlayers,
+        AssigningTeams,
         Intro,
         InGame,
         GameOver
@@ -24,13 +31,16 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
+
+            teamManager = GetComponent<TeamManager>();
+
             NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
 
         CurrentGameState.OnValueChanged += OnGameStateChanged;
     }
 
-    private void OnGameStateChanged(GameState previous, GameState current)
+    private async void OnGameStateChanged(GameState previous, GameState current)
     {
         Debug.Log($"Game State changed from {previous} to {current}");
         // Handle state-specific logic here
@@ -40,8 +50,13 @@ public class GameManager : NetworkBehaviour
             case GameState.WaitingForPlayers:
                 // Logic for waiting state
                 break;
+
+            case GameState.AssigningTeams:
+                await AssignTeams();
+                CurrentGameState.Value = GameState.Intro; 
+
+                break;
             case GameState.Intro:
-                // Logic for intro state
                 ShowIntroSequence();
                 break;
             case GameState.InGame:
@@ -58,7 +73,7 @@ public class GameManager : NetworkBehaviour
 
     private void OnSceneLoaded(ulong clientId, string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
     {
-        CurrentGameState.Value = GameState.Intro;
+        CurrentGameState.Value = GameState.AssigningTeams;
     }
 
 
@@ -73,7 +88,6 @@ public class GameManager : NetworkBehaviour
         if (IsServer)
         {
             CurrentGameState.Value = GameState.InGame;
-            AssignAutoTeam();
         }
     }
 
@@ -91,12 +105,18 @@ public class GameManager : NetworkBehaviour
             
         }
     }
+
+    private async Task AssignTeams()
+    {
+        if (!IsServer) return;
+
+        await teamManager.InitializeTeams();
+        //AssignAutoTeam();
+    }
     private void AssignAutoTeam()
     {
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            
-            
             Vector3 spawnPosition;
             // Logica semplice pari/dispari per 3v3
             // ID 0, 2, 4 -> Red
@@ -104,7 +124,6 @@ public class GameManager : NetworkBehaviour
             if (client.ClientId % 2 == 0)
             {
                 spawnPosition = redTeamSpawns[client.ClientId / 2].position;
-                
             }
             else
             {
@@ -118,23 +137,4 @@ public class GameManager : NetworkBehaviour
         }
 
     }
-
-   /*  NetworkObject tank = Instantiate(tankPrefab);
-        TankPlayer tankPlayer = tank.GetComponent<TankPlayer>();
-        Vector3 spawnPosition;
-        // Logica semplice pari/dispari per 3v3
-        // ID 0, 2, 4 -> Red
-        // ID 1, 3, 5 -> Blue
-        if (OwnerClientId % 2 == 0)
-        {
-            tankPlayer.Initialize(TankPlayer.TeamColor.Red);
-            spawnPosition = redTeamSpawns[OwnerClientId / 2].position;
-        }
-        else
-        {
-            tankPlayer.Initialize(TankPlayer.TeamColor.Blue);
-            spawnPosition = blueTeamSpawns[OwnerClientId / 2].position;
-        }
-
-        tank.SpawnWithOwnership(OwnerClientId, true); */
 }
