@@ -7,7 +7,6 @@ public class TankPlayer : NetworkBehaviour
     public enum TeamColor { Red, Blue }
 
     [Header("Team Settings")]
-    // Variabile sincronizzata: appena il Server la cambia, tutti i client lo sanno
     public NetworkVariable<TeamColor> Team = new NetworkVariable<TeamColor>();
 
     [Header("Visual References")]
