@@ -57,12 +57,6 @@ public class SessionManager : MonoBehaviour
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
             Debug.Log($"Host Session Created: {currentSession.Id}");
             Debug.Log($"Code :{currentSession.Code}");
-            
-            currentSession.PlayerJoined += OnPlayerJoined;
-
-            NetworkManager.Singleton.StartHost();
-
-
         }
         catch (Exception e) 
         { 
@@ -73,7 +67,6 @@ public class SessionManager : MonoBehaviour
 
     
     //CLIENT LOGIC 
-
     public async Task JoinSessionAsClient(string joinCode)
     {
         try
@@ -81,9 +74,6 @@ public class SessionManager : MonoBehaviour
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
             Debug.Log($"Joined session. Waiting for Host to assign team...");
             
-            currentSession.PlayerJoined += OnPlayerJoined;
-
-            NetworkManager.Singleton.StartClient();
         }
         catch (Exception e) 
         { 
@@ -99,21 +89,26 @@ public class SessionManager : MonoBehaviour
         {
             try 
             {
-                await currentSession.LeaveAsync();
-                Debug.Log("Left session.");
+                if(currentSession.IsHost)
+                {
+                    await currentSession.AsHost().DeleteAsync();
+                    Debug.Log("Session deleted from cloud.");
+                }
+                else
+                {
+                    await currentSession.LeaveAsync();
+                    Debug.Log("Left session.");
+                }
             }
             catch(Exception e) 
             { 
                 Debug.LogException(e);
             }
+            
             currentSession = null;
         }
+        //Destroy(gameObject);
     }
-
-    private void OnPlayerJoined(string playerId) {
-         Debug.Log($"Player Joined: {playerId}"); 
-    }
-
     public async Task StartGame(){
         
         if(!currentSession.IsHost) return;
@@ -121,28 +116,6 @@ public class SessionManager : MonoBehaviour
         Debug.Log("Starting game and loading scene...");
         
         NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
-        
-    }
-
-    public async Task CleanupAfterGame()
-    {
-        Debug.Log("Cleaning up session and network...");
-
-        if (currentSession != null)
-        {
-            try 
-            {
-                await currentSession.AsHost().DeleteAsync();
-                Debug.Log("Session deleted from cloud.");
-            }
-            catch(Exception e) 
-            { 
-                Debug.LogException(e);
-                
-            }
-            currentSession = null;
-        }
-        Destroy(gameObject);
     }
 
 }
