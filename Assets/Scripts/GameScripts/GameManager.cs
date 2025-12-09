@@ -1,14 +1,9 @@
 using UnityEngine;
 using Unity.Netcode;
-using System.Threading.Tasks;
-using System;
-using Unity.Services.Matchmaker.Models;
 
 [RequireComponent(typeof(TeamManager))]
 public class GameManager : NetworkBehaviour
 {
-    
-
     TeamManager teamManager;
     public TeamManager TeamManager => teamManager;
 
@@ -39,6 +34,19 @@ public class GameManager : NetworkBehaviour
 
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingForPlayers);
 
+
+    public static GameManager Instance;
+
+    public void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
     public override void OnNetworkSpawn()
     {
         if (IsServer)

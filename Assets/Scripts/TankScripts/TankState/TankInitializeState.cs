@@ -9,7 +9,18 @@ public class TankInitializeState : TankBaseState
     public override void Enter()
     {
         Debug.Log("Entering Initialize State");
+        // Initialization logic here
         
+        TeamColor team = GameManager.Instance.TeamManager.GetPlayerTeam(tank.OwnerClientId);
+
+        TankConfigData tankConfigData = new TankDataBuilder()
+            .WithTeam(team)
+            .WithLoadout()
+            .Build();
+        
+        tank.playerConfigData.Value = tankConfigData;
+
+        tank.playerState.Value = TankStateManager.PlayerState.Idle;
     }
 
     public override void Exit()
@@ -18,8 +29,4 @@ public class TankInitializeState : TankBaseState
         // Cleanup logic here
     }
 
-    public override void Update()
-    {
-        // Update logic here
-    }
 }

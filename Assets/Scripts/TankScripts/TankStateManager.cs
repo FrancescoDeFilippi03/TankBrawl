@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,27 +13,56 @@ public class TankStateManager : NetworkBehaviour
     }
 
     private TankStateFactory stateFactory;
+    public TankStateFactory StateFactory
+    {
+        get { return stateFactory; }
+    }
 
 
-    public enum TeamColor { Red, Blue }
-    [Header("Team Settings")]
-    public NetworkVariable<TeamColor> Team = new NetworkVariable<TeamColor>();
-
-
+    public NetworkVariable<PlayerState> playerState = new NetworkVariable<PlayerState>(PlayerState.Initialize);
     public enum PlayerState { 
         Initialize,
         Idle,
         Moving,
         Dead 
     }
-    [Header("Player States")]
-    public NetworkVariable<PlayerState> playerState = new NetworkVariable<PlayerState>(PlayerState.Initialize);
+    
+    public NetworkVariable<TankConfigData> playerConfigData = new NetworkVariable<TankConfigData>();
+    public NetworkVariable<TankScoreData> NetScore = new NetworkVariable<TankScoreData>();
+    
+    //Tank Elements
+    [Header("Tank Elements")]
+    public Bullet tankBullet;
+    public Weapon tankWeapon;
+    public Turret tankTurret;
+    public Base   tankBase;
 
     public override void OnNetworkSpawn()
     {
-        stateFactory = new TankStateFactory(this);
+        playerState.OnValueChanged += OnPlayerStateChanged;
 
+        // Initialize State Factory and set initial state
+        stateFactory = new TankStateFactory(this);
         currentState = stateFactory.TankInitializeState();
         currentState.Enter();
+        
     }
+
+    public override void OnNetworkDespawn()
+    {
+        playerState.OnValueChanged -= OnPlayerStateChanged;
+    }
+
+    private void OnPlayerStateChanged(PlayerState previousValue, PlayerState newValue)
+    {
+        
+    }
+
+    private void Update()
+    {
+        currentState?.Update();
+    }
+
+
+
 }

@@ -8,5 +8,6 @@ public class Turret : ScriptableObject
     public float fireRateMultiplier;
     public float damageMultiplier;
     public float ammoMultiplier;
-    public Sprite turretSprite;
+    public Sprite turretSpriteRed;
+    public Sprite turretSpriteBlue;
 }

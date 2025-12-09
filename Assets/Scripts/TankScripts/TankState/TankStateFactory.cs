@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class TankStateFactory 
 {
     
@@ -23,6 +21,8 @@ public class TankStateFactory
         {
             case TankStateManager.PlayerState.Initialize:
                 return TankInitializeState();
+            case TankStateManager.PlayerState.Idle:
+                //return IdleState();
             default:
                 return null;
         }

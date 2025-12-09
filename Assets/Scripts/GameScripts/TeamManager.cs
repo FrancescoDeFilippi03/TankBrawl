@@ -3,14 +3,14 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+public enum TeamColor
+{
+    Red,
+    Blue
+}
+
 public class TeamManager : NetworkBehaviour
 {
-    public enum Team
-    {
-        Red,
-        Blue
-    }
-
     public NetworkVariable<List<ulong>> RedTeamPlayers = new NetworkVariable<List<ulong>>(new List<ulong>());
     public NetworkVariable<List<ulong>> BlueTeamPlayers = new NetworkVariable<List<ulong>>(new List<ulong>());
 
@@ -37,6 +37,22 @@ public class TeamManager : NetworkBehaviour
         {
             BlueTeamPlayers.Value.Add(playerId);
             Debug.Log($"Player {playerId} assigned to Blue Team");
+        }
+    }
+
+    public TeamColor GetPlayerTeam(ulong playerId)
+    {
+        if (RedTeamPlayers.Value.Contains(playerId))
+        {
+            return TeamColor.Red;
+        }
+        else if (BlueTeamPlayers.Value.Contains(playerId))
+        {
+            return TeamColor.Blue;
+        }
+        else
+        {
+            throw new System.Exception($"Player {playerId} is not assigned to any team.");
         }
     }
 

@@ -30,7 +30,7 @@ public class SpawnManager : NetworkBehaviour
         foreach(ulong clientId in teamManager.RedTeamPlayers.Value)
         {
             Transform spawnPoint = RedTeamSpawns[spawnIndex % RedTeamSpawns.Length];
-            SpawnTankForPlayer(clientId, TeamManager.Team.Red, spawnPoint);
+            SpawnTankForPlayer(clientId,spawnPoint);
             spawnIndex++;
         }
     }
@@ -41,20 +41,15 @@ public class SpawnManager : NetworkBehaviour
         foreach(ulong clientId in teamManager.BlueTeamPlayers.Value)
         {
             Transform spawnPoint = BlueTeamSpawns[spawnIndex % BlueTeamSpawns.Length];
-            SpawnTankForPlayer(clientId, TeamManager.Team.Blue, spawnPoint);
+            SpawnTankForPlayer(clientId,spawnPoint);
             spawnIndex++;
         }
     }
 
 
-    void SpawnTankForPlayer(ulong clientId, TeamManager.Team team , Transform spawnPoint)
+    void SpawnTankForPlayer(ulong clientId, Transform spawnPoint)
     {
         NetworkObject tank = Instantiate(tankPrefab, spawnPoint.position, Quaternion.identity);
         tank.SpawnAsPlayerObject(clientId, true);
-
-        if (tank.TryGetComponent<TankPlayer>(out var tankPlayer))
-        {
-            tankPlayer.Initialize(team == TeamManager.Team.Red ? TankPlayer.TeamColor.Red : TankPlayer.TeamColor.Blue);
-        }
     }
 }
