@@ -13,12 +13,11 @@ public abstract class TankBaseState
     public virtual void Update() { }
     public virtual void FixedUpdate() { }
     public virtual void CheckStateChange() { }
-    protected void ChangeState(TankBaseState newState)
+    public void ChangeState(TankBaseState newState)
     {
         Exit();
         
         tank.CurrentState = newState;
-        
         tank.CurrentState.Enter();
     }
 }

@@ -10,15 +10,21 @@ public class TankInitializeState : TankBaseState
     {
         Debug.Log("Entering Initialize State");
         // Initialization logic here
-        
-        TeamColor team = GameManager.Instance.TeamManager.GetPlayerTeam(tank.OwnerClientId);
 
-        TankConfigData tankConfigData = new TankDataBuilder()
-            .WithTeam(team)
+
+        if (tank.IsOwner)
+        {
+            tank.playerNetworkConfigData.Value = new TankDataBuilder()
+            .WithTeam(TeamManager.Instance.GetPlayerTeam(tank.OwnerClientId))
             .WithLoadout()
             .Build();
+
+            tank.tankPlayerData.InitializeTankElements(tank.playerNetworkConfigData.Value);
+            tank.tankPlayerData.UpdateTankSprites(tank.playerNetworkConfigData.Value);
+        }
         
-        tank.playerConfigData.Value = tankConfigData;
+
+
 
         tank.playerState.Value = TankStateManager.PlayerState.Idle;
     }
@@ -26,7 +32,6 @@ public class TankInitializeState : TankBaseState
     public override void Exit()
     {
         Debug.Log("Exiting Initialize State");
-        // Cleanup logic here
     }
 
 }

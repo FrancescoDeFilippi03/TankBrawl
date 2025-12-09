@@ -1,16 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
 
-[RequireComponent(typeof(TeamManager))]
 public class GameManager : NetworkBehaviour
 {
-    TeamManager teamManager;
-    public TeamManager TeamManager => teamManager;
-
-    SpawnManager spawnManager;
-    public SpawnManager SpawnManager => spawnManager;
-
-
     public enum GameState
     {   
         WaitingForPlayers,
@@ -51,8 +43,6 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            teamManager = GetComponent<TeamManager>();
-            spawnManager = GetComponent<SpawnManager>();
             NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
 

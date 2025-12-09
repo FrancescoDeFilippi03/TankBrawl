@@ -14,6 +14,29 @@ public class TeamManager : NetworkBehaviour
     public NetworkVariable<List<ulong>> RedTeamPlayers = new NetworkVariable<List<ulong>>(new List<ulong>());
     public NetworkVariable<List<ulong>> BlueTeamPlayers = new NetworkVariable<List<ulong>>(new List<ulong>());
 
+    public static TeamManager Instance;
+
+
+    public void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            RedTeamPlayers.Value.Clear();
+            BlueTeamPlayers.Value.Clear();
+        }
+    }
+
     public Task InitializeTeams()
     {   
         RedTeamPlayers.Value.Clear();

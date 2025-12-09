@@ -2,6 +2,9 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
+
+[RequireComponent(typeof(NetworkObject))]
+[RequireComponent(typeof(TankPlayerData))]
 public class TankStateManager : NetworkBehaviour
 {
 
@@ -27,15 +30,11 @@ public class TankStateManager : NetworkBehaviour
         Dead 
     }
     
-    public NetworkVariable<TankConfigData> playerConfigData = new NetworkVariable<TankConfigData>();
+    public NetworkVariable<TankConfigData> playerNetworkConfigData = new NetworkVariable<TankConfigData>();
     public NetworkVariable<TankScoreData> NetScore = new NetworkVariable<TankScoreData>();
     
-    //Tank Elements
-    [Header("Tank Elements")]
-    public Bullet tankBullet;
-    public Weapon tankWeapon;
-    public Turret tankTurret;
-    public Base   tankBase;
+    public TankPlayerData tankPlayerData;
+    
 
     public override void OnNetworkSpawn()
     {
@@ -55,7 +54,7 @@ public class TankStateManager : NetworkBehaviour
 
     private void OnPlayerStateChanged(PlayerState previousValue, PlayerState newValue)
     {
-        
+        currentState.ChangeState(stateFactory.GetState(newValue));
     }
 
     private void Update()

@@ -15,6 +15,19 @@ public class SpawnManager : NetworkBehaviour
     public TeamManager TeamManager => teamManager;
     public NetworkObject TankPrefab => tankPrefab;
 
+    public static SpawnManager Instance;
+
+    public void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
 
     public override void OnNetworkSpawn()
     {

@@ -1,3 +1,5 @@
+
+//BUILDER: per dati da salvare nel NetworkVariable TankConfigData
 public class TankDataBuilder
 {
     private TankConfigData _data;

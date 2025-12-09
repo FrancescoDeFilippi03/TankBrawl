@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class SessionManager : MonoBehaviour
 {
-    public static SessionManager Instance { get; private set; }
+    public static SessionManager Instance;
     private ISession currentSession;
     public ISession CurrentSession => currentSession;
 
