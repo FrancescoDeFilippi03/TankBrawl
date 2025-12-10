@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TankPlayerData
+public class TankPlayerData : MonoBehaviour
 {
     //Tank Elements
     [Header("Tank Elements")]

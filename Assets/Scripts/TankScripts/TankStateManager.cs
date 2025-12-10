@@ -47,9 +47,12 @@ public class TankStateManager : NetworkBehaviour
 
 
     //movement variables
-    Vector2 movementInput;
+    private Vector2 movementInput;
     public Vector2 MovementInput => movementInput;
 
+    private Rigidbody2D rb;
+    public Rigidbody2D Rb => rb;
+    
 
 
     public override void OnNetworkSpawn()
@@ -59,6 +62,9 @@ public class TankStateManager : NetworkBehaviour
 
         stateFactory = new TankStateFactory(this);
         tankInput = new TankInput();
+
+        rb = GetComponent<Rigidbody2D>();
+        tankPlayerData = GetComponent<TankPlayerData>();
 
         if (IsOwner)
         {
@@ -112,6 +118,10 @@ public class TankStateManager : NetworkBehaviour
     {
         currentState?.Update();
         currentState?.CheckStateChange();
+
+        // Capture movement input
+        if (!IsOwner) return;
+        movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
     }
 
     private void FixedUpdate()
