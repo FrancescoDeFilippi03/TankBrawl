@@ -1,4 +1,5 @@
-public class TankStateFactory 
+
+public class TankStateFactory
 {
     
     private TankStateManager tankStateManager;
@@ -13,6 +14,20 @@ public class TankStateFactory
         return new TankInitializeState(tankStateManager);
     }
 
+    public TankIdleState Idle()
+    {
+        return new TankIdleState(tankStateManager);
+    }
+
+    public TankMovingState Moving()
+    {
+        return new TankMovingState(tankStateManager);
+    }
+
+    public TankDeadState Dead()
+    {
+        return new TankDeadState(tankStateManager);
+    }
 
     //forse non necessario
     public TankBaseState GetState(TankStateManager.PlayerState state)
@@ -22,12 +37,14 @@ public class TankStateFactory
             case TankStateManager.PlayerState.Initialize:
                 return TankInitializeState();
             case TankStateManager.PlayerState.Idle:
-                //return IdleState();
+                return Idle();
+            case TankStateManager.PlayerState.Moving:
+                return Moving();
+            case TankStateManager.PlayerState.Dead:
+                return Dead();
             default:
                 return null;
         }
     }
-
-
 
 }

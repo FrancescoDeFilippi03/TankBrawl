@@ -15,8 +15,10 @@ public abstract class TankBaseState
     public virtual void CheckStateChange() { }
     public void ChangeState(TankBaseState newState)
     {
-        Exit();
+        if (tank.CurrentState != null && tank.CurrentState.GetType() == newState.GetType()) return;
         
+        Exit();
+
         tank.CurrentState = newState;
         tank.CurrentState.Enter();
     }

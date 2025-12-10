@@ -26,5 +26,11 @@ public class TankDataBuilder
         return this;
     }
 
+    public TankDataBuilder SetReady()
+    {
+        _data.IsReady = true;
+        return this;
+    }
+
     public TankConfigData Build() => _data;
 }

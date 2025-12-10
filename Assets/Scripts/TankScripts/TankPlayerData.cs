@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TankPlayerData : MonoBehaviour
+public class TankPlayerData
 {
     //Tank Elements
     [Header("Tank Elements")]
@@ -14,14 +14,30 @@ public class TankPlayerData : MonoBehaviour
     [SerializeField] private SpriteRenderer weaponSpriteRenderer;
     
 
-    public void InitializeTankElements(TankConfigData configData)
+    private float speed;
+    public float Speed => speed;
+
+    private float armor;
+    public float Armor => armor;
+
+    private float health;
+    public float Health => health;
+
+    public void Init(TankConfigData configData)
+    {
+        InitTankElements(configData);
+        InitTankSprites(configData);
+        InitStats();
+    }
+
+    public void InitTankElements(TankConfigData configData)
     {
         tankBase   = TankRegistry.Instance.GetBase(configData.BaseId);
         tankTurret = TankRegistry.Instance.GetTurret(configData.TurretId);
         tankWeapon = TankRegistry.Instance.GetWeapon(configData.WeaponId);
         tankBullet = TankRegistry.Instance.GetBullet(configData.BulletId);
     }
-    public void UpdateTankSprites(TankConfigData configData)
+    public void InitTankSprites(TankConfigData configData)
     {
         if (configData.Team == TeamColor.Red)
         {
@@ -35,5 +51,12 @@ public class TankPlayerData : MonoBehaviour
             turretSpriteRenderer.sprite = tankTurret.turretSpriteBlue;
         }
         weaponSpriteRenderer.sprite = tankWeapon.weaponSprite;
+    }
+
+    public void InitStats()
+    {
+        speed = tankBase.speed;
+        armor = tankBase.armor;
+        health = tankBase.health;
     }
 }
