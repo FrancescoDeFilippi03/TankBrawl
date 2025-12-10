@@ -16,5 +16,5 @@ MonoBehaviour:
   health: 100
   speed: 5
   armor: 50
-  baseSpriteRed: {fileID: 0}
-  baseSpriteBlue: {fileID: 0}
+  baseSpriteRed: {fileID: 21300000, guid: adc7c30ba0cb5ec4087508c79a599060, type: 3}
+  baseSpriteBlue: {fileID: 21300000, guid: 949f54c9fd569bd4da7fcdb21e6105a2, type: 3}
