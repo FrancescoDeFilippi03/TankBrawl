@@ -8,6 +8,7 @@ public struct PlayerLoadoutData
     public int TurretId;
     public int WeaponId;
     public int BulletId;
+    
 }
 
 public static class LoadoutSystem

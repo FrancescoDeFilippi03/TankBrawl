@@ -19,6 +19,7 @@ public class TankDataBuilder
     {
         PlayerLoadoutData playerLoadoutData = LoadoutSystem.LoadLoadout();
 
+        
         _data.BaseId = playerLoadoutData.BaseId;
         _data.TurretId = playerLoadoutData.TurretId;
         _data.WeaponId = playerLoadoutData.WeaponId;

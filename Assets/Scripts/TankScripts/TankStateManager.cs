@@ -5,6 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(NetworkObject))]
 [RequireComponent(typeof(TankPlayerData))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class TankStateManager : NetworkBehaviour
 {
 
@@ -38,8 +39,8 @@ public class TankStateManager : NetworkBehaviour
     );
     public NetworkVariable<TankScoreData> NetScore = new NetworkVariable<TankScoreData>();
     
-    public TankPlayerData tankPlayerData;
-    
+    private TankPlayerData tankPlayerData;
+    public TankPlayerData TankPlayerData => tankPlayerData;
 
     // Input
     private TankInput tankInput;
@@ -61,6 +62,8 @@ public class TankStateManager : NetworkBehaviour
         playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
 
         stateFactory = new TankStateFactory(this);
+
+        
         tankInput = new TankInput();
 
         rb = GetComponent<Rigidbody2D>();
@@ -69,8 +72,10 @@ public class TankStateManager : NetworkBehaviour
         if (IsOwner)
         {
             OwnerInit();
+            Debug.Log("Owner initialized tank.");
         }
-            
+    
+        Debug.Log($"Player Init: {OwnerClientId} State: {playerState.Value}");
         
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();

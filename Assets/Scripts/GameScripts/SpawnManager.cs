@@ -1,7 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(TeamManager))]
 public class SpawnManager : NetworkBehaviour
 {
     [Header("Setup")]
@@ -11,8 +10,6 @@ public class SpawnManager : NetworkBehaviour
     public Transform[] BlueTeamSpawns => blueTeamSpawns;
     [SerializeField] private NetworkObject tankPrefab;
 
-    private TeamManager teamManager;
-    public TeamManager TeamManager => teamManager;
     public NetworkObject TankPrefab => tankPrefab;
 
     public static SpawnManager Instance;
@@ -28,19 +25,10 @@ public class SpawnManager : NetworkBehaviour
         Instance = this;
     }
 
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
-        {
-            teamManager = GetComponent<TeamManager>();
-        }
-    }
-
     public void SpawnRedTeam()
     {
         int spawnIndex = 0;
-        foreach(ulong clientId in teamManager.RedTeamPlayers.Value)
+        foreach(ulong clientId in TeamManager.Instance.RedTeamPlayers.Value)
         {
             Transform spawnPoint = RedTeamSpawns[spawnIndex % RedTeamSpawns.Length];
             SpawnTankForPlayer(clientId,spawnPoint);
@@ -51,7 +39,7 @@ public class SpawnManager : NetworkBehaviour
     public void SpawnBlueTeam()
     {
         int spawnIndex = 0;
-        foreach(ulong clientId in teamManager.BlueTeamPlayers.Value)
+        foreach(ulong clientId in TeamManager.Instance.BlueTeamPlayers.Value)
         {
             Transform spawnPoint = BlueTeamSpawns[spawnIndex % BlueTeamSpawns.Length];
             SpawnTankForPlayer(clientId,spawnPoint);
@@ -62,7 +50,7 @@ public class SpawnManager : NetworkBehaviour
 
     void SpawnTankForPlayer(ulong clientId, Transform spawnPoint)
     {
-        NetworkObject tank = Instantiate(tankPrefab, spawnPoint.position, Quaternion.identity);
-        tank.SpawnAsPlayerObject(clientId, true);
+        NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position, Quaternion.identity);
+        tankNetworkObject.SpawnAsPlayerObject(clientId, true);
     }
 }

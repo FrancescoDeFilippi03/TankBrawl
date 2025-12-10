@@ -17,4 +17,19 @@ public class TankIdleState : TankBaseState
     {
         Debug.Log("Exiting Idle State");
     }
+
+    public override void Update()
+    {
+       CheckStateChange();
+    }
+
+    public override void CheckStateChange()
+    {
+        // Idle state might not need FixedUpdate logic
+        if(tank.MovementInput.magnitude > 0.1f)
+        {
+            tank.playerState.Value = TankStateManager.PlayerState.Moving;
+            ChangeState(tank.StateFactory.Moving());
+        }
+    }
 }

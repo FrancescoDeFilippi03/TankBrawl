@@ -68,13 +68,13 @@ public class GameManager : NetworkBehaviour
 
     private void OnGameStateChanged(GameState previous, GameState current)
     {
-        Debug.Log($"Game State: {previous} -> {current}");
+        //Debug.Log($"Game State: {previous} -> {current}");
         currentState.ChangeState(stateFactory.GetState(current));
     }
 
     private void Update()
     {
-        Debug.Log($"Current State: {currentState.GetType().Name}");
+        //Debug.Log($"Current State: {currentState.GetType().Name}");
         currentState?.Update();
     }
 

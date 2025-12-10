@@ -14,7 +14,7 @@ public class TankInitializeState : TankBaseState
 
         if (!tank.IsOwner) return;
         
-        tank.tankPlayerData.Init(tank.playerNetworkConfigData.Value);
+        tank.TankPlayerData.Init(tank.playerNetworkConfigData.Value);
 
 
         tank.playerState.Value = TankStateManager.PlayerState.Idle;

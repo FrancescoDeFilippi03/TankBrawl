@@ -4,10 +4,10 @@ public class TankPlayerData : MonoBehaviour
 {
     //Tank Elements
     [Header("Tank Elements")]
-    public Bullet tankBullet;
-    public Weapon tankWeapon;
-    public Turret tankTurret;
-    public Base  tankBase;
+    private Bullet tankBullet;
+    private Weapon tankWeapon;
+    private Turret tankTurret;
+    private Base  tankBase;
     
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
     [SerializeField] private SpriteRenderer turretSpriteRenderer;
@@ -43,12 +43,16 @@ public class TankPlayerData : MonoBehaviour
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteRed;
             turretSpriteRenderer.sprite = tankTurret.turretSpriteRed;
+
+            baseSpriteRenderer.color = Color.red;
             
         }
         else
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteBlue;
             turretSpriteRenderer.sprite = tankTurret.turretSpriteBlue;
+
+            baseSpriteRenderer.color = Color.blue;
         }
         weaponSpriteRenderer.sprite = tankWeapon.weaponSprite;
     }
