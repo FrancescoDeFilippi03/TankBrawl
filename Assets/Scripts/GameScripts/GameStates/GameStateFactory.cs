@@ -34,6 +34,11 @@ public class GameStateFactory
         return new GameOverState(gameManager, this);
     }
 
+    public SpawningPlayersState SpawningPlayersState()
+    {
+        return new SpawningPlayersState(gameManager, this);
+    }
+
 
     public GameStateBase GetState(GameManager.GameState state)
     {
@@ -43,6 +48,8 @@ public class GameStateFactory
                 return WaitingState();
             case GameManager.GameState.AssigningTeams:
                 return AssigningTeamsState();
+            case GameManager.GameState.SpawningPlayers:
+                return SpawningPlayersState();
             case GameManager.GameState.Intro:
                 return IntroState();
             case GameManager.GameState.InGame:

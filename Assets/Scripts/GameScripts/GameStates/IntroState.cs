@@ -24,7 +24,6 @@ public class IntroState : GameStateBase
         if (!gameManager.GetIsServer) return;
 
         elapsedTime += Time.deltaTime;
-        Debug.Log($"Intro State: {elapsedTime:F2}s / {introDuration}s");
         
         if (elapsedTime >= introDuration )
         {

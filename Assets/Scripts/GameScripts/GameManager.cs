@@ -7,6 +7,7 @@ public class GameManager : NetworkBehaviour
     {   
         WaitingForPlayers,
         AssigningTeams,
+        SpawningPlayers,
         Intro,
         InGame,
         GameOver
@@ -25,7 +26,6 @@ public class GameManager : NetworkBehaviour
     public bool GetIsServer => IsServer;
 
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingForPlayers);
-
 
     public static GameManager Instance;
 
@@ -68,7 +68,6 @@ public class GameManager : NetworkBehaviour
 
     private void OnGameStateChanged(GameState previous, GameState current)
     {
-        //Debug.Log($"Game State: {previous} -> {current}");
         currentState.ChangeState(stateFactory.GetState(current));
     }
 
@@ -79,17 +78,18 @@ public class GameManager : NetworkBehaviour
     }
 
     // HOST CONTROL: Metodo pubblico per il bottone dell'Editor (da cambiare in Futuro)
-    public void StartMatch()
+    /* public void StartMatch()
     {
         if (IsHost && CurrentGameState.Value == GameState.WaitingForPlayers)
         {
             CurrentGameState.Value = GameState.AssigningTeams;
         }
-    }
+    } */
 
     private void OnSceneLoaded(ulong clientId, string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
     {
         //Inizia partita automaticamente quando la scena di gioco è caricata
+        CurrentGameState.Value = GameState.AssigningTeams;
     }
 
     public void StartMainGame()

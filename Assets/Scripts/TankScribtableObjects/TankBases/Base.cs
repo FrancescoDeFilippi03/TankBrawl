@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 [CreateAssetMenu(fileName = "TankBase", menuName = "TankElements/TankBase")]
 public class Base : ScriptableObject
@@ -9,4 +10,5 @@ public class Base : ScriptableObject
     public float armor;
     public Sprite baseSpriteRed;
     public Sprite baseSpriteBlue;
+    public SpriteLibraryAsset trackSpriteLibraryAsset;
 }

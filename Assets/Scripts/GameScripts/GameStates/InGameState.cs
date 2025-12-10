@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InGameState : GameStateBase
 {
-    private float gameDuration = 10f;
+    private float gameDuration = 180f;
     private float elapsedTime = 0f;
 
     public InGameState(GameManager manager, GameStateFactory factory) : base(manager, factory)
@@ -21,7 +21,8 @@ public class InGameState : GameStateBase
 
     public override void Update()
     {
-        Debug.Log("Game is in progress...");
+
+        if (!gameManager.GetIsServer ) return;
 
         elapsedTime += Time.deltaTime;
         if (elapsedTime >= gameDuration)

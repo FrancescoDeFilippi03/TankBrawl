@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkObject))]
 [RequireComponent(typeof(TankPlayerData))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class TankStateManager : NetworkBehaviour
 {
 
@@ -51,10 +52,24 @@ public class TankStateManager : NetworkBehaviour
     private Vector2 movementInput;
     public Vector2 MovementInput => movementInput;
 
+    private Vector2 smoothedMovementInput;
+    public Vector2 SmoothedMovementInput
+    {
+        get => smoothedMovementInput;
+        set => smoothedMovementInput = value;
+    }
+
+    [SerializeField] private float movementSmoothing = 5f;
+    public float MovementSmoothing => movementSmoothing;
+
+    [SerializeField] private float rotationSmoothing = 7f;
+    public float RotationSmoothing => rotationSmoothing;
+
     private Rigidbody2D rb;
     public Rigidbody2D Rb => rb;
     
-
+    private Animator tankAnimator;
+    public Animator TankAnimator => tankAnimator;
 
     public override void OnNetworkSpawn()
     {
@@ -62,24 +77,19 @@ public class TankStateManager : NetworkBehaviour
         playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
 
         stateFactory = new TankStateFactory(this);
-
-        
         tankInput = new TankInput();
-
         rb = GetComponent<Rigidbody2D>();
         tankPlayerData = GetComponent<TankPlayerData>();
+        tankAnimator = GetComponent<Animator>();
 
         if (IsOwner)
         {
             OwnerInit();
-            Debug.Log("Owner initialized tank.");
         }
-    
-        Debug.Log($"Player Init: {OwnerClientId} State: {playerState.Value}");
+        
         
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();
-        
     }
 
 
@@ -114,9 +124,14 @@ public class TankStateManager : NetworkBehaviour
 
     private void OnConfigDataChanged(TankConfigData previousValue, TankConfigData newValue)
     {
-        // Handle any logic needed when the tank's config data changes
-        tankPlayerData.Init(playerNetworkConfigData.Value);
-
+        Debug.Log($"[Tank] OnConfigDataChanged - ClientId: {OwnerClientId}, IsOwner: {IsOwner}, IsReady: {newValue.IsReady}, Team: {newValue.Team}");
+        
+        // Non-owner: quando arrivano i dati dal owner, inizializza gli sprite
+        if (!IsOwner && newValue.IsReady)
+        {
+            Debug.Log($"[Tank] Inizializzazione sprite per tank remoto ClientId: {OwnerClientId}");
+            tankPlayerData.Init(newValue);
+        }
     }
 
     private void Update()
@@ -132,9 +147,7 @@ public class TankStateManager : NetworkBehaviour
     private void FixedUpdate()
     {
         currentState?.FixedUpdate();
-        currentState?.CheckStateChange();
     }
-
 
     
 }

@@ -36,7 +36,7 @@ public class GameManagerEditor : Editor
         CreateGameStateSection();
         
         // --- NUOVA SEZIONE: Controlli Host ---
-        CreateHostControls();
+        //CreateHostControls();
         // -------------------------------------
 
         CreateTeamsSection();
@@ -47,7 +47,7 @@ public class GameManagerEditor : Editor
         return root;
     }
 
-    private void CreateHostControls()
+    /* private void CreateHostControls()
     {
         var container = new GroupBox();
         container.style.marginTop = 10;
@@ -75,7 +75,7 @@ public class GameManagerEditor : Editor
         container.Add(startMatchButton);
         root.Add(container);
     }
-
+ */
     private void CreateGameStateSection()
     {
         // (Codice identico a prima per lo stato)

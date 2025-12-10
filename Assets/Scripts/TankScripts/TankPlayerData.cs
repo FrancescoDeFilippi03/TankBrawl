@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class TankPlayerData : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TankPlayerData : MonoBehaviour
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
     [SerializeField] private SpriteRenderer turretSpriteRenderer;
     [SerializeField] private SpriteRenderer weaponSpriteRenderer;
+    [SerializeField] private SpriteLibrary baseSpriteLibraryLeft;
+    [SerializeField] private SpriteLibrary baseSpriteLibraryRight;
     
 
     private float speed;
@@ -43,7 +46,7 @@ public class TankPlayerData : MonoBehaviour
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteRed;
             turretSpriteRenderer.sprite = tankTurret.turretSpriteRed;
-
+            
             baseSpriteRenderer.color = Color.red;
             
         }
@@ -55,6 +58,9 @@ public class TankPlayerData : MonoBehaviour
             baseSpriteRenderer.color = Color.blue;
         }
         weaponSpriteRenderer.sprite = tankWeapon.weaponSprite;
+        
+        baseSpriteLibraryLeft.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
+        baseSpriteLibraryRight.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
     }
 
     public void InitStats()

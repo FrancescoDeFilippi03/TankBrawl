@@ -8,26 +8,20 @@ public class TankInitializeState : TankBaseState
 
     public override void Enter()
     {
-        Debug.Log("Entering Initialize State");
-        // Initialization logic here
-
-
-        if (!tank.IsOwner) return;
         
-        tank.TankPlayerData.Init(tank.playerNetworkConfigData.Value);
+        if (tank.IsOwner)
+        {
+            tank.TankPlayerData.Init(tank.playerNetworkConfigData.Value);
+            TransitionToIdle();
+        }
+    }
 
-
+    private void TransitionToIdle()
+    {
         tank.playerState.Value = TankStateManager.PlayerState.Idle;
-
+        
         tank.CurrentState = tank.StateFactory.Idle();
         tank.CurrentState.Enter();
     }
-
-    public override void Exit()
-    {
-        Debug.Log("Exiting Initialize State");
-    }
-
-    
 
 }

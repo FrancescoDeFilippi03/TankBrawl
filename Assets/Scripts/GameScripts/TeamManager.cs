@@ -11,8 +11,8 @@ public enum TeamColor
 
 public class TeamManager : NetworkBehaviour
 {
-    public NetworkVariable<List<ulong>> RedTeamPlayers = new NetworkVariable<List<ulong>>(new List<ulong>());
-    public NetworkVariable<List<ulong>> BlueTeamPlayers = new NetworkVariable<List<ulong>>(new List<ulong>());
+    public NetworkList<ulong> RedTeamPlayers = new NetworkList<ulong>();
+    public NetworkList<ulong> BlueTeamPlayers = new NetworkList<ulong>();
 
     public static TeamManager Instance;
 
@@ -32,44 +32,50 @@ public class TeamManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            RedTeamPlayers.Value.Clear();
-            BlueTeamPlayers.Value.Clear();
+            RedTeamPlayers.Clear();
+            BlueTeamPlayers.Clear();
         }
     }
 
-    public Task InitializeTeams()
+    public override void OnNetworkDespawn()
+    {
+
+        RedTeamPlayers?.Dispose();
+        BlueTeamPlayers?.Dispose();
+    }
+
+    public void InitializeTeams()
     {   
-        RedTeamPlayers.Value.Clear();
-        BlueTeamPlayers.Value.Clear();
+        RedTeamPlayers.Clear();
+        BlueTeamPlayers.Clear();
 
         foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
             AssignAutoTeam(clientId);
         }
-        return Task.CompletedTask;
     }
 
     public void AssignAutoTeam(ulong playerId)
     {
-        if (RedTeamPlayers.Value.Count <= BlueTeamPlayers.Value.Count)
+        if (RedTeamPlayers.Count <= BlueTeamPlayers.Count)
         {
-            RedTeamPlayers.Value.Add(playerId);
+            RedTeamPlayers.Add(playerId);
             Debug.Log($"Player {playerId} assigned to Red Team");
         }
         else
         {
-            BlueTeamPlayers.Value.Add(playerId);
+            BlueTeamPlayers.Add(playerId);
             Debug.Log($"Player {playerId} assigned to Blue Team");
         }
     }
 
     public TeamColor GetPlayerTeam(ulong playerId)
     {
-        if (RedTeamPlayers.Value.Contains(playerId))
+        if (RedTeamPlayers.Contains(playerId))
         {
             return TeamColor.Red;
         }
-        else if (BlueTeamPlayers.Value.Contains(playerId))
+        else if (BlueTeamPlayers.Contains(playerId))
         {
             return TeamColor.Blue;
         }

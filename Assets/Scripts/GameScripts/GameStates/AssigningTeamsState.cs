@@ -24,13 +24,12 @@ public class AssigningTeamsState : GameStateBase
     public async Task AssignTeams()
     {
         if (!gameManager.GetIsServer) return;
-        await TeamManager.Instance.InitializeTeams();
+        TeamManager.Instance.InitializeTeams();
 
-        SpawnManager.Instance.SpawnRedTeam();
-        SpawnManager.Instance.SpawnBlueTeam();
+        await Task.Delay(2000);
 
         Debug.Log("Teams Assigned. Transitioning to Intro State.");
-        gameManager.CurrentGameState.Value = GameManager.GameState.Intro;
+        gameManager.CurrentGameState.Value = GameManager.GameState.SpawningPlayers;
     }
 
     

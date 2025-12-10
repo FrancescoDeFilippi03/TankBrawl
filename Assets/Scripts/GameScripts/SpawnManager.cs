@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class SpawnManager : NetworkBehaviour
     public void SpawnRedTeam()
     {
         int spawnIndex = 0;
-        foreach(ulong clientId in TeamManager.Instance.RedTeamPlayers.Value)
+        foreach(ulong clientId in TeamManager.Instance.RedTeamPlayers)
         {
             Transform spawnPoint = RedTeamSpawns[spawnIndex % RedTeamSpawns.Length];
             SpawnTankForPlayer(clientId,spawnPoint);
@@ -36,10 +37,10 @@ public class SpawnManager : NetworkBehaviour
         }
     }
 
-    public void SpawnBlueTeam()
+    public  void SpawnBlueTeam()
     {
         int spawnIndex = 0;
-        foreach(ulong clientId in TeamManager.Instance.BlueTeamPlayers.Value)
+        foreach(ulong clientId in TeamManager.Instance.BlueTeamPlayers)
         {
             Transform spawnPoint = BlueTeamSpawns[spawnIndex % BlueTeamSpawns.Length];
             SpawnTankForPlayer(clientId,spawnPoint);
@@ -50,7 +51,7 @@ public class SpawnManager : NetworkBehaviour
 
     void SpawnTankForPlayer(ulong clientId, Transform spawnPoint)
     {
-        NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position, Quaternion.identity);
-        tankNetworkObject.SpawnAsPlayerObject(clientId, true);
+        NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position,spawnPoint.rotation);
+        tankNetworkObject.SpawnWithOwnership(clientId, true);
     }
 }
