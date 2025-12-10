@@ -74,3 +74,7 @@ crashlytics-build.properties
 
 # ETC
 .DS_Store
+
+# Craftpix Assets (Licensed - Do Not Distribute)
+[Aa]ssets/Art/
+[Aa]ssets/Art.meta
