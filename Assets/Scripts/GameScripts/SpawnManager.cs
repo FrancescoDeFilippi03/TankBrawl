@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -38,29 +37,21 @@ public class SpawnManager : NetworkBehaviour
         }
     }    
 
+
+    
+
     public void SpawnAllTanks()
     {
-    
+        if (!IsServer) return;
+
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            if (!NetworkLifecycle.ClientIdToPlayerId.TryGetValue(clientId, out string playerId))
-            {
-                Debug.LogError($"Impossibile trovare PlayerId per il client {clientId}");
-                continue; 
-            }
-
-            TankConfigData configData = SessionManager.Instance.GetTankConfigDataForPlayer(playerId);
+            TankConfigData configData = TeamManager.Instance.GetTankConfigDataForClient(clientId);
 
             Transform spawnPoint = GetSpawnPointForTeam(configData.Team, clientId);
-            
-            NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
-            
-            tankNetworkObject.GetComponent<TankPlayerData>().Init(configData);
+            NetworkObject tankInstance = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
 
-            tankNetworkObject.SpawnAsPlayerObject(clientId, true);
-
-            var stateManager = tankNetworkObject.GetComponent<TankStateManager>();
-            stateManager.SetNetworkConfig(configData);
+            tankInstance.SpawnAsPlayerObject(clientId, true);
         }
     }
 }

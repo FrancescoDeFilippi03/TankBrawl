@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 
 
@@ -9,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class TankStateManager : NetworkBehaviour
 {
-
+    //This class will manage only the states of the tank
     private TankBaseState currentState;
     public TankBaseState CurrentState
     {
@@ -23,7 +24,6 @@ public class TankStateManager : NetworkBehaviour
         get { return stateFactory; }
     }
 
-    //change from Initialize to Idle state
     public NetworkVariable<PlayerState> playerState = new NetworkVariable<PlayerState>(PlayerState.Idle, 
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
     );
@@ -32,14 +32,7 @@ public class TankStateManager : NetworkBehaviour
         Idle,
         Moving,
         Dead 
-    }
-    
-     public NetworkVariable<TankConfigData> playerNetworkConfigData = new NetworkVariable<TankConfigData>(
-        new TankConfigData()
-        ,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
-    ); 
-    public NetworkVariable<TankScoreData> NetScore = new NetworkVariable<TankScoreData>();
-    
+    }    
     private TankPlayerData tankPlayerData;
     public TankPlayerData TankPlayerData => tankPlayerData;
 
@@ -74,7 +67,6 @@ public class TankStateManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;
-       playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
 
         stateFactory = new TankStateFactory(this);
         tankInput = new TankInput();
@@ -82,33 +74,16 @@ public class TankStateManager : NetworkBehaviour
         tankPlayerData = GetComponent<TankPlayerData>();
         tankAnimator = GetComponent<Animator>();
 
-        if (IsOwner)
-        {
-            OwnerInit();
-        }
-        
-        
+        if (IsOwner) tankInput.Enable();
+
+        tankPlayerData.Init(TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId));
+       
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();
     }
-
-    private void OnConfigDataChanged(TankConfigData previousValue, TankConfigData newValue)
-    {
-        if (!IsServer || !IsOwner) 
-        {
-            tankPlayerData.Init(newValue);
-        }
-    }
-
-    void OwnerInit()
-    {
-        tankInput.Enable();
-    }
-
     public override void OnNetworkDespawn()
     {
         playerState.OnValueChanged -= OnPlayerStateChanged;
-        //playerNetworkConfigData.OnValueChanged -= OnConfigDataChanged;
 
         if (IsOwner)
         {
@@ -121,16 +96,11 @@ public class TankStateManager : NetworkBehaviour
         if(IsOwner) return;
         currentState.ChangeState(stateFactory.GetState(newValue));
     }
-    public void SetNetworkConfig(TankConfigData configData)
-    {
-        tankPlayerData.Init(configData);
-    }
     private void Update()
     {
         currentState?.Update();
         currentState?.CheckStateChange();
 
-        // Capture movement input
         if (!IsOwner) return;
         movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
     }
@@ -140,5 +110,4 @@ public class TankStateManager : NetworkBehaviour
         currentState?.FixedUpdate();
     }
 
-    
 }

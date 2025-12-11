@@ -8,13 +8,11 @@ public class TankMovingState : TankBaseState
 
     public override void Enter()
     {
-        // Moving state logic here
         tank.TankAnimator.SetBool("isMoving", true);
     }
 
     public override void Exit()
     {
-        // Exit moving state logic here
         tank.TankAnimator.SetBool("isMoving", false);
     }
     public override void Update()
@@ -41,7 +39,6 @@ public class TankMovingState : TankBaseState
 
     private void MoveTank()
     {
-        // Smooth movement input using SmoothDamp
         tank.SmoothedMovementInput = Vector2.SmoothDamp(
             tank.SmoothedMovementInput,
             tank.MovementInput,
@@ -49,14 +46,12 @@ public class TankMovingState : TankBaseState
             1f / tank.MovementSmoothing
         );
 
-        // Apply smooth movement without normalizing to maintain variable speed
         if (tank.SmoothedMovementInput.magnitude > 0.01f)
         {
             Vector2 movement = tank.TankPlayerData.Speed * Time.fixedDeltaTime * tank.SmoothedMovementInput;
             tank.Rb.MovePosition(tank.Rb.position + movement);
         }
 
-        // Handle rotation based on movement input
         if (tank.MovementInput.magnitude > 0.1f)
         {
             HandleRotation(tank.MovementInput);

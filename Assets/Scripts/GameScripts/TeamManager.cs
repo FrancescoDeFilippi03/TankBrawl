@@ -1,8 +1,5 @@
 using UnityEngine;
 using Unity.Netcode;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 public enum TeamColor
 {
     Red,
@@ -11,11 +8,9 @@ public enum TeamColor
 
 public class TeamManager : NetworkBehaviour
 {
-    public NetworkList<ulong> RedTeamPlayers = new NetworkList<ulong>();
-    public NetworkList<ulong> BlueTeamPlayers = new NetworkList<ulong>();
-
     public static TeamManager Instance;
 
+    public NetworkList<TankConfigData> tankConfigs = new();
 
     public void Awake()
     {
@@ -26,63 +21,41 @@ public class TeamManager : NetworkBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            RedTeamPlayers.Clear();
-            BlueTeamPlayers.Clear();
-        }
+       
     }
 
     public override void OnNetworkDespawn()
     {
-
-        RedTeamPlayers?.Dispose();
-        BlueTeamPlayers?.Dispose();
+        tankConfigs.Dispose();
     }
 
-    public void InitializeTeams()
-    {   
-        RedTeamPlayers.Clear();
-        BlueTeamPlayers.Clear();
-
-        foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            AssignAutoTeam(clientId);
-        }
-    }
-
-    public void AssignAutoTeam(ulong playerId)
+    public void RegisterMyLoadout(TankConfigData myData)    
     {
-        if (RedTeamPlayers.Count <= BlueTeamPlayers.Count)
-        {
-            RedTeamPlayers.Add(playerId);
-            Debug.Log($"Player {playerId} assigned to Red Team");
-        }
-        else
-        {
-            BlueTeamPlayers.Add(playerId);
-            Debug.Log($"Player {playerId} assigned to Blue Team");
-        }
+        RegisterPlayerServerRpc(myData);
     }
 
-    public TeamColor GetPlayerTeam(ulong playerId)
+    [Rpc( SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    void RegisterPlayerServerRpc(TankConfigData data)
     {
-        if (RedTeamPlayers.Contains(playerId))
-        {
-            return TeamColor.Red;
-        }
-        else if (BlueTeamPlayers.Contains(playerId))
-        {
-            return TeamColor.Blue;
-        }
-        else
-        {
-            throw new System.Exception($"Player {playerId} is not assigned to any team.");
-        }
+        tankConfigs.Add(data);
+        Debug.Log($"Registered TankConfigData for PlayerId: {data.PlayerId} on ClientId: {data.ClientId} with Team: {data.Team}");
     }
+    
 
+    public TankConfigData GetTankConfigDataForClient(ulong clientId)
+    {
+        foreach (var config in TeamManager.Instance.tankConfigs)
+        {
+            if (config.ClientId == clientId)
+            {
+                return config;
+            }
+        }
+        return default;
+    }
 }

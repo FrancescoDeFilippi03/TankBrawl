@@ -14,11 +14,6 @@ public class GameStateFactory
         return new WaitingState(gameManager , this);
     }
 
-    public AssigningTeamsState AssigningTeamsState()
-    {
-        return new AssigningTeamsState(gameManager, this);
-    }
-
     public IntroState IntroState()
     {
         return new IntroState(gameManager, this);
@@ -46,8 +41,6 @@ public class GameStateFactory
         {
             case GameManager.GameState.WaitingForPlayers:
                 return WaitingState();
-            case GameManager.GameState.AssigningTeams:
-                return AssigningTeamsState();
             case GameManager.GameState.SpawningPlayers:
                 return SpawningPlayersState();
             case GameManager.GameState.Intro:

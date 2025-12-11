@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
+using Unity.Services.Matchmaker.Models;
 using Unity.Services.Multiplayer;
 using UnityEngine;
 
@@ -50,20 +51,25 @@ public class SessionManager : MonoBehaviour
     //HOST LOGIC
     public async Task StartSessionAsHost()
     {
-
-        SetConnectionPayload();
-        var initialProps = UpdateLoadoutToSession();
-        initialProps.Add("Team", new PlayerProperty("Red", VisibilityPropertyOptions.Member));
-
         var options = new SessionOptions { 
             MaxPlayers = 6,
             IsPrivate = true,
-            PlayerProperties = initialProps
         }.WithRelayNetwork();
         
         try
         {
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
+
+
+            TankConfigData tankConfigData = new TankDataBuilder()
+            .WithLoadout()
+            .WithPlayerId(AuthenticationService.Instance.PlayerId)
+            .WithClientId(NetworkManager.Singleton.LocalClientId)
+            .WithTeam(TeamColor.Red)
+            .Build();
+
+            TeamManager.Instance.tankConfigs.Add(tankConfigData);
+
             Debug.Log($"Host Session Created: {currentSession.Id} (Team: Red)");
             Debug.Log($"Code :{currentSession.Code}");
         }
@@ -76,74 +82,25 @@ public class SessionManager : MonoBehaviour
 
     
     //CLIENT LOGIC 
-    /* 
-    public async Task JoinSessionAsClient(string joinCode)
-    {   
-        // 1. Entra con le sole proprietà del Loadout (Niente Team ancora)
-        var options = new JoinSessionOptions
-        {
-            PlayerProperties = UpdateLoadoutToSession()
-        };
-
-        try
-        {
-            currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode, options);
-
-            int myIndex = currentSession.Players.Count - 1;
-            
-            string myTeam = (myIndex % 2 == 0) ? "Red" : "Blue";
-
-            Debug.Log($"I am player #{myIndex} (Total: {currentSession.Players.Count}). Team: {myTeam}");
-
-            var myPlayer = currentSession.CurrentPlayer;
-            myPlayer.SetProperty("Team", new PlayerProperty(myTeam, VisibilityPropertyOptions.Member));
-
-            await currentSession.SaveCurrentPlayerDataAsync();
-        }
-        catch (Exception e) 
-        { 
-            Debug.LogException(e);
-        }
-    }
-
- */
     public async Task JoinSessionAsClient(string joinCode)
     {   
 
-        SetConnectionPayload();
-        var options = new JoinSessionOptions { PlayerProperties = UpdateLoadoutToSession() };
 
         try
         {
-            currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode, options);
+            currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
+
+
+            TeamColor assignedTeam = (TeamManager.Instance.tankConfigs.Count % 2 == 0) ? TeamColor.Red : TeamColor.Blue;
             
-           
-            string hostId =  currentSession.Host;
-
-            List<string> clientIds = new List<string>();
-            foreach(var p in currentSession.Players)
-            {
-                if (p.Id != hostId)
-                {
-                    clientIds.Add(p.Id);
-                }
-            }
-
-            clientIds.Sort();
-
-            string myId = AuthenticationService.Instance.PlayerId;
-            int myClientIndex = clientIds.IndexOf(myId);
-
-            if (myClientIndex != -1) 
-            {
-                string myTeam = (myClientIndex % 2 == 0) ? "Blue" : "Red";
-
-                Debug.Log($"Host is Red. I am Client #{myClientIndex}. Team: {myTeam}");
-
-                var myPlayer = currentSession.CurrentPlayer;
-                myPlayer.SetProperty("Team", new PlayerProperty(myTeam, VisibilityPropertyOptions.Member));
-                await currentSession.SaveCurrentPlayerDataAsync();
-            }
+            TankConfigData tankConfigData = new TankDataBuilder()
+            .WithLoadout()
+            .WithPlayerId(AuthenticationService.Instance.PlayerId)
+            .WithClientId(NetworkManager.Singleton.LocalClientId)
+            .WithTeam(assignedTeam)
+            .Build();
+         
+            TeamManager.Instance.RegisterMyLoadout(tankConfigData);
         }
         catch (Exception e) 
         { 
@@ -205,18 +162,6 @@ public class SessionManager : MonoBehaviour
 
     //UTILS
 
-    private void SetConnectionPayload()
-    {
-        if (NetworkManager.Singleton == null) return;
-
-        string playerId = AuthenticationService.Instance.PlayerId;
-        byte[] payload = System.Text.Encoding.UTF8.GetBytes(playerId);
-        
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = payload;
-
-        Debug.Log($"Set connection payload for PlayerId: {playerId}");
-    }
-
     public IPlayer GetPlayerById(string playerId)
     {
         if (currentSession == null) return null;
@@ -240,6 +185,7 @@ public class SessionManager : MonoBehaviour
         if (player == null) return default;
 
         TankConfigData configData = new TankConfigData();
+        configData.PlayerId = new Unity.Collections.FixedString64Bytes(playerId);
 
         var baseIdProp = GetPlayerProperty(playerId, "BaseId");
         var turretIdProp = GetPlayerProperty(playerId, "TurretId");

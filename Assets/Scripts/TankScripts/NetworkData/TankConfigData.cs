@@ -1,9 +1,13 @@
+using System;
+using Unity.Collections;
 using Unity.Netcode;
 
 // CONFIGURAZIONE (Dati pesanti, cambiano quasi mai)
 [System.Serializable]
-public struct TankConfigData : INetworkSerializable
+public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
 {
+    public FixedString64Bytes PlayerId;
+    public ulong ClientId;
     public TeamColor Team;
     public int BaseId;
     public int TurretId;
@@ -17,5 +21,20 @@ public struct TankConfigData : INetworkSerializable
         serializer.SerializeValue(ref TurretId);
         serializer.SerializeValue(ref WeaponId);
         serializer.SerializeValue(ref BulletId);
+        serializer.SerializeValue(ref ClientId);
+        serializer.SerializeValue(ref PlayerId);
     }
+
+    public bool Equals(TankConfigData other)
+    {
+        return Team == other.Team &&
+               BaseId == other.BaseId &&
+               TurretId == other.TurretId &&
+               WeaponId == other.WeaponId &&
+               BulletId == other.BulletId &&
+               ClientId == other.ClientId &&
+               PlayerId == other.PlayerId;
+    }
+
+    
 }

@@ -9,7 +9,6 @@ public class GameManager : NetworkBehaviour
     public enum GameState
     {   
         WaitingForPlayers,
-        AssigningTeams,
         SpawningPlayers,
         Intro,
         InGame,
@@ -70,9 +69,7 @@ public class GameManager : NetworkBehaviour
 
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        SpawnManager.Instance.SpawnAllTanks();
-
-        CurrentGameState.Value = GameState.Intro;
+        currentState.ChangeState(stateFactory.SpawningPlayersState());
     }
 
     private void OnGameStateChanged(GameState previous, GameState current)
@@ -84,12 +81,5 @@ public class GameManager : NetworkBehaviour
     {
         currentState?.Update();
     }
-
-    public void StartMainGame()
-    {
-        if (IsHost) CurrentGameState.Value = GameState.InGame;
-    }
-
-    
 
 }
