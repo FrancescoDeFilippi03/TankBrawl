@@ -81,15 +81,15 @@ SpriteRenderer:
   m_SortingLayerID: 1512117571
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: adc7c30ba0cb5ec4087508c79a599060, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &811803884754229087
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: a78f0af544a19cf4b8246697c2eea7a4, type: 3}
+  m_SpriteLibraryAsset: {fileID: 0}
 --- !u!114 &688970439688256346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +294,7 @@ SpriteRenderer:
   m_SortingLayerID: 1512117571
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 1a60350ebd961874a95874a5e87a70dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -302,7 +302,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5143252743312269379
@@ -476,18 +476,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerState:
     m_InternalValue: 0
-  playerNetworkConfigData:
-    m_InternalValue:
-      Team: 0
-      BaseId: 0
-      TurretId: 0
-      WeaponId: 0
-      BulletId: 0
-      IsReady: 0
   NetScore:
     m_InternalValue:
       Kills: 0
       Deaths: 0
+  movementSmoothing: 5
+  rotationSmoothing: 7
 --- !u!70 &2961375993148938221
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -699,7 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: a78f0af544a19cf4b8246697c2eea7a4, type: 3}
+  m_SpriteLibraryAsset: {fileID: 0}
 --- !u!114 &8695836236108146675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,7 +789,7 @@ SpriteRenderer:
   m_SortingLayerID: 1512117571
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2f4affb6a7d25654ebf970f6e879de88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -803,6 +797,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

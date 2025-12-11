@@ -89,7 +89,7 @@ public class GameManager : NetworkBehaviour
     private void OnSceneLoaded(ulong clientId, string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
     {
         //Inizia partita automaticamente quando la scena di gioco è caricata
-        CurrentGameState.Value = GameState.AssigningTeams;
+        CurrentGameState.Value = GameState.SpawningPlayers;
     }
 
     public void StartMainGame()

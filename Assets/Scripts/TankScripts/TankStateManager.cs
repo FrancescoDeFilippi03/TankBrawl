@@ -23,8 +23,8 @@ public class TankStateManager : NetworkBehaviour
         get { return stateFactory; }
     }
 
-
-    public NetworkVariable<PlayerState> playerState = new NetworkVariable<PlayerState>(PlayerState.Initialize,
+    //change from Initialize to Idle state
+    public NetworkVariable<PlayerState> playerState = new NetworkVariable<PlayerState>(PlayerState.Idle, 
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
     );
     public enum PlayerState { 
@@ -34,10 +34,10 @@ public class TankStateManager : NetworkBehaviour
         Dead 
     }
     
-    public NetworkVariable<TankConfigData> playerNetworkConfigData = new NetworkVariable<TankConfigData>(
+    /* public NetworkVariable<TankConfigData> playerNetworkConfigData = new NetworkVariable<TankConfigData>(
         new TankConfigData()
         ,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
-    );
+    ); */
     public NetworkVariable<TankScoreData> NetScore = new NetworkVariable<TankScoreData>();
     
     private TankPlayerData tankPlayerData;
@@ -74,7 +74,7 @@ public class TankStateManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;
-        playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
+       // playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
 
         stateFactory = new TankStateFactory(this);
         tankInput = new TankInput();
@@ -95,11 +95,10 @@ public class TankStateManager : NetworkBehaviour
 
     void OwnerInit()
     {
-        playerNetworkConfigData.Value = new TankDataBuilder()
+        /* playerNetworkConfigData.Value = new TankDataBuilder()
             .WithTeam(TeamManager.Instance.GetPlayerTeam(OwnerClientId))
             .WithLoadout()
-            .SetReady()
-            .Build();
+            .Build(); */
 
             
         tankInput.Enable();
@@ -108,7 +107,7 @@ public class TankStateManager : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         playerState.OnValueChanged -= OnPlayerStateChanged;
-        playerNetworkConfigData.OnValueChanged -= OnConfigDataChanged;
+        //playerNetworkConfigData.OnValueChanged -= OnConfigDataChanged;
 
         if (IsOwner)
         {
@@ -122,18 +121,18 @@ public class TankStateManager : NetworkBehaviour
         currentState.ChangeState(stateFactory.GetState(newValue));
     }
 
-    private void OnConfigDataChanged(TankConfigData previousValue, TankConfigData newValue)
+   /*  private void OnConfigDataChanged(TankConfigData previousValue, TankConfigData newValue)
     {
-        Debug.Log($"[Tank] OnConfigDataChanged - ClientId: {OwnerClientId}, IsOwner: {IsOwner}, IsReady: {newValue.IsReady}, Team: {newValue.Team}");
+        Debug.Log($"[Tank] OnConfigDataChanged - ClientId: {OwnerClientId}, IsOwner: {IsOwner}, Team: {newValue.Team}");
         
         // Non-owner: quando arrivano i dati dal owner, inizializza gli sprite
-        if (!IsOwner && newValue.IsReady)
+        if (!IsOwner)
         {
             Debug.Log($"[Tank] Inizializzazione sprite per tank remoto ClientId: {OwnerClientId}");
             tankPlayerData.Init(newValue);
         }
     }
-
+ */
     private void Update()
     {
         currentState?.Update();

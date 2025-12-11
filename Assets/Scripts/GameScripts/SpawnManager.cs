@@ -8,7 +8,7 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private Transform[] redTeamSpawns;
     public Transform[] RedTeamSpawns => redTeamSpawns;
     [SerializeField] private Transform[] blueTeamSpawns;
-    public Transform[] BlueTeamSpawns => blueTeamSpawns;
+    public Transform[] BlueTeamSpawns => blueTeamSpawns; 
     [SerializeField] private NetworkObject tankPrefab;
 
     public NetworkObject TankPrefab => tankPrefab;
@@ -26,7 +26,7 @@ public class SpawnManager : NetworkBehaviour
         Instance = this;
     }
 
-    public void SpawnRedTeam()
+    /* public void SpawnRedTeam()
     {
         int spawnIndex = 0;
         foreach(ulong clientId in TeamManager.Instance.RedTeamPlayers)
@@ -46,12 +46,36 @@ public class SpawnManager : NetworkBehaviour
             SpawnTankForPlayer(clientId,spawnPoint);
             spawnIndex++;
         }
-    }
+    } */
 
-
-    void SpawnTankForPlayer(ulong clientId, Transform spawnPoint)
+    Transform GetSpawnPointForTeam(TeamColor team, int index)
     {
-        NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position,spawnPoint.rotation);
-        tankNetworkObject.SpawnWithOwnership(clientId, true);
+        if(team == TeamColor.Red)
+        {
+            return RedTeamSpawns[index % RedTeamSpawns.Length];
+        }
+        else
+        {
+            return BlueTeamSpawns[index % BlueTeamSpawns.Length];
+        }
+    }    
+
+    public void SpawnAllTanks()
+    {
+        int index = 0;
+        foreach(var player in SessionManager.Instance.CurrentSession.AsHost().Players)
+        {
+            TankConfigData tankConfigData = SessionManager.Instance.GetTankConfigDataForPlayer(player.Id);
+
+            Transform spawnPoint = GetSpawnPointForTeam(tankConfigData.Team, index % RedTeamSpawns.Length);
+            
+            NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position,spawnPoint.rotation);
+            
+            tankPrefab.GetComponent<TankPlayerData>().Init(tankConfigData);
+
+            tankNetworkObject.SpawnWithOwnership((ulong)index, true);
+
+            index++;
+        }
     }
 }

@@ -11,8 +11,7 @@ public class SpawningPlayersState : GameStateBase
         Debug.Log("Entered Spawning Players State");
 
         if (!gameManager.GetIsServer) return;
-        SpawnManager.Instance.SpawnRedTeam();
-        SpawnManager.Instance.SpawnBlueTeam();
+        SpawnManager.Instance.SpawnAllTanks();  
 
         Debug.Log("Players Spawned. Transitioning to Intro State.");
         gameManager.CurrentGameState.Value = GameManager.GameState.Intro;

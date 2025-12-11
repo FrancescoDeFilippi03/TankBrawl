@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class TankInitializeState : TankBaseState
 {
     public TankInitializeState(TankStateManager tankStateManager) : base(tankStateManager)
@@ -11,7 +9,7 @@ public class TankInitializeState : TankBaseState
         
         if (tank.IsOwner)
         {
-            tank.TankPlayerData.Init(tank.playerNetworkConfigData.Value);
+            //tank.TankPlayerData.Init(tank.playerNetworkConfigData.Value);
             TransitionToIdle();
         }
     }
