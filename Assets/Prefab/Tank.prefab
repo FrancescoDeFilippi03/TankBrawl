@@ -435,6 +435,7 @@ MonoBehaviour:
   weaponSpriteRenderer: {fileID: 3581859130898765688}
   baseSpriteLibraryLeft: {fileID: 8052841401025808797}
   baseSpriteLibraryRight: {fileID: 7684553904137615042}
+  tankCamera: {fileID: 6423643684284219451, guid: 44d52ea4bf65a024da61a60e11480189, type: 3}
 --- !u!50 &1437433924662699574
 Rigidbody2D:
   serializedVersion: 5
@@ -477,10 +478,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerState:
     m_InternalValue: 0
-  NetScore:
-    m_InternalValue:
-      Kills: 0
-      Deaths: 0
   movementSmoothing: 5
   rotationSmoothing: 7
 --- !u!70 &2961375993148938221

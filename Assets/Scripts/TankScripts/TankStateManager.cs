@@ -74,10 +74,18 @@ public class TankStateManager : NetworkBehaviour
         tankPlayerData = GetComponent<TankPlayerData>();
         tankAnimator = GetComponent<Animator>();
 
-        if (IsOwner) tankInput.Enable();
 
         tankPlayerData.Init(TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId));
-       
+
+        if (IsOwner)
+        {
+            tankInput.Enable();
+
+            var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
+            cameraInScene.Target.TrackingTarget = this.transform;
+
+        }
+
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();
     }

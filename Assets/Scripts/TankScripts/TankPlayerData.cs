@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-
+using Unity.Cinemachine;
 public class TankPlayerData : MonoBehaviour
 {
     //Tank Elements
@@ -16,6 +16,8 @@ public class TankPlayerData : MonoBehaviour
     [SerializeField] private SpriteLibrary baseSpriteLibraryLeft;
     [SerializeField] private SpriteLibrary baseSpriteLibraryRight;
 
+/*     [SerializeField] private CinemachineCamera tankCamera;
+    public CinemachineCamera TankCamera => tankCamera; */
 
     private float speed;
     public float Speed => speed;
@@ -47,7 +49,7 @@ public class TankPlayerData : MonoBehaviour
             baseSpriteRenderer.sprite = tankBase.baseSpriteRed;
             turretSpriteRenderer.sprite = tankTurret.turretSpriteRed;
             
-            baseSpriteRenderer.color = Color.red;
+            //baseSpriteRenderer.color = Color.red;
             
         }
         else
@@ -55,7 +57,7 @@ public class TankPlayerData : MonoBehaviour
             baseSpriteRenderer.sprite = tankBase.baseSpriteBlue;
             turretSpriteRenderer.sprite = tankTurret.turretSpriteBlue;
 
-            baseSpriteRenderer.color = Color.blue;
+            //baseSpriteRenderer.color = Color.blue;
         }
         weaponSpriteRenderer.sprite = tankWeapon.weaponSprite;
         
@@ -69,4 +71,5 @@ public class TankPlayerData : MonoBehaviour
         armor = tankBase.armor;
         health = tankBase.health;
     }
+
 }

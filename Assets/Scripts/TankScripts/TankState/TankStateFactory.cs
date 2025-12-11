@@ -9,10 +9,6 @@ public class TankStateFactory
         this.tankStateManager = tankStateManager;
     }
 
-    public TankInitializeState TankInitializeState()
-    {
-        return new TankInitializeState(tankStateManager);
-    }
 
     public TankIdleState Idle()
     {
@@ -34,8 +30,6 @@ public class TankStateFactory
     {
         switch (state)
         {
-            case TankStateManager.PlayerState.Initialize:
-                return TankInitializeState();
             case TankStateManager.PlayerState.Idle:
                 return Idle();
             case TankStateManager.PlayerState.Moving:
