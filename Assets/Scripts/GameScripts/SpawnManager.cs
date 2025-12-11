@@ -26,56 +26,41 @@ public class SpawnManager : NetworkBehaviour
         Instance = this;
     }
 
-    /* public void SpawnRedTeam()
-    {
-        int spawnIndex = 0;
-        foreach(ulong clientId in TeamManager.Instance.RedTeamPlayers)
-        {
-            Transform spawnPoint = RedTeamSpawns[spawnIndex % RedTeamSpawns.Length];
-            SpawnTankForPlayer(clientId,spawnPoint);
-            spawnIndex++;
-        }
-    }
-
-    public  void SpawnBlueTeam()
-    {
-        int spawnIndex = 0;
-        foreach(ulong clientId in TeamManager.Instance.BlueTeamPlayers)
-        {
-            Transform spawnPoint = BlueTeamSpawns[spawnIndex % BlueTeamSpawns.Length];
-            SpawnTankForPlayer(clientId,spawnPoint);
-            spawnIndex++;
-        }
-    } */
-
-    Transform GetSpawnPointForTeam(TeamColor team, int index)
+    Transform GetSpawnPointForTeam(TeamColor team, ulong clientId)
     {
         if(team == TeamColor.Red)
         {
-            return RedTeamSpawns[index % RedTeamSpawns.Length];
+            return RedTeamSpawns[(int)(clientId % (ulong)RedTeamSpawns.Length)];
         }
         else
         {
-            return BlueTeamSpawns[index % BlueTeamSpawns.Length];
+            return BlueTeamSpawns[(int)(clientId % (ulong)BlueTeamSpawns.Length)];
         }
     }    
 
     public void SpawnAllTanks()
     {
-        int index = 0;
-        foreach(var player in SessionManager.Instance.CurrentSession.AsHost().Players)
+    
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            TankConfigData tankConfigData = SessionManager.Instance.GetTankConfigDataForPlayer(player.Id);
+            if (!NetworkLifecycle.ClientIdToPlayerId.TryGetValue(clientId, out string playerId))
+            {
+                Debug.LogError($"Impossibile trovare PlayerId per il client {clientId}");
+                continue; 
+            }
 
-            Transform spawnPoint = GetSpawnPointForTeam(tankConfigData.Team, index % RedTeamSpawns.Length);
+            TankConfigData configData = SessionManager.Instance.GetTankConfigDataForPlayer(playerId);
+
+            Transform spawnPoint = GetSpawnPointForTeam(configData.Team, clientId);
             
-            NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position,spawnPoint.rotation);
+            NetworkObject tankNetworkObject = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
             
-            tankPrefab.GetComponent<TankPlayerData>().Init(tankConfigData);
+            tankNetworkObject.GetComponent<TankPlayerData>().Init(configData);
 
-            tankNetworkObject.SpawnWithOwnership((ulong)index, true);
+            tankNetworkObject.SpawnAsPlayerObject(clientId, true);
 
-            index++;
+            var stateManager = tankNetworkObject.GetComponent<TankStateManager>();
+            stateManager.SetNetworkConfig(configData);
         }
     }
 }

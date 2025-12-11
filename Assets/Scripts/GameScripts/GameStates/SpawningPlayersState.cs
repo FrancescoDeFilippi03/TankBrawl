@@ -13,7 +13,6 @@ public class SpawningPlayersState : GameStateBase
         if (!gameManager.GetIsServer) return;
         SpawnManager.Instance.SpawnAllTanks();  
 
-        Debug.Log("Players Spawned. Transitioning to Intro State.");
         gameManager.CurrentGameState.Value = GameManager.GameState.Intro;
         
     }

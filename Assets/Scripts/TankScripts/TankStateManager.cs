@@ -34,10 +34,10 @@ public class TankStateManager : NetworkBehaviour
         Dead 
     }
     
-    /* public NetworkVariable<TankConfigData> playerNetworkConfigData = new NetworkVariable<TankConfigData>(
+     public NetworkVariable<TankConfigData> playerNetworkConfigData = new NetworkVariable<TankConfigData>(
         new TankConfigData()
         ,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
-    ); */
+    ); 
     public NetworkVariable<TankScoreData> NetScore = new NetworkVariable<TankScoreData>();
     
     private TankPlayerData tankPlayerData;
@@ -74,7 +74,7 @@ public class TankStateManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;
-       // playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
+       playerNetworkConfigData.OnValueChanged += OnConfigDataChanged;
 
         stateFactory = new TankStateFactory(this);
         tankInput = new TankInput();
@@ -92,15 +92,16 @@ public class TankStateManager : NetworkBehaviour
         currentState.Enter();
     }
 
+    private void OnConfigDataChanged(TankConfigData previousValue, TankConfigData newValue)
+    {
+        if (!IsServer || !IsOwner) 
+        {
+            tankPlayerData.Init(newValue);
+        }
+    }
 
     void OwnerInit()
     {
-        /* playerNetworkConfigData.Value = new TankDataBuilder()
-            .WithTeam(TeamManager.Instance.GetPlayerTeam(OwnerClientId))
-            .WithLoadout()
-            .Build(); */
-
-            
         tankInput.Enable();
     }
 
@@ -120,19 +121,10 @@ public class TankStateManager : NetworkBehaviour
         if(IsOwner) return;
         currentState.ChangeState(stateFactory.GetState(newValue));
     }
-
-   /*  private void OnConfigDataChanged(TankConfigData previousValue, TankConfigData newValue)
+    public void SetNetworkConfig(TankConfigData configData)
     {
-        Debug.Log($"[Tank] OnConfigDataChanged - ClientId: {OwnerClientId}, IsOwner: {IsOwner}, Team: {newValue.Team}");
-        
-        // Non-owner: quando arrivano i dati dal owner, inizializza gli sprite
-        if (!IsOwner)
-        {
-            Debug.Log($"[Tank] Inizializzazione sprite per tank remoto ClientId: {OwnerClientId}");
-            tankPlayerData.Init(newValue);
-        }
+        tankPlayerData.Init(configData);
     }
- */
     private void Update()
     {
         currentState?.Update();

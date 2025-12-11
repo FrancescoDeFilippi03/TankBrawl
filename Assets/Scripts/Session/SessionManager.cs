@@ -50,6 +50,8 @@ public class SessionManager : MonoBehaviour
     //HOST LOGIC
     public async Task StartSessionAsHost()
     {
+
+        SetConnectionPayload();
         var initialProps = UpdateLoadoutToSession();
         initialProps.Add("Team", new PlayerProperty("Red", VisibilityPropertyOptions.Member));
 
@@ -107,6 +109,8 @@ public class SessionManager : MonoBehaviour
  */
     public async Task JoinSessionAsClient(string joinCode)
     {   
+
+        SetConnectionPayload();
         var options = new JoinSessionOptions { PlayerProperties = UpdateLoadoutToSession() };
 
         try
@@ -200,6 +204,18 @@ public class SessionManager : MonoBehaviour
     }
 
     //UTILS
+
+    private void SetConnectionPayload()
+    {
+        if (NetworkManager.Singleton == null) return;
+
+        string playerId = AuthenticationService.Instance.PlayerId;
+        byte[] payload = System.Text.Encoding.UTF8.GetBytes(playerId);
+        
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = payload;
+
+        Debug.Log($"Set connection payload for PlayerId: {playerId}");
+    }
 
     public IPlayer GetPlayerById(string playerId)
     {

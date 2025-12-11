@@ -1,5 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System;
 
 public class GameManager : NetworkBehaviour
 {
@@ -43,7 +46,7 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
         }
 
         stateFactory = new GameStateFactory(this);
@@ -60,11 +63,17 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer && NetworkManager.Singleton != null)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
         }
         CurrentGameState.OnValueChanged -= OnGameStateChanged;
     }
 
+    private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        SpawnManager.Instance.SpawnAllTanks();
+
+        CurrentGameState.Value = GameState.Intro;
+    }
 
     private void OnGameStateChanged(GameState previous, GameState current)
     {
@@ -73,23 +82,7 @@ public class GameManager : NetworkBehaviour
 
     private void Update()
     {
-        //Debug.Log($"Current State: {currentState.GetType().Name}");
         currentState?.Update();
-    }
-
-    // HOST CONTROL: Metodo pubblico per il bottone dell'Editor (da cambiare in Futuro)
-    /* public void StartMatch()
-    {
-        if (IsHost && CurrentGameState.Value == GameState.WaitingForPlayers)
-        {
-            CurrentGameState.Value = GameState.AssigningTeams;
-        }
-    } */
-
-    private void OnSceneLoaded(ulong clientId, string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
-    {
-        //Inizia partita automaticamente quando la scena di gioco è caricata
-        CurrentGameState.Value = GameState.SpawningPlayers;
     }
 
     public void StartMainGame()

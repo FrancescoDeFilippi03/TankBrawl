@@ -9,16 +9,6 @@ public class InGameState : GameStateBase
     {
     }
 
-    public override void Enter()
-    {
-        Debug.Log("Entered In-Game State");
-    }
-
-    public override void Exit()
-    {
-        Debug.Log("Exited In-Game State");
-    }
-
     public override void Update()
     {
 
