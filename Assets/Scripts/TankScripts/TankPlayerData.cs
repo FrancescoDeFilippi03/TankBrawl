@@ -15,7 +15,7 @@ public class TankPlayerData : MonoBehaviour
     [SerializeField] private SpriteRenderer weaponSpriteRenderer;
     [SerializeField] private SpriteLibrary baseSpriteLibraryLeft;
     [SerializeField] private SpriteLibrary baseSpriteLibraryRight;
-    
+
 
     private float speed;
     public float Speed => speed;

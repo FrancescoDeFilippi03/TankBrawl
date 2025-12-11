@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 public class TankRegistry : MonoBehaviour
 {
     public static TankRegistry Instance { get; private set; }
