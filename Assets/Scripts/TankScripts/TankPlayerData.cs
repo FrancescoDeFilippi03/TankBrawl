@@ -19,6 +19,9 @@ public class TankPlayerData : MonoBehaviour
 /*     [SerializeField] private CinemachineCamera tankCamera;
     public CinemachineCamera TankCamera => tankCamera; */
 
+    [SerializeField] private Transform turretTransform;
+    public Transform TurretTransform => turretTransform;
+
     private float speed;
     public float Speed => speed;
 

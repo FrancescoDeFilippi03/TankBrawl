@@ -94,12 +94,21 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""6b6a1df3-1f08-4229-bd12-59481b76add5"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""5a59cd25-3e3e-48af-a71c-f2f6863d9136"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -157,6 +166,17 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6efe285a-f9bd-4a84-adb4-33295ffac97c"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -166,6 +186,7 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         // Tank
         m_Tank = asset.FindActionMap("Tank", throwIfNotFound: true);
         m_Tank_Movement = m_Tank.FindAction("Movement", throwIfNotFound: true);
+        m_Tank_Aim = m_Tank.FindAction("Aim", throwIfNotFound: true);
     }
 
     ~@TankInput()
@@ -247,6 +268,7 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Tank;
     private List<ITankActions> m_TankActionsCallbackInterfaces = new List<ITankActions>();
     private readonly InputAction m_Tank_Movement;
+    private readonly InputAction m_Tank_Aim;
     /// <summary>
     /// Provides access to input actions defined in input action map "Tank".
     /// </summary>
@@ -262,6 +284,10 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Tank/Movement".
         /// </summary>
         public InputAction @Movement => m_Wrapper.m_Tank_Movement;
+        /// <summary>
+        /// Provides access to the underlying input action "Tank/Aim".
+        /// </summary>
+        public InputAction @Aim => m_Wrapper.m_Tank_Aim;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -291,6 +317,9 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Aim.started += instance.OnAim;
+            @Aim.performed += instance.OnAim;
+            @Aim.canceled += instance.OnAim;
         }
 
         /// <summary>
@@ -305,6 +334,9 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Aim.started -= instance.OnAim;
+            @Aim.performed -= instance.OnAim;
+            @Aim.canceled -= instance.OnAim;
         }
 
         /// <summary>
@@ -352,5 +384,12 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMovement(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Aim" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAim(InputAction.CallbackContext context);
     }
 }

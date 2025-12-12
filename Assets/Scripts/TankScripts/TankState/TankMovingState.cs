@@ -26,7 +26,7 @@ public class TankMovingState : TankBaseState
 
     public override void CheckStateChange()
     {
-        if(!tank.IsOwner) return; // Only the owner can change their own state
+        if(!tank.IsOwner) return;
         
         if(tank.MovementInput.magnitude <= 0.1f)
         {
@@ -60,21 +60,17 @@ public class TankMovingState : TankBaseState
 
     private void HandleRotation(Vector2 inputDirection)
     {
-        // Calculate target rotation
         float targetAngle = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
 
-        // Current rotation as Quaternion
         Quaternion currentRotation = Quaternion.Euler(0, 0, tank.Rb.rotation);
 
-        // Slerp between current and target rotation
         Quaternion newRotation = Quaternion.Slerp(
             currentRotation,
             targetRotation,
             tank.RotationSmoothing * Time.fixedDeltaTime
         );
 
-        // Apply the rotation
         tank.Rb.MoveRotation(newRotation.eulerAngles.z);
     }
 

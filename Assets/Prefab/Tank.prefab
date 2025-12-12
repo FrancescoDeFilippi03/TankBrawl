@@ -86,7 +86,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.65625, y: 0.96875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -299,7 +299,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.375, y: 0.421875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -401,9 +401,9 @@ MonoBehaviour:
   UseUnreliableDeltas: 0
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
   SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
@@ -435,7 +435,7 @@ MonoBehaviour:
   weaponSpriteRenderer: {fileID: 3581859130898765688}
   baseSpriteLibraryLeft: {fileID: 8052841401025808797}
   baseSpriteLibraryRight: {fileID: 7684553904137615042}
-  tankCamera: {fileID: 6423643684284219451, guid: 44d52ea4bf65a024da61a60e11480189, type: 3}
+  turretTransform: {fileID: 3976165588807672484}
 --- !u!50 &1437433924662699574
 Rigidbody2D:
   serializedVersion: 5
@@ -596,7 +596,7 @@ Transform:
   m_GameObject: {fileID: 8391087102262673356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

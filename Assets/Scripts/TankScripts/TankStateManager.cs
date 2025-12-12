@@ -28,7 +28,6 @@ public class TankStateManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
     );
     public enum PlayerState { 
-        Initialize,
         Idle,
         Moving,
         Dead 
@@ -111,6 +110,7 @@ public class TankStateManager : NetworkBehaviour
 
         if (!IsOwner) return;
         movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
+        HandleTurretRotation();
     }
 
     private void FixedUpdate()
@@ -118,4 +118,21 @@ public class TankStateManager : NetworkBehaviour
         currentState?.FixedUpdate();
     }
 
+
+    
+    void HandleTurretRotation()
+    {
+        Vector2 mouseInput = tankInput.Tank.Aim.ReadValue<Vector2>();
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mouseInput.x, mouseInput.y, 0f));
+        Vector2 direction = (worldMousePosition - tankPlayerData.TurretTransform.position).normalized;
+
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
+        tankPlayerData.TurretTransform.rotation = Quaternion.Slerp(
+            tankPlayerData.TurretTransform.rotation,
+            targetRotation,
+            Time.fixedDeltaTime * rotationSmoothing
+        );
+
+    }
 }
