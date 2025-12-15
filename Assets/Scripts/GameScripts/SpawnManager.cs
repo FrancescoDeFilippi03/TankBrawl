@@ -50,7 +50,7 @@ public class SpawnManager : NetworkBehaviour
 
             Transform spawnPoint = GetSpawnPointForTeam(configData.Team, clientId);
             NetworkObject tankInstance = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
-
+            tankInstance.name = $"{configData.Team}Tank_{clientId}";
             tankInstance.SpawnAsPlayerObject(clientId, true);
         }
     }

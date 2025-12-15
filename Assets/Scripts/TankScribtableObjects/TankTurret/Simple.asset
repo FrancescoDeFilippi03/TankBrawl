@@ -17,5 +17,5 @@ MonoBehaviour:
   fireRateMultiplier: 1
   damageMultiplier: 1
   ammoMultiplier: 1
-  turretSpriteRed: {fileID: 21300000, guid: 1a60350ebd961874a95874a5e87a70dd, type: 3}
-  turretSpriteBlue: {fileID: 21300000, guid: 05620a698d617ef46a1958d55d8adbcf, type: 3}
+  turretSpriteRed: {fileID: 21300000, guid: b1f461c88f1a86041a820dcea2f2d771, type: 3}
+  turretSpriteBlue: {fileID: 21300000, guid: efec074692ef8a64a9aa432e1c1ce1d5, type: 3}

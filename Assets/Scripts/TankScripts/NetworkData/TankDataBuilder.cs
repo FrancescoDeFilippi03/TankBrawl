@@ -33,7 +33,6 @@ public class TankDataBuilder
 
         
         _data.BaseId = playerLoadoutData.BaseId;
-        _data.TurretId = playerLoadoutData.TurretId;
         _data.WeaponId = playerLoadoutData.WeaponId;
         _data.BulletId = playerLoadoutData.BulletId;
         return this;

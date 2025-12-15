@@ -153,7 +153,6 @@ public class SessionManager : MonoBehaviour
         var properties = new Dictionary<string, PlayerProperty>
         {
             { "BaseId",   new PlayerProperty(loadout.BaseId.ToString(),   VisibilityPropertyOptions.Member) },
-            { "TurretId", new PlayerProperty(loadout.TurretId.ToString(), VisibilityPropertyOptions.Member) },
             { "WeaponId", new PlayerProperty(loadout.WeaponId.ToString(), VisibilityPropertyOptions.Member) },
             { "BulletId", new PlayerProperty(loadout.BulletId.ToString(), VisibilityPropertyOptions.Member) }
         };
@@ -188,13 +187,11 @@ public class SessionManager : MonoBehaviour
         configData.PlayerId = new Unity.Collections.FixedString64Bytes(playerId);
 
         var baseIdProp = GetPlayerProperty(playerId, "BaseId");
-        var turretIdProp = GetPlayerProperty(playerId, "TurretId");
         var weaponIdProp = GetPlayerProperty(playerId, "WeaponId");
         var bulletIdProp = GetPlayerProperty(playerId, "BulletId");
         var teamProp = GetPlayerProperty(playerId, "Team");
 
         if (baseIdProp != null)   configData.BaseId   = int.Parse(baseIdProp.Value);
-        if (turretIdProp != null) configData.TurretId = int.Parse(turretIdProp.Value);
         if (weaponIdProp != null) configData.WeaponId = int.Parse(weaponIdProp.Value);
         if (bulletIdProp != null) configData.BulletId = int.Parse(bulletIdProp.Value);
         if (teamProp != null)     

@@ -5,13 +5,12 @@ public class TankPlayerData : MonoBehaviour
 {
     //Tank Elements
     [Header("Tank Elements")]
-    private Bullet tankBullet;
+    private BulletConfig tankBullet;
     private Weapon tankWeapon;
-    private Turret tankTurret;
     private Base  tankBase;
     
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
-    [SerializeField] private SpriteRenderer turretSpriteRenderer;
+    //[SerializeField] private SpriteRenderer turretSpriteRenderer;
     [SerializeField] private SpriteRenderer weaponSpriteRenderer;
     [SerializeField] private SpriteLibrary baseSpriteLibraryLeft;
     [SerializeField] private SpriteLibrary baseSpriteLibraryRight;
@@ -36,12 +35,12 @@ public class TankPlayerData : MonoBehaviour
         InitTankElements(configData);
         InitTankSprites(configData);
         InitStats();
+        InitTags(configData);
     }
 
     public void InitTankElements(TankConfigData configData)
     {
         tankBase   = TankRegistry.Instance.GetBase(configData.BaseId);
-        tankTurret = TankRegistry.Instance.GetTurret(configData.TurretId);
         tankWeapon = TankRegistry.Instance.GetWeapon(configData.WeaponId);
         tankBullet = TankRegistry.Instance.GetBullet(configData.BulletId);
     }
@@ -50,19 +49,20 @@ public class TankPlayerData : MonoBehaviour
         if (configData.Team == TeamColor.Red)
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteRed;
-            turretSpriteRenderer.sprite = tankTurret.turretSpriteRed;
+            //turretSpriteRenderer.sprite = tankTurret.turretSpriteRed;
             
             //baseSpriteRenderer.color = Color.red;
-            
+             weaponSpriteRenderer.sprite = tankWeapon.weaponSpriteRed;
         }
         else
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteBlue;
-            turretSpriteRenderer.sprite = tankTurret.turretSpriteBlue;
+            weaponSpriteRenderer.sprite = tankWeapon.weaponSpriteBlue;
+            //turretSpriteRenderer.sprite = tankTurret.turretSpriteBlue;
 
             //baseSpriteRenderer.color = Color.blue;
         }
-        weaponSpriteRenderer.sprite = tankWeapon.weaponSprite;
+       
         
         baseSpriteLibraryLeft.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
         baseSpriteLibraryRight.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
@@ -73,6 +73,18 @@ public class TankPlayerData : MonoBehaviour
         speed = tankBase.speed;
         armor = tankBase.armor;
         health = tankBase.health;
+    }
+
+    void InitTags(TankConfigData configData)
+    {
+         if (configData.Team == TeamColor.Red)
+        {
+            gameObject.tag = "Red";
+        }
+        else
+        {
+            gameObject.tag = "Blue";
+        }
     }
 
 }

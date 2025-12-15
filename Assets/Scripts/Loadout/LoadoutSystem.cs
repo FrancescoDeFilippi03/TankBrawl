@@ -5,7 +5,6 @@ using System.IO;
 public struct PlayerLoadoutData
 {
     public int BaseId;
-    public int TurretId;
     public int WeaponId;
     public int BulletId;
     
@@ -15,12 +14,11 @@ public static class LoadoutSystem
 {
     private static string Path => Application.persistentDataPath + "/user_loadout.json";
 
-    public static void SaveLoadout(int baseId, int turretId, int weaponId, int bulletId)
+    public static void SaveLoadout(int baseId, int weaponId, int bulletId)
     {
         PlayerLoadoutData data = new PlayerLoadoutData
         {
             BaseId = baseId,
-            TurretId = turretId,
             WeaponId = weaponId,
             BulletId = bulletId
         };

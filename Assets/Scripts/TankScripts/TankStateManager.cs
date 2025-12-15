@@ -51,6 +51,9 @@ public class TankStateManager : NetworkBehaviour
         set => smoothedMovementInput = value;
     }
 
+    private Vector2 aimInput;
+    public Vector2 AimInput => aimInput;
+
     [SerializeField] private float movementSmoothing = 5f;
     public float MovementSmoothing => movementSmoothing;
 
@@ -63,6 +66,11 @@ public class TankStateManager : NetworkBehaviour
     private Animator tankAnimator;
     public Animator TankAnimator => tankAnimator;
 
+    private ShootingSystem shootingSystem;
+ 
+    [SerializeField] Bullet bulletPrefab;
+
+
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;
@@ -72,13 +80,26 @@ public class TankStateManager : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         tankPlayerData = GetComponent<TankPlayerData>();
         tankAnimator = GetComponent<Animator>();
-
+        shootingSystem = GetComponent<ShootingSystem>();
 
         tankPlayerData.Init(TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId));
+
+
+        bulletPrefab.GetComponent<SpriteRenderer>().color = 
+        
+        (TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId).Team 
+        == TeamColor.Red) 
+        ? Color.red : Color.blue;
+        shootingSystem.InitWeapon(
+            bulletPrefab.gameObject,
+            20
+        );
 
         if (IsOwner)
         {
             tankInput.Enable();
+
+            tankInput.Tank.Shoot.performed += OnShootPerformed;
 
             var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
             cameraInScene.Target.TrackingTarget = this.transform;
@@ -94,6 +115,7 @@ public class TankStateManager : NetworkBehaviour
 
         if (IsOwner)
         {
+            tankInput.Tank.Shoot.performed -= OnShootPerformed;
             tankInput.Disable();
         }
     }
@@ -110,6 +132,8 @@ public class TankStateManager : NetworkBehaviour
 
         if (!IsOwner) return;
         movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
+        aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
+        
         HandleTurretRotation();
     }
 
@@ -122,9 +146,7 @@ public class TankStateManager : NetworkBehaviour
     
     void HandleTurretRotation()
     {
-        Vector2 mouseInput = tankInput.Tank.Aim.ReadValue<Vector2>();
-        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mouseInput.x, mouseInput.y, 0f));
-        Vector2 direction = (worldMousePosition - tankPlayerData.TurretTransform.position).normalized;
+        Vector2 direction = GetAimDirection();
 
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
@@ -134,5 +156,19 @@ public class TankStateManager : NetworkBehaviour
             Time.fixedDeltaTime * rotationSmoothing
         );
 
+    }
+
+    private void OnShootPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        Vector2 shootDirection = GetAimDirection();
+        shootingSystem.Shoot(shootDirection);
+    }
+
+    Vector2 GetAimDirection(){
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(aimInput.x, aimInput.y, 0f));
+        Vector2 direction = (worldMousePosition - tankPlayerData.TurretTransform.position).normalized;
+        return direction;
     }
 }

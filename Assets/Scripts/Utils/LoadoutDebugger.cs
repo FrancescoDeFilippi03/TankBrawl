@@ -12,14 +12,13 @@ public class LoadoutDebugger : MonoBehaviour
 
     public void SaveToDisk()
     {
-        LoadoutSystem.SaveLoadout(baseId, turretId, weaponId, bulletId);
+        LoadoutSystem.SaveLoadout(baseId, weaponId, bulletId);
     }
 
     public void LoadFromDisk()
     {
         var data = LoadoutSystem.LoadLoadout();
         baseId = data.BaseId;
-        turretId = data.TurretId;
         weaponId = data.WeaponId;
         bulletId = data.BulletId;
     }

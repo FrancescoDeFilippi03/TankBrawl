@@ -87,7 +87,7 @@ public class TeamManagerEditor : Editor
                 GUI.backgroundColor = Color.Lerp(bgColor, new Color(0.8f, 0.8f, 0.8f), 0.5f);
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Space(5); // Piccola spaziatura
-                EditorGUILayout.LabelField($"Turret ID: {data.TurretId} | Bullet ID: {data.BulletId}", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField($"Bullet ID: {data.BulletId}", EditorStyles.miniLabel);
                 EditorGUILayout.EndHorizontal();
                 
                 EditorGUILayout.EndVertical(); // Fine box colorato
