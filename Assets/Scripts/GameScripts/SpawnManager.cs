@@ -36,10 +36,6 @@ public class SpawnManager : NetworkBehaviour
             return BlueTeamSpawns[(int)(clientId % (ulong)BlueTeamSpawns.Length)];
         }
     }    
-
-
-    
-
     public void SpawnAllTanks()
     {
         if (!IsServer) return;
