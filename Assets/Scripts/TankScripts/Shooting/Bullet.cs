@@ -10,16 +10,17 @@ public class Bullet : MonoBehaviour
     private ShootingSystem system; 
     private IObjectPool<Bullet> pool;
     ulong OwnerClientId;
-    readonly BulletConfig bulletConfig;
+    private BulletConfig bulletConfig;
 
 
-    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId )
+    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId, BulletConfig config)
     {
         direction = dir;
         amIOwner = isOwner;
         system = sys;
         pool = originPool;
         OwnerClientId = ownerId;
+        bulletConfig = config;
 
         //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         //transform.rotation = Quaternion.AngleAxis(angle,direction);

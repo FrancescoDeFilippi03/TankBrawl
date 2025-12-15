@@ -5,10 +5,12 @@ public class ShootingSystem : NetworkBehaviour
 {
     public BulletPool bulletPool;
     private Transform[] firePoints;
-    public void InitWeapon(Weapon weapon, int ammoCount, Transform[] weaponFirePoints)
+    private WeaponConfig weapon;
+    public void InitWeapon(WeaponConfig weapon, int ammoCount, Transform[] weaponFirePoints)
     {
+        this.weapon = weapon;
         firePoints = weaponFirePoints;
-        bulletPool.InitializePool(weapon.bulletPrefab, ammoCount);
+        bulletPool.InitializePool(weapon.bulletConfig.bulletPrefab, ammoCount);
     }
 
     public void Shoot(Vector2 shootDirection)
@@ -36,7 +38,7 @@ public class ShootingSystem : NetworkBehaviour
         
         bullet.transform.position = pos;
 
-        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId);
+        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId , weapon.bulletConfig);
     }
 
     // --- RPCs per la visualizzazione sugli altri client ---

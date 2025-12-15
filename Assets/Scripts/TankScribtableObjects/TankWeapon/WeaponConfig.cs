@@ -1,15 +1,19 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "TankElements/Weapon")]
-public class Weapon : ScriptableObject
+public class WeaponConfig : ScriptableObject
 {
+    //statistics
+    public string weaponName;
     public float range;
     public float fireRate;
     public int ammo;
+
     public Sprite weaponSpriteRed;
     public Sprite weaponSpriteBlue;
+    public Sprite crosshairSprite;
     public ShootingType shootingType;
-    public GameObject bulletPrefab;
+    public BulletConfig bulletConfig;
     public GameObject weaponVisualPrefab; 
 }
 

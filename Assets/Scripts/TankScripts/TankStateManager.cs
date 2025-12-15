@@ -32,6 +32,8 @@ public class TankStateManager : NetworkBehaviour
         Moving,
         Dead 
     }    
+
+
     private TankPlayerData tankPlayerData;
     public TankPlayerData TankPlayerData => tankPlayerData;
 
@@ -59,6 +61,10 @@ public class TankStateManager : NetworkBehaviour
 
     [SerializeField] private float rotationSmoothing = 7f;
     public float RotationSmoothing => rotationSmoothing;
+
+    [SerializeField] private Sprite crosshairSprite;
+
+    //private LineRenderer rangeIndicator;
 
     private Rigidbody2D rb;
     public Rigidbody2D Rb => rb;
@@ -88,6 +94,15 @@ public class TankStateManager : NetworkBehaviour
             var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
             cameraInScene.Target.TrackingTarget = this.transform;
 
+
+            crosshairSprite = tankPlayerData.TankWeapon.crosshairSprite;
+            if (crosshairSprite != null)
+            {
+                Texture2D cursorTexture = crosshairSprite.texture;
+                Vector2 hotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+                Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
+            }
+            Cursor.visible = true;
         }
 
         currentState = stateFactory.GetState(playerState.Value);
@@ -101,6 +116,7 @@ public class TankStateManager : NetworkBehaviour
         {
             tankInput.Tank.Shoot.performed -= OnShootPerformed;
             tankInput.Disable();
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
     }
 
@@ -139,7 +155,6 @@ public class TankStateManager : NetworkBehaviour
             targetRotation,
             Time.fixedDeltaTime * rotationSmoothing
         );
-
     }
 
     private void OnShootPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -155,4 +170,38 @@ public class TankStateManager : NetworkBehaviour
         Vector2 direction = (worldMousePosition - tankPlayerData.WeaponPivotTransform.position).normalized;
         return direction;
     }
+
+    /*
+    void SetupRangeIndicator()
+    {
+        GameObject rangeObj = new GameObject("RangeIndicator");
+        rangeObj.transform.SetParent(transform);
+        rangeIndicator = rangeObj.AddComponent<LineRenderer>();
+        
+        rangeIndicator.positionCount = 2;
+        rangeIndicator.loop = false;
+        rangeIndicator.useWorldSpace = true;
+        rangeIndicator.startWidth = 0.1f;
+        rangeIndicator.endWidth = 0.1f;
+        rangeIndicator.material = new Material(Shader.Find("Sprites/Default"));
+        rangeIndicator.startColor = new Color(1f, 1f, 1f, 0.5f);
+        rangeIndicator.endColor = new Color(1f, 1f, 1f, 0.5f);
+        
+        UpdateRangeIndicator();
+    }
+
+    void UpdateRangeIndicator()
+    {
+        if (rangeIndicator == null) return;
+        
+        Vector2 direction = GetAimDirection();
+        float range = tankPlayerData.TankWeapon.range;
+        Vector3 startPos = tankPlayerData.WeaponPivotTransform.position;
+        Vector3 endPos = startPos + (Vector3)(direction * range);
+        
+        rangeIndicator.SetPosition(0, startPos);
+        rangeIndicator.SetPosition(1, endPos);
+    }
+
+    */
 }

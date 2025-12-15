@@ -7,10 +7,8 @@ public class TankRegistry : MonoBehaviour
 
     [Header("Griglie di Conversione (ID -> Oggetto)")]
     // L'ordine nella lista determina l'ID: Elemento 0 = ID 0, Elemento 1 = ID 1...
-    public List<Base> AllBases;
-    public List<Weapon> AllWeapons;
-    public List<BulletConfig> AllBullets;
-
+    public List<BaseConfig> AllBases;
+    public List<WeaponConfig> AllWeapons;
     private void Awake()
     {
         // Singleton Pattern
@@ -22,11 +20,8 @@ public class TankRegistry : MonoBehaviour
         Instance = this;
     }
     
-    public Base GetBase(int id) => 
+    public BaseConfig GetBase(int id) => 
         (id >= 0 && id < AllBases.Count) ? AllBases[id] : AllBases[0];
-    public Weapon GetWeapon(int id) => 
+    public WeaponConfig GetWeapon(int id) => 
         (id >= 0 && id < AllWeapons.Count) ? AllWeapons[id] : AllWeapons[0];
-
-    public BulletConfig GetBullet(int id) => 
-        (id >= 0 && id < AllBullets.Count) ? AllBullets[id] : AllBullets[0];
 }

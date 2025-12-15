@@ -6,13 +6,23 @@ using UnityEngine.U2D.Animation;
 public class TankPlayerData : NetworkBehaviour
 {
     //Tank Elements
-    
-    //private BulletConfig tankBullet;
-    private Weapon tankWeapon;
-    private Base  tankBase;
-    private ShootingSystem shootingSystem;
+    private WeaponConfig tankWeapon;
+    public WeaponConfig TankWeapon => tankWeapon;
     private GameObject weaponInstance;
+    private BaseConfig  tankBase;
+    public BaseConfig TankBase => tankBase;
+    private GameObject baseInstance;
+
+
+    Transform[] firePoints;
+    public Transform[] FirePoints => firePoints;
+    
+    private ShootingSystem shootingSystem;
     public ShootingSystem ShootingSystem => shootingSystem;
+
+
+    
+    
 
     [Header("Tank Elements")]
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
@@ -23,6 +33,9 @@ public class TankPlayerData : NetworkBehaviour
     [Header("Tank Prefab Transforms")]
     [SerializeField] private Transform weaponPivotTransform;
     public Transform WeaponPivotTransform => weaponPivotTransform;
+
+    private Transform crosshairTransform;
+    public Transform CrosshairTransform => crosshairTransform;
 
     [Header("Tank Stats")]
     private float speed;
@@ -38,13 +51,13 @@ public class TankPlayerData : NetworkBehaviour
     {
         InitTankElements(configData);
         InstatiateWeaponPrefab(configData);
-        InitTankBaseSprites(configData);
+        InstantiateTankBase(configData);
         InitStats();
         InitTags(configData);
 
         shootingSystem = GetComponent<ShootingSystem>();
         
-        Transform[] firePoints = weaponInstance.GetComponent<WeaponFirePoints>().firePoints;
+        firePoints = weaponInstance.GetComponent<WeaponFirePoints>().firePoints;
         
         shootingSystem.InitWeapon(
             tankWeapon,
@@ -59,8 +72,6 @@ public class TankPlayerData : NetworkBehaviour
         
         weaponInstance = Instantiate(
             tankWeapon.weaponVisualPrefab,
-            weaponPivotTransform.position,
-            Quaternion.identity,
             weaponPivotTransform
         );
 
@@ -78,8 +89,19 @@ public class TankPlayerData : NetworkBehaviour
         tankBase   = TankRegistry.Instance.GetBase(configData.BaseId);
         tankWeapon = TankRegistry.Instance.GetWeapon(configData.WeaponId);
     }
-    public void InitTankBaseSprites(TankConfigData configData)
+    public void InstantiateTankBase(TankConfigData configData)
     {
+
+
+        baseInstance = Instantiate(
+            tankBase.baseVisualPrefab,
+            this.transform
+        );
+
+        baseSpriteRenderer = baseInstance.GetComponent<SpriteRenderer>();
+        trackSpriteLibraryLeft = baseInstance.transform.Find("Track_Left").GetComponent<SpriteLibrary>();
+        trackSpriteLibraryRight = baseInstance.transform.Find("Track_Right").GetComponent<SpriteLibrary>();
+        
         if (configData.Team == TeamColor.Red)
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteRed;
