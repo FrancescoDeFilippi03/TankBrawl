@@ -214,96 +214,6 @@ MonoBehaviour:
   m_labelHash: 0.0003198114
   m_SpriteKey: 0
   m_SpriteHash: 26905592
---- !u!1 &4365994611520924854
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5799890323326961516}
-  - component: {fileID: 2284464411180879835}
-  m_Layer: 0
-  m_Name: Weapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5799890323326961516
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365994611520924854}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3976165588807672484}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2284464411180879835
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365994611520924854}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1512117571
-  m_SortingLayer: 1
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.375, y: 0.421875}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &5143252743312269379
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Multiplayer.Center.NetcodeForGameObjectsExample::Unity.Multiplayer.Center.NetcodeForGameObjectsExample.ClientNetworkTransform
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 1
+  NetworkTransformExpanded: 0
   AutoOwnerAuthorityTickOffset: 1
   PositionInterpolationType: 0
   RotationInterpolationType: 0
@@ -549,11 +459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3617b476e8ca34cb015450acaaf75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankPlayerData
+  ShowTopMostFoldoutHeaderGroup: 1
   baseSpriteRenderer: {fileID: 5483501495843673650}
-  weaponSpriteRenderer: {fileID: 2284464411180879835}
-  baseSpriteLibraryLeft: {fileID: 8052841401025808797}
-  baseSpriteLibraryRight: {fileID: 7684553904137615042}
-  turretTransform: {fileID: 3976165588807672484}
+  trackSpriteLibraryLeft: {fileID: 8052841401025808797}
+  trackSpriteLibraryRight: {fileID: 7684553904137615042}
+  weaponPivotTransform: {fileID: 3976165588807672484}
 --- !u!114 &2866836141402356718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,7 +481,6 @@ MonoBehaviour:
     m_InternalValue: 0
   movementSmoothing: 5
   rotationSmoothing: 7
-  bulletPrefab: {fileID: 491094794269935999, guid: 7a2720c6e39272a4198cd83b0b05e095, type: 3}
 --- !u!114 &8102861992975379861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760d2023f4ab3ec43951a37d9cd2ee6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletPool
-  currentBulletPrefab: {fileID: 0}
 --- !u!114 &6193740210586025791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,8 +507,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootingSystem
   ShowTopMostFoldoutHeaderGroup: 1
   bulletPool: {fileID: 8102861992975379861}
-  firePoint: {fileID: 8511104568689213825}
-  bulletSpeed: 20
 --- !u!1 &8391087102262673356
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,8 +536,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5799890323326961516}
+  m_Children: []
   m_Father: {fileID: 8511104568689213825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1995929667525247203

@@ -10,7 +10,7 @@ public class BulletPool : MonoBehaviour
     {
         currentBulletPrefab = prefab;
 
-        GameObject container = new GameObject($"Pool_{this.name}");
+        GameObject container = new($"Pool_{this.name}");
         containerTransform = container.transform;
 
         bulletPool = new ObjectPool<Bullet>(

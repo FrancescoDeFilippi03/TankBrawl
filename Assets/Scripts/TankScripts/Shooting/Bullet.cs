@@ -5,54 +5,34 @@ using Unity.Netcode;
 
 public class Bullet : MonoBehaviour 
 {
-    private float speed;
     private Vector2 direction;
     private bool amIOwner;     
     private ShootingSystem system; 
     private IObjectPool<Bullet> pool;
-
     ulong OwnerClientId;
+    readonly BulletConfig bulletConfig;
 
-    private SpriteRenderer _spriteRenderer; // Cache per performance
 
-    void Awake()
-    {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        // Se lo sprite è in un figlio, usa: GetComponentInChildren<SpriteRenderer>();
-    }
-
-    public void Initialize(Vector2 dir, float spd, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId , Color teamColor)
+    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId )
     {
         direction = dir;
-        speed = spd;
         amIOwner = isOwner;
         system = sys;
         pool = originPool;
         OwnerClientId = ownerId;
 
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle,direction);
+        //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        //transform.rotation = Quaternion.AngleAxis(angle,direction);
 
-        this.gameObject.name = $"Bullet_Owner{ownerId}";
-        string colorName = (teamColor == Color.red) ? "Red" : "Blue";
-        this.gameObject.name = $"Bullet_{colorName}_Owner{ownerId}";
+        this.gameObject.name = $"BulletOwner_{ownerId}";
 
-        // 2. FORZA IL COLORE
-        if (_spriteRenderer != null)
-        {
-            _spriteRenderer.color = teamColor;
-        }
-        else 
-        {
-            Debug.LogError("Bullet: Manca SpriteRenderer! Impossibile colorare.");
-        }
 
         StartCoroutine(DeactivateRoutine(3.0f));
     }
 
     void Update()
     {
-        transform.Translate(speed * Time.deltaTime * direction);
+        transform.Translate(bulletConfig.speed * Time.deltaTime * direction);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

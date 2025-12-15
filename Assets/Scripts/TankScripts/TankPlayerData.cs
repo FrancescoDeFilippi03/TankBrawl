@@ -1,26 +1,30 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-using Unity.Cinemachine;
-public class TankPlayerData : MonoBehaviour
+
+[RequireComponent(typeof(ShootingSystem))]
+public class TankPlayerData : NetworkBehaviour
 {
     //Tank Elements
-    [Header("Tank Elements")]
-    private BulletConfig tankBullet;
+    
+    //private BulletConfig tankBullet;
     private Weapon tankWeapon;
     private Base  tankBase;
-    
+    private ShootingSystem shootingSystem;
+    private GameObject weaponInstance;
+    public ShootingSystem ShootingSystem => shootingSystem;
+
+    [Header("Tank Elements")]
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
-    //[SerializeField] private SpriteRenderer turretSpriteRenderer;
-    [SerializeField] private SpriteRenderer weaponSpriteRenderer;
-    [SerializeField] private SpriteLibrary baseSpriteLibraryLeft;
-    [SerializeField] private SpriteLibrary baseSpriteLibraryRight;
+    [SerializeField] private SpriteLibrary trackSpriteLibraryLeft;
+    [SerializeField] private SpriteLibrary trackSpriteLibraryRight;
 
-/*     [SerializeField] private CinemachineCamera tankCamera;
-    public CinemachineCamera TankCamera => tankCamera; */
 
-    [SerializeField] private Transform turretTransform;
-    public Transform TurretTransform => turretTransform;
+    [Header("Tank Prefab Transforms")]
+    [SerializeField] private Transform weaponPivotTransform;
+    public Transform WeaponPivotTransform => weaponPivotTransform;
 
+    [Header("Tank Stats")]
     private float speed;
     public float Speed => speed;
 
@@ -33,39 +37,60 @@ public class TankPlayerData : MonoBehaviour
     public void Init(TankConfigData configData)
     {
         InitTankElements(configData);
-        InitTankSprites(configData);
+        InstatiateWeaponPrefab(configData);
+        InitTankBaseSprites(configData);
         InitStats();
         InitTags(configData);
+
+        shootingSystem = GetComponent<ShootingSystem>();
+        
+        Transform[] firePoints = weaponInstance.GetComponent<WeaponFirePoints>().firePoints;
+        
+        shootingSystem.InitWeapon(
+            tankWeapon,
+            tankWeapon.ammo,
+            firePoints
+        );
+    }
+
+    void InstatiateWeaponPrefab(TankConfigData configData)
+    {
+        if (tankWeapon.weaponVisualPrefab == null) return;
+        
+        weaponInstance = Instantiate(
+            tankWeapon.weaponVisualPrefab,
+            weaponPivotTransform.position,
+            Quaternion.identity,
+            weaponPivotTransform
+        );
+
+        SpriteRenderer weaponSprite = weaponInstance.GetComponentInChildren<SpriteRenderer>();
+        if (weaponSprite != null)
+        {
+            weaponSprite.sprite = configData.Team == TeamColor.Red 
+                ? tankWeapon.weaponSpriteRed 
+                : tankWeapon.weaponSpriteBlue;
+        }
     }
 
     public void InitTankElements(TankConfigData configData)
     {
         tankBase   = TankRegistry.Instance.GetBase(configData.BaseId);
         tankWeapon = TankRegistry.Instance.GetWeapon(configData.WeaponId);
-        tankBullet = TankRegistry.Instance.GetBullet(configData.BulletId);
     }
-    public void InitTankSprites(TankConfigData configData)
+    public void InitTankBaseSprites(TankConfigData configData)
     {
         if (configData.Team == TeamColor.Red)
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteRed;
-            //turretSpriteRenderer.sprite = tankTurret.turretSpriteRed;
-            
-            //baseSpriteRenderer.color = Color.red;
-             weaponSpriteRenderer.sprite = tankWeapon.weaponSpriteRed;
         }
         else
         {
             baseSpriteRenderer.sprite = tankBase.baseSpriteBlue;
-            weaponSpriteRenderer.sprite = tankWeapon.weaponSpriteBlue;
-            //turretSpriteRenderer.sprite = tankTurret.turretSpriteBlue;
-
-            //baseSpriteRenderer.color = Color.blue;
         }
        
-        
-        baseSpriteLibraryLeft.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
-        baseSpriteLibraryRight.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
+        trackSpriteLibraryLeft.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
+        trackSpriteLibraryRight.spriteLibraryAsset = tankBase.trackSpriteLibraryAsset;
     }
 
     public void InitStats()
@@ -86,5 +111,6 @@ public class TankPlayerData : MonoBehaviour
             gameObject.tag = "Blue";
         }
     }
+
 
 }

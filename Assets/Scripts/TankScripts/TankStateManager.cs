@@ -66,11 +66,6 @@ public class TankStateManager : NetworkBehaviour
     private Animator tankAnimator;
     public Animator TankAnimator => tankAnimator;
 
-    private ShootingSystem shootingSystem;
- 
-    [SerializeField] Bullet bulletPrefab;
-
-
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;
@@ -80,20 +75,9 @@ public class TankStateManager : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         tankPlayerData = GetComponent<TankPlayerData>();
         tankAnimator = GetComponent<Animator>();
-        shootingSystem = GetComponent<ShootingSystem>();
+
 
         tankPlayerData.Init(TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId));
-
-
-        bulletPrefab.GetComponent<SpriteRenderer>().color = 
-        
-        (TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId).Team 
-        == TeamColor.Red) 
-        ? Color.red : Color.blue;
-        shootingSystem.InitWeapon(
-            bulletPrefab.gameObject,
-            20
-        );
 
         if (IsOwner)
         {
@@ -150,8 +134,8 @@ public class TankStateManager : NetworkBehaviour
 
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
-        tankPlayerData.TurretTransform.rotation = Quaternion.Slerp(
-            tankPlayerData.TurretTransform.rotation,
+        tankPlayerData.WeaponPivotTransform.rotation = Quaternion.Slerp(
+            tankPlayerData.WeaponPivotTransform.rotation,
             targetRotation,
             Time.fixedDeltaTime * rotationSmoothing
         );
@@ -163,12 +147,12 @@ public class TankStateManager : NetworkBehaviour
         if (!IsOwner) return;
 
         Vector2 shootDirection = GetAimDirection();
-        shootingSystem.Shoot(shootDirection);
+        tankPlayerData.ShootingSystem.Shoot(shootDirection);
     }
 
     Vector2 GetAimDirection(){
         Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(aimInput.x, aimInput.y, 0f));
-        Vector2 direction = (worldMousePosition - tankPlayerData.TurretTransform.position).normalized;
+        Vector2 direction = (worldMousePosition - tankPlayerData.WeaponPivotTransform.position).normalized;
         return direction;
     }
 }

@@ -17,3 +17,6 @@ MonoBehaviour:
   ammo: 10
   weaponSpriteRed: {fileID: 21300000, guid: 95b058a2d4b44d54a8b5970c0badd2d8, type: 3}
   weaponSpriteBlue: {fileID: 21300000, guid: b1b52607499d78c42872bd824d109bb9, type: 3}
+  shootingType: 0
+  bulletPrefab: {fileID: 8524408999537377327, guid: 7a2720c6e39272a4198cd83b0b05e095, type: 3}
+  weaponVisualPrefab: {fileID: 7370698137453652231, guid: f253b30ad28d3f446b9cd7e52b40adaa, type: 3}

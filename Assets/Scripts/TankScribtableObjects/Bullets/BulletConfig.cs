@@ -6,11 +6,4 @@ public class BulletConfig : ScriptableObject
     public float speed;
     public float damage;
     public Sprite bulletSprite;
-
-    public enum ShootingType
-    {
-        Single,
-        Burst,
-        Automatic
-    }
 }

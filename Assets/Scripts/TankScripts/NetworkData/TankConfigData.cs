@@ -23,7 +23,7 @@ public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
         serializer.SerializeValue(ref PlayerId);
     }
 
-    public bool Equals(TankConfigData other)
+    public readonly bool Equals(TankConfigData other)
     {
         return Team == other.Team &&
                BaseId == other.BaseId &&

@@ -4,23 +4,29 @@ using UnityEngine;
 public class ShootingSystem : NetworkBehaviour
 {
     public BulletPool bulletPool;
-    public Transform firePoint;
-    public float bulletSpeed = 20f;
-
-    public void InitWeapon(GameObject bulletPrefab, int ammoCount)
+    private Transform[] firePoints;
+    public void InitWeapon(Weapon weapon, int ammoCount, Transform[] weaponFirePoints)
     {
-        bulletPool.InitializePool(bulletPrefab, ammoCount);
+        firePoints = weaponFirePoints;
+        bulletPool.InitializePool(weapon.bulletPrefab, ammoCount);
     }
 
     public void Shoot(Vector2 shootDirection)
     {
         if (!IsOwner) return;
+        
+        if (firePoints == null || firePoints.Length == 0) return;
 
         Vector2 dir = shootDirection.normalized;
-        SpawnFromPool(firePoint.position, dir, true);
-
-        SpawnVisualsServerRpc(firePoint.position, dir);
         
+        // Spara da tutti i punti di fuoco
+        foreach (Transform firePoint in firePoints)
+        {
+            if (firePoint == null) continue;
+            
+            SpawnFromPool(firePoint.position, dir, true);
+            SpawnVisualsServerRpc(firePoint.position, dir);
+        }
     }
 
     // Metodo unico per estrarre dal pool
@@ -30,23 +36,7 @@ public class ShootingSystem : NetworkBehaviour
         
         bullet.transform.position = pos;
 
-        Color myColor = Color.white;
-        if (gameObject.CompareTag("Red")) 
-        {
-            myColor = Color.red;
-        }
-        else if (gameObject.CompareTag("Blue")) 
-        {
-            myColor = Color.blue;
-        }
-        else 
-        {
-            // DEBUG: Se vedi questo log, hai dimenticato di settare i Tag in TankPlayerData!
-            Debug.LogWarning($"Tank {OwnerClientId} ha tag sconosciuto: {gameObject.tag}. Uso Blu di default.");
-            myColor = Color.blue; 
-        }
-
-        bullet.Initialize(dir, bulletSpeed, isOwner, this, bulletPool.bulletPool, OwnerClientId , myColor);
+        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId);
     }
 
     // --- RPCs per la visualizzazione sugli altri client ---
