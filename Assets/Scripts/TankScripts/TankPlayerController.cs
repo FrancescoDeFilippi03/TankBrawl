@@ -9,6 +9,10 @@ public class TankPlayerController : NetworkBehaviour
 
     [SerializeField] private TankVisuals tankVisuals;
     public TankVisuals TankVisuals => tankVisuals;
+
+    [SerializeField] private TankHealthManager tankHealthManager;
+    public TankHealthManager TankHealthManager => tankHealthManager;
+
     private TankInput tankInput;
     [SerializeField] private Rigidbody2D rb;
     
@@ -35,11 +39,20 @@ public class TankPlayerController : NetworkBehaviour
     Vector2 aimDirection;
     public Vector2 AimDirection => aimDirection;
     private Vector2 currentVelocity = Vector2.zero;
+    
+    // Shooting state
+    private bool isTriggerHeld = false;
 
     [SerializeField] private Transform weaponPivotTransform;
     public Transform WeaponPivotTransform => weaponPivotTransform;
 
     [SerializeField] ShootingSystem shootingSystem;
+
+
+    //animation variables
+    [SerializeField]private Animator tankAnimator;
+    public Animator TankAnimator => tankAnimator;
+
 
     public override void OnNetworkSpawn()
     {
@@ -58,11 +71,16 @@ public class TankPlayerController : NetworkBehaviour
             tankVisuals.WeaponInstance.GetComponent<WeaponFirePoints>().firePoints
         );
 
+        tankHealthManager.InitializeHealth(
+            tankPlayerData
+        );
+
         if (!IsOwner) return;
         
         tankInput = new TankInput();
         tankInput.Enable();
         tankInput.Tank.Shoot.performed += OnShootPerformed;
+        tankInput.Tank.Shoot.canceled += OnShootCanceled;
         
         CursorInitialization();
     }
@@ -71,6 +89,7 @@ public class TankPlayerController : NetworkBehaviour
     {
         if (!IsOwner) return;
         tankInput.Tank.Shoot.performed -= OnShootPerformed;
+        tankInput.Tank.Shoot.canceled -= OnShootCanceled;
         tankInput.Disable();
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
@@ -82,6 +101,7 @@ public class TankPlayerController : NetworkBehaviour
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
 
         HandleTurretRotation();
+        HandleShooting();
     }
 
     Vector2 GetAimDirection(){
@@ -106,7 +126,17 @@ public class TankPlayerController : NetworkBehaviour
 
     private void OnShootPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        shootingSystem.Shoot(aimDirection);
+        isTriggerHeld = true;
+    }
+    
+    private void OnShootCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        isTriggerHeld = false;
+    }
+    
+    private void HandleShooting()
+    {
+        shootingSystem.TryShoot(aimDirection, isTriggerHeld);
     }
 
 

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 6193740210586025791}
   - component: {fileID: -3498665739719629421}
   - component: {fileID: -3666560012700537756}
+  - component: {fileID: -7186676067353096709}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -246,7 +247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3617b476e8ca34cb015450acaaf75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankPlayerData
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &2866836141402356718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +263,6 @@ MonoBehaviour:
   playerState:
     m_InternalValue: 0
   playerController: {fileID: -3498665739719629421}
-  tankAnimator: {fileID: 7630014200559711879}
 --- !u!114 &8102861992975379861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +289,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootingSystem
   ShowTopMostFoldoutHeaderGroup: 1
   bulletPool: {fileID: 8102861992975379861}
+  burstCount: 3
+  burstDelay: 0.1
 --- !u!114 &-3498665739719629421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,11 +306,13 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   tankPlayerData: {fileID: 7774900345056049494}
   tankVisuals: {fileID: -3666560012700537756}
+  tankHealthManager: {fileID: -7186676067353096709}
   rb: {fileID: 1437433924662699574}
   movementSmoothing: 5
   rotationSmoothing: 7
   weaponPivotTransform: {fileID: 3976165588807672484}
   shootingSystem: {fileID: 6193740210586025791}
+  tankAnimator: {fileID: 7630014200559711879}
 --- !u!114 &-3666560012700537756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +327,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TankVisuals
   weaponPivot: {fileID: 8391087102262673356}
   tankPlayerData: {fileID: 7774900345056049494}
+--- !u!114 &-7186676067353096709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143252743312269379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4111bdf5718bea4f84ad521c5c576c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TankHealthManager
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &8391087102262673356
 GameObject:
   m_ObjectHideFlags: 0

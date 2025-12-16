@@ -30,18 +30,10 @@ public class TankStateManager : NetworkBehaviour
         Dead 
     }    
 
-
-    
-
     [SerializeField] private TankPlayerController playerController;
     public TankPlayerController PlayerController => playerController;
 
-
-
     
-    [SerializeField]private Animator tankAnimator;
-    public Animator TankAnimator => tankAnimator;
-
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;

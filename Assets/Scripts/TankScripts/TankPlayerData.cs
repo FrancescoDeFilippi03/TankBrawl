@@ -1,17 +1,12 @@
-using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.U2D.Animation;
 
-[RequireComponent(typeof(ShootingSystem))]
-public class TankPlayerData : NetworkBehaviour
+public class TankPlayerData : MonoBehaviour
 {
     //Tank Elements
     private WeaponConfig tankWeapon;
     public WeaponConfig TankWeapon => tankWeapon;
     private BaseConfig  tankBase;
     public BaseConfig TankBase => tankBase;
-
-    
 
     public void InitTankElements(TankConfigData configData)
     {

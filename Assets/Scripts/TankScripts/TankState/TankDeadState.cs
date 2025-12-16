@@ -10,10 +10,15 @@ public class TankDeadState : TankBaseState
     {
         Debug.Log("Entering Dead State");
         // Dead state logic here
+
+        tank.PlayerController.TankAnimator.SetBool("isDead", true);
     }
 
     public override void Exit()
     {
         Debug.Log("Exiting Dead State");
+
+        tank.PlayerController.TankAnimator.SetBool("isDead", false);
+    
     }
 }

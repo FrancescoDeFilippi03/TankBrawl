@@ -12,8 +12,11 @@ public class Bullet : MonoBehaviour
     ulong OwnerClientId;
     private BulletConfig bulletConfig;
 
+    private float traveledDistance = 0f;
+    private float maxRange = 0f;
 
-    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId, BulletConfig config)
+
+    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId, BulletConfig config , float range)
     {
         direction = dir;
         amIOwner = isOwner;
@@ -21,19 +24,19 @@ public class Bullet : MonoBehaviour
         pool = originPool;
         OwnerClientId = ownerId;
         bulletConfig = config;
-
-        //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        //transform.rotation = Quaternion.AngleAxis(angle,direction);
+        maxRange = range;
 
         this.gameObject.name = $"BulletOwner_{ownerId}";
-
-
-        StartCoroutine(DeactivateRoutine(3.0f));
     }
 
     void Update()
     {
         transform.Translate(bulletConfig.speed * Time.deltaTime * direction);
+        traveledDistance += bulletConfig.speed * Time.deltaTime;
+        if (traveledDistance >= maxRange)
+        {
+            ReturnToPool();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -70,15 +73,11 @@ public class Bullet : MonoBehaviour
             ReturnToPool();
         }
     }
-    private IEnumerator DeactivateRoutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        ReturnToPool();
-    }
 
     private void ReturnToPool()
     {
-        StopAllCoroutines(); 
+        //StopAllCoroutines(); 
+        traveledDistance = 0f;
         
         pool?.Release(this);
     }
