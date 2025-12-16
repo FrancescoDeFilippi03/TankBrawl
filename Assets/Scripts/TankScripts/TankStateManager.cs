@@ -24,10 +24,12 @@ public class TankStateManager : NetworkBehaviour
     public NetworkVariable<PlayerState> playerState = new NetworkVariable<PlayerState>(PlayerState.Idle, 
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
     );
+    
     public enum PlayerState { 
         Idle,
         Moving,
-        Dead 
+        Dead , 
+        Respawn
     }    
 
     [SerializeField] private TankPlayerController playerController;
@@ -40,11 +42,7 @@ public class TankStateManager : NetworkBehaviour
 
         stateFactory = new TankStateFactory(this);
 
-        if (IsOwner)
-        {
-            var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
-            cameraInScene.Target.TrackingTarget = this.transform;
-        }
+       
 
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();
@@ -68,5 +66,15 @@ public class TankStateManager : NetworkBehaviour
     private void FixedUpdate()
     {
         currentState?.FixedUpdate();
+    }
+
+
+    [ServerRpc]
+    public void RequestHealthResetServerRpc()
+    {
+        if (TryGetComponent<TankHealthManager>(out var healthManager))
+        {
+            healthManager.ResetHealth(); 
+        }
     }
 }

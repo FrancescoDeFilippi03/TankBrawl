@@ -12,6 +12,7 @@ public class TankVisuals : MonoBehaviour
     public GameObject WeaponInstance => weaponInstance;
     
     private GameObject baseInstance;
+    public GameObject BaseInstance => baseInstance;
 
     [SerializeField] private GameObject weaponPivot;
     [SerializeField] private TankPlayerData tankPlayerData;
@@ -64,5 +65,57 @@ public class TankVisuals : MonoBehaviour
        
         trackSpriteLibraryLeft.spriteLibraryAsset = tankPlayerData.TankBase.trackSpriteLibraryAsset;
         trackSpriteLibraryRight.spriteLibraryAsset = tankPlayerData.TankBase.trackSpriteLibraryAsset;
+    }
+    
+    /// <summary>
+    /// Sets the alpha transparency for all tank visual elements
+    /// </summary>
+    public void SetAlpha(float alpha)
+    {
+        // Fade base sprite
+        if (baseInstance != null)
+        {
+            if (baseSpriteRenderer != null)
+            {
+                Color color = baseSpriteRenderer.color;
+                color.a = alpha;
+                baseSpriteRenderer.color = color;
+            }
+            
+            // Fade tracks
+            if (trackSpriteLibraryLeft != null)
+            {
+                var trackSprite = trackSpriteLibraryLeft.GetComponent<SpriteRenderer>();
+                if (trackSprite != null)
+                {
+                    Color color = trackSprite.color;
+                    color.a = alpha;
+                    trackSprite.color = color;
+                }
+            }
+            
+            if (trackSpriteLibraryRight != null)
+            {
+                var trackSprite = trackSpriteLibraryRight.GetComponent<SpriteRenderer>();
+                if (trackSprite != null)
+                {
+                    Color color = trackSprite.color;
+                    color.a = alpha;
+                    trackSprite.color = color;
+                }
+            }
+        }
+        
+        // Fade weapon sprite
+        if (weaponInstance != null)
+        {
+            var weaponSprite = weaponInstance.GetComponentInChildren<SpriteRenderer>();
+            if (weaponSprite != null)
+            {
+                Color color = weaponSprite.color;
+                color.a = alpha;
+                weaponSprite.color = color;
+            }
+        }
     }
 }

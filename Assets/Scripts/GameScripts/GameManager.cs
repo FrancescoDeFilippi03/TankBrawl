@@ -29,6 +29,20 @@ public class GameManager : NetworkBehaviour
 
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingForPlayers);
 
+
+    //score for teams
+    public NetworkVariable<int> RedTeamScore = new NetworkVariable<int>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
+    );
+
+    public NetworkVariable<int> BlueTeamScore = new NetworkVariable<int>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
+    );
+
+    public NetworkVariable<TeamColor> controllingTeam = new NetworkVariable<TeamColor>(TeamColor.None,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
+    );
+
     public static GameManager Instance;
 
     public void Awake()
@@ -60,11 +74,12 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        if (IsServer && NetworkManager.Singleton != null)
+        if (IsServer)
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
         }
         CurrentGameState.OnValueChanged -= OnGameStateChanged;
+        
     }
 
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)

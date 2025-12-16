@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 8511104568689213825}
   - component: {fileID: 6523526402594576584}
   - component: {fileID: -7592832023468632352}
+  - component: {fileID: -1902606366049258265}
   - component: {fileID: 1437433924662699574}
   - component: {fileID: 2961375993148938221}
   - component: {fileID: 5734589655202624907}
   - component: {fileID: 7630014200559711879}
-  - component: {fileID: -1902606366049258265}
   - component: {fileID: 7774900345056049494}
   - component: {fileID: 2866836141402356718}
   - component: {fileID: 8102861992975379861}
@@ -117,6 +117,23 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-1902606366049258265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143252743312269379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!50 &1437433924662699574
 Rigidbody2D:
   serializedVersion: 5
@@ -218,23 +235,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-1902606366049258265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143252743312269379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
-  AutoSetKinematicOnDespawn: 1
 --- !u!114 &7774900345056049494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +340,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankHealthManager
   ShowTopMostFoldoutHeaderGroup: 1
+  healthNetwork:
+    m_InternalValue: 100
+  shieldNetwork:
+    m_InternalValue: 50
 --- !u!1 &8391087102262673356
 GameObject:
   m_ObjectHideFlags: 0

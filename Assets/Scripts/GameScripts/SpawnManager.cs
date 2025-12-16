@@ -25,7 +25,7 @@ public class SpawnManager : NetworkBehaviour
         Instance = this;
     }
 
-    Transform GetSpawnPointForTeam(TeamColor team, ulong clientId)
+    public Transform GetSpawnPointForTeam(TeamColor team, ulong clientId)
     {
         if(team == TeamColor.Red)
         {

@@ -3,7 +3,8 @@ using Unity.Netcode;
 public enum TeamColor
 {
     Red,
-    Blue
+    Blue,
+    None
 }
 
 public class TeamManager : NetworkBehaviour
@@ -26,12 +27,31 @@ public class TeamManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-       
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        }
     }
 
     public override void OnNetworkDespawn()
     {
-        tankConfigs.Dispose();
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        }
+    }
+    
+    private void OnClientDisconnected(ulong clientId)
+    {
+        foreach (var config in tankConfigs)
+        {
+            if (config.ClientId == clientId)
+            {
+                tankConfigs.Remove(config);
+                Debug.Log($"Removed TankConfigData for disconnected ClientId: {clientId}");
+                break;
+            }
+        }
     }
 
     public void RegisterMyLoadout(TankConfigData myData)    
@@ -39,7 +59,7 @@ public class TeamManager : NetworkBehaviour
         RegisterPlayerServerRpc(myData);
     }
 
-    [Rpc( SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void RegisterPlayerServerRpc(TankConfigData data)
     {
         tankConfigs.Add(data);
@@ -49,7 +69,7 @@ public class TeamManager : NetworkBehaviour
 
     public TankConfigData GetTankConfigDataForClient(ulong clientId)
     {
-        foreach (var config in TeamManager.Instance.tankConfigs)
+        foreach (var config in tankConfigs)
         {
             if (config.ClientId == clientId)
             {

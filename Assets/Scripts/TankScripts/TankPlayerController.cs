@@ -13,6 +13,9 @@ public class TankPlayerController : NetworkBehaviour
     [SerializeField] private TankHealthManager tankHealthManager;
     public TankHealthManager TankHealthManager => tankHealthManager;
 
+    private TankConfigData tankConfigData;
+    public TankConfigData TankConfigData => tankConfigData;
+
     private TankInput tankInput;
     [SerializeField] private Rigidbody2D rb;
     
@@ -48,6 +51,7 @@ public class TankPlayerController : NetworkBehaviour
 
     [SerializeField] ShootingSystem shootingSystem;
 
+    private bool isRedTeam = false;
 
     //animation variables
     [SerializeField]private Animator tankAnimator;
@@ -58,7 +62,9 @@ public class TankPlayerController : NetworkBehaviour
     {
 
         //eseguo qui per owner e non owner
-        TankConfigData tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
+        tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
+        isRedTeam = (tankConfigData.Team == TeamColor.Red);
+        
         tankPlayerData.InitTankElements(
             tankConfigData
         );
@@ -83,6 +89,23 @@ public class TankPlayerController : NetworkBehaviour
         tankInput.Tank.Shoot.canceled += OnShootCanceled;
         
         CursorInitialization();
+
+        var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
+        cameraInScene.Target.TrackingTarget = this.transform;
+        
+        // Rotate camera based on team
+        var configData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
+        if (configData.Team == TeamColor.Red)
+        {
+            // Red team spawns facing down, rotate camera 180 degrees
+            cameraInScene.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else
+        {
+            // Blue team faces up, default rotation
+            cameraInScene.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        
     }
 
     public override void OnNetworkDespawn()
@@ -98,6 +121,13 @@ public class TankPlayerController : NetworkBehaviour
     {
         if (!IsOwner) return;
         movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
+        
+        // Invert input for red team to match rotated camera
+        if (isRedTeam)
+        {
+            movementInput = -movementInput;
+        }
+        
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
 
         HandleTurretRotation();
@@ -188,5 +218,42 @@ public class TankPlayerController : NetworkBehaviour
             Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
         }
         Cursor.visible = true;
+    }
+
+    public void SetInputActive(bool isActive)
+    {
+        if (!IsOwner) return;
+        if (isActive)
+        {
+            tankInput.Enable();
+        }
+        else
+        {
+            tankInput.Disable();
+        }
+    }
+
+    public void ResetPlayer()
+    {
+        isTriggerHeld = false;
+        
+        if (shootingSystem != null)
+        {
+            shootingSystem.ResetShootingState();
+        }
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+
+        smoothedMovementInput = Vector2.zero;
+        currentVelocity = Vector2.zero;
+        
+        if (weaponPivotTransform != null)
+        {
+            weaponPivotTransform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 }

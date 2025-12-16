@@ -55,7 +55,6 @@ public class ShootingSystem : NetworkBehaviour
                 {
                     if (CanFire())
                     {
-                        Debug.Log("Single Shot Fired");
                         Shoot(shootDirection);
                         isFiring = true;
                     }
@@ -72,7 +71,6 @@ public class ShootingSystem : NetworkBehaviour
                 {
                     if (CanFire())
                     {
-                        Debug.Log("Automatic Shot Fired");
                         Shoot(shootDirection);
                     }
                 }
@@ -84,7 +82,6 @@ public class ShootingSystem : NetworkBehaviour
                 {
                     if (CanFire())
                     {
-                        Debug.Log("Burst Fire Started");
                         StartCoroutine(BurstFire(shootDirection));
                         isFiring = true;
                     }
@@ -196,7 +193,7 @@ public class ShootingSystem : NetworkBehaviour
                     }
                     healthManager.TakeDamage(damage);
                     
-                    Debug.Log($"Applied {damage} damage to client {targetId}. Health: {healthManager.Health}, Shield: {healthManager.Shield}");
+                    Debug.Log($"Applied {damage} damage to client {targetId}. Health: {healthManager.healthNetwork.Value}, Shield: {healthManager.shieldNetwork.Value}");
                 }
                 else
                 {
@@ -208,5 +205,15 @@ public class ShootingSystem : NetworkBehaviour
         {
             Debug.LogWarning($"Target client {targetId} not found");
         }
+    }
+
+    public void ResetShootingState()
+    {
+        StopAllCoroutines(); 
+
+        isFiring = false;
+        fireCooldown = 0f;
+        
+        Debug.Log("Shooting System Reset");
     }
 }

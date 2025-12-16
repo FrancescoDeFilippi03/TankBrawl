@@ -13,6 +13,8 @@ public class GameManagerEditor : Editor
 
     // UI References
     private Label gameStateLabel;
+    private Label redScoreLabel;
+    private Label blueScoreLabel;
     private VisualElement redTeamContainer;
     private VisualElement blueTeamContainer;
     private Button startMatchButton; // Riferimento al nuovo bottone
@@ -34,10 +36,7 @@ public class GameManagerEditor : Editor
         root.Add(separator);
 
         CreateGameStateSection();
-        
-        // --- NUOVA SEZIONE: Controlli Host ---
-        //CreateHostControls();
-        // -------------------------------------
+        CreateScoreSection();
 
         CreateTeamsSection();
         CreateDebugActions();
@@ -46,36 +45,6 @@ public class GameManagerEditor : Editor
 
         return root;
     }
-
-    /* private void CreateHostControls()
-    {
-        var container = new GroupBox();
-        container.style.marginTop = 10;
-        container.style.marginBottom = 10;
-        container.style.backgroundColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
-
-        var label = new Label("HOST CONTROLS");
-        label.style.unityFontStyleAndWeight = FontStyle.Bold;
-        label.style.alignSelf = Align.Center;
-        container.Add(label);
-
-        startMatchButton = new Button(() => 
-        {
-            if (Application.isPlaying && gameManager.IsServer)
-            {
-                gameManager.StartMatch();
-            }
-        }) { text = "START MATCH (Assign Teams)" };
-        
-        startMatchButton.style.height = 35;
-        startMatchButton.style.backgroundColor = new StyleColor(new Color(0.2f, 0.6f, 0.2f)); // Verde
-        startMatchButton.style.marginTop = 5;
-        startMatchButton.style.unityFontStyleAndWeight = FontStyle.Bold;
-        
-        container.Add(startMatchButton);
-        root.Add(container);
-    }
- */
     private void CreateGameStateSection()
     {
         // (Codice identico a prima per lo stato)
@@ -94,11 +63,71 @@ public class GameManagerEditor : Editor
         root.Add(statusBox);
     }
 
+    private void CreateScoreSection()
+    {
+        var scoreBox = new Box();
+        scoreBox.style.paddingTop = 10;
+        scoreBox.style.paddingBottom = 10;
+        scoreBox.style.marginTop = 10;
+        scoreBox.style.backgroundColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
+
+        var titleLabel = new Label("TEAM SCORES");
+        titleLabel.style.fontSize = 14;
+        titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        titleLabel.style.alignSelf = Align.Center;
+        titleLabel.style.marginBottom = 10;
+        titleLabel.style.color = Color.yellow;
+        scoreBox.Add(titleLabel);
+
+        var scoresContainer = new VisualElement();
+        scoresContainer.style.flexDirection = FlexDirection.Row;
+        scoresContainer.style.justifyContent = Justify.SpaceAround;
+
+        // Red Team Score
+        var redScoreContainer = new VisualElement();
+        redScoreContainer.style.alignItems = Align.Center;
+        redScoreContainer.style.paddingLeft = 10;
+        redScoreContainer.style.paddingRight = 10;
+
+        var redLabel = new Label("RED TEAM");
+        redLabel.style.color = new Color(1f, 0.3f, 0.3f);
+        redLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        redLabel.style.fontSize = 12;
+        redScoreContainer.Add(redLabel);
+
+        redScoreLabel = new Label("0");
+        redScoreLabel.style.fontSize = 32;
+        redScoreLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        redScoreLabel.style.color = Color.red;
+        redScoreContainer.Add(redScoreLabel);
+
+        // Blue Team Score
+        var blueScoreContainer = new VisualElement();
+        blueScoreContainer.style.alignItems = Align.Center;
+        blueScoreContainer.style.paddingLeft = 10;
+        blueScoreContainer.style.paddingRight = 10;
+
+        var blueLabel = new Label("BLUE TEAM");
+        blueLabel.style.color = new Color(0.3f, 0.6f, 1f);
+        blueLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        blueLabel.style.fontSize = 12;
+        blueScoreContainer.Add(blueLabel);
+
+        blueScoreLabel = new Label("0");
+        blueScoreLabel.style.fontSize = 32;
+        blueScoreLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        blueScoreLabel.style.color = Color.cyan;
+        blueScoreContainer.Add(blueScoreLabel);
+
+        scoresContainer.Add(redScoreContainer);
+        scoresContainer.Add(blueScoreContainer);
+        scoreBox.Add(scoresContainer);
+
+        root.Add(scoreBox);
+    }
+
     private void CreateTeamsSection()
     {
-        // (Mantieni la tua logica di visualizzazione team qui)
-        // ... (Codice identico al precedente per redTeamContainer/blueTeamContainer) ...
-        // Per brevità, riporto solo la struttura base, incolla il tuo codice CreateTeamsSection precedente qui
         var container = new VisualElement();
         container.style.flexDirection = FlexDirection.Row;
         redTeamContainer = new VisualElement(); 
@@ -119,10 +148,10 @@ public class GameManagerEditor : Editor
         if (!Application.isPlaying || gameManager == null) return;
         if (teamManager == null) teamManager = gameManager.GetComponent<TeamManager>();
 
-        // 1. Aggiorna Label Stato
         UpdateGameStateLabel();
 
-        // 2. GESTIONE VISIBILITÀ BOTTONE START
+        UpdateScoreLabels();
+
         // Il bottone appare SOLO se sei il Server E lo stato è WaitingForPlayers
         bool canStart = NetworkManager.Singleton.IsServer && 
                         gameManager.CurrentGameState.Value == GameManager.GameState.WaitingForPlayers;
@@ -131,18 +160,23 @@ public class GameManagerEditor : Editor
         {
             startMatchButton.SetEnabled(canStart);
             startMatchButton.style.display = canStart ? DisplayStyle.Flex : DisplayStyle.None;
-            // Opzionale: cambia testo se non ci sono abbastanza player
             startMatchButton.text = canStart ? "START MATCH" : "Waiting...";
         }
 
-        // 3. Aggiorna Liste (come prima)
-        // UpdateTeamLists(); // Assicurati di includere il metodo UpdateTeamLists dal codice precedente
     }
 
     private void UpdateGameStateLabel()
     {
         var state = gameManager.CurrentGameState.Value;
         gameStateLabel.text = $"STATE: {state.ToString().ToUpper()}";
-        // Colori...
+    }
+
+    private void UpdateScoreLabels()
+    {
+        if (redScoreLabel != null && blueScoreLabel != null)
+        {
+            redScoreLabel.text = gameManager.RedTeamScore.Value.ToString();
+            blueScoreLabel.text = gameManager.BlueTeamScore.Value.ToString();
+        }
     }
 }

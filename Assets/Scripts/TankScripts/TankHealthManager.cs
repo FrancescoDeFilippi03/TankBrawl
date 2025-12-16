@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class TankHealthManager : NetworkBehaviour
 {
-    private float health;
-    public float Health => health;
-    private float shield;
-    public float Shield => shield;
+    public NetworkVariable<float> healthNetwork = new NetworkVariable<float>(
+        100f ,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+    public NetworkVariable<float> shieldNetwork = new NetworkVariable<float>(
+        50f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
 
     private bool invulnerable = false;
     public bool Invulnerable
@@ -15,26 +21,73 @@ public class TankHealthManager : NetworkBehaviour
         set => invulnerable = value;
     }
 
+    private float MaxHealth;
+    private float MaxShield;
+
+
+    public override void OnNetworkSpawn()
+    {
+        healthNetwork.OnValueChanged += OnHealthChanged;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        healthNetwork.OnValueChanged -= OnHealthChanged;
+    }
+
+
+    private void OnHealthChanged(float previousValue, float newValue)
+    {
+        if (newValue <= 0 && previousValue > 0)
+        {
+            Debug.Log("Tank has died.");
+
+            if(IsOwner)
+            {
+                var tankStateManager = GetComponent<TankStateManager>();
+                if(tankStateManager != null)
+                {
+                    tankStateManager.playerState.Value = TankStateManager.PlayerState.Dead;
+                    tankStateManager.CurrentState.ChangeState(tankStateManager.StateFactory.Dead());
+                }
+            }
+        }
+    }
+
+
     public void InitializeHealth(TankPlayerData tankPlayerData)
     {
-        health = tankPlayerData.TankBase.health;
-        shield = tankPlayerData.TankBase.armor;
+        MaxHealth = tankPlayerData.TankBase.health;
+        MaxShield = tankPlayerData.TankBase.armor;
+
+        if(!IsServer) return;
+        healthNetwork.Value = MaxHealth;
+        shieldNetwork.Value = MaxShield;
     }
 
     public void TakeDamage(float damageAmount)
     {
-        float damageAfterShield = damageAmount - shield;
-        if (damageAfterShield > 0)
-        {
-            shield = 0;
-            health -= damageAfterShield;
-        }
-        else
-        {
-            shield -= damageAmount;
-        }
+       if(!IsServer) return;
 
+        if (shieldNetwork.Value > 0)
+        {
+            float shieldDamage = Mathf.Min(shieldNetwork.Value, damageAmount);
+            shieldNetwork.Value -= shieldDamage;
+            damageAmount -= shieldDamage;
+        }
+        if (damageAmount > 0)
+        {
+            healthNetwork.Value = Mathf.Max(healthNetwork.Value - damageAmount, 0);
+        }
     }
+
+    public void ResetHealth()
+    {
+        if(!IsServer) return;
+        healthNetwork.Value = MaxHealth;
+        shieldNetwork.Value = MaxShield;
+    }
+
 
 
 }

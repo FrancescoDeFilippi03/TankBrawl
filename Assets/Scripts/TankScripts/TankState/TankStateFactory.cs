@@ -25,6 +25,11 @@ public class TankStateFactory
         return new TankDeadState(tankStateManager);
     }
 
+    public TankRespawnState Respawn()
+    {
+        return new TankRespawnState(tankStateManager);
+    }
+
     //forse non necessario
     public TankBaseState GetState(TankStateManager.PlayerState state)
     {
@@ -36,6 +41,8 @@ public class TankStateFactory
                 return Moving();
             case TankStateManager.PlayerState.Dead:
                 return Dead();
+            case TankStateManager.PlayerState.Respawn:
+                return Respawn();
             default:
                 return null;
         }

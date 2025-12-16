@@ -8,6 +8,8 @@ public class TankPlayerData : MonoBehaviour
     private BaseConfig  tankBase;
     public BaseConfig TankBase => tankBase;
 
+    
+
     public void InitTankElements(TankConfigData configData)
     {
         tankBase   = TankRegistry.Instance.GetBase(configData.BaseId);

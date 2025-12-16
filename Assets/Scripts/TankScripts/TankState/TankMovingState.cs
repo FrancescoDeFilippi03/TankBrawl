@@ -33,11 +33,6 @@ public class TankMovingState : TankBaseState
             ChangeState(tank.StateFactory.Idle());
         }
 
-        if(tank.PlayerController.TankHealthManager.Health <= 0)
-        {
-            tank.playerState.Value = TankStateManager.PlayerState.Dead;
-            ChangeState(tank.StateFactory.Dead());
-        }
     }
 
     
