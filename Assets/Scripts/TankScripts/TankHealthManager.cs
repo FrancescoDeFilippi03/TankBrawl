@@ -88,6 +88,16 @@ public class TankHealthManager : NetworkBehaviour
         shieldNetwork.Value = MaxShield;
     }
 
+    public void Heal(float healAmount)
+    {
+        if(!IsServer) return;
+        healthNetwork.Value = Mathf.Min(healthNetwork.Value + healAmount, MaxHealth);
+    }
 
+    public void RechargeShield(float shieldAmount)
+    {
+        if(!IsServer) return;
+        shieldNetwork.Value = Mathf.Min(shieldNetwork.Value + shieldAmount, MaxShield);
+    }
 
 }

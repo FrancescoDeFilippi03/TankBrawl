@@ -3,7 +3,7 @@ using Unity.Collections;
 using Unity.Netcode;
 
 // CONFIGURAZIONE (Dati pesanti, cambiano quasi mai)
-[System.Serializable]
+[Serializable]
 public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
 {
     public FixedString64Bytes PlayerId;

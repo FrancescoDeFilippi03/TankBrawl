@@ -7,6 +7,7 @@ public class InGameState : GameStateBase
     private readonly float scorePerSecond = 5f;
     private float redScoreAccumulator = 0f;
     private float blueScoreAccumulator = 0f;
+    private readonly float pointToWin = 100f;
     
     public InGameState(GameManager manager, GameStateFactory factory) : base(manager, factory)
     {
@@ -23,7 +24,13 @@ public class InGameState : GameStateBase
             gameManager.CurrentGameState.Value = GameManager.GameState.GameOver;
         }
 
+        CheckAreaControl();
+        CheckWinCondition();
+    }
 
+
+    void CheckAreaControl()
+    {
         TeamColor controllingTeam = gameManager.controllingTeam.Value;
         
         if (controllingTeam == TeamColor.Red)
@@ -45,6 +52,19 @@ public class InGameState : GameStateBase
                 gameManager.BlueTeamScore.Value += pointsToAdd;
                 blueScoreAccumulator -= pointsToAdd;
             }
+        }
+    }
+
+
+    void CheckWinCondition()
+    {        
+        if (gameManager.RedTeamScore.Value >= pointToWin)
+        {
+            gameManager.CurrentGameState.Value = GameManager.GameState.GameOver;
+        }
+        else if (gameManager.BlueTeamScore.Value >= pointToWin)
+        {
+            gameManager.CurrentGameState.Value = GameManager.GameState.GameOver;
         }
     }
 }

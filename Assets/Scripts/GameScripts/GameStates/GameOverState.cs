@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameOverState : GameStateBase
 {
+    
     public GameOverState(GameManager manager, GameStateFactory factory) : base(manager, factory)
     {
     }
@@ -10,12 +11,13 @@ public class GameOverState : GameStateBase
     {
         Debug.Log("Entered Game Over State");
         
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
+        
     }
 
     public override void Exit()
     {
         Debug.Log("Exited Game Over State");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
     }
 
     public override void Update()
