@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8420321504160525197}
   - component: {fileID: 7409028591538059964}
   m_Layer: 0
-  m_Name: Track_0
+  m_Name: Track_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 1512117571
   m_SortingLayer: 2
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 34c763469f39b964b97f455dcd6a4534, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a750a7f11fe738f48aeab30d02c416ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: a78f0af544a19cf4b8246697c2eea7a4, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: f776b706448b4784b9997ae0eb128fe3, type: 3}
 --- !u!114 &7409028591538059964
 MonoBehaviour:
   m_ObjectHideFlags: 0
