@@ -1,14 +1,16 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class ShieldCollectible :  ICollectable
+public class HealthCollectable : Collectable
 {
-    [SerializeField] private float shieldAmount = 25f;
+    [SerializeField] private float healthAmount = 25f;
     public override void OnCollect(TankPlayerController collector)
     {
         if (collector.TryGetComponent<TankHealthManager>(out var tankHealth))
         {
-            tankHealth.RechargeShield(shieldAmount);
+            tankHealth.Heal(healthAmount);
             isSpawned.Value = false;
         }
     }
+
 }

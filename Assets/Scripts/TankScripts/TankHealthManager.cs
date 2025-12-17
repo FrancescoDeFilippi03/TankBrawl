@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class TankHealthManager : NetworkBehaviour
+public class TankHealthManager : NetworkBehaviour , IDamageble
 {
     public NetworkVariable<float> healthNetwork = new NetworkVariable<float>(
         100f ,
@@ -67,7 +67,7 @@ public class TankHealthManager : NetworkBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-       if(!IsServer) return;
+       if(!IsServer || invulnerable) return;
 
         if (shieldNetwork.Value > 0)
         {

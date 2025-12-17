@@ -50,13 +50,14 @@ public class Bullet : MonoBehaviour
         //itero sui network object per vedere se ho colpito un tank
         if (other.TryGetComponent(out NetworkObject netObj))
         {
-            //ignoro se colpisco me stesso
-            if (OwnerClientId == netObj.OwnerClientId)
+            Debug.Log($"Bullet owned by {OwnerClientId} hit object owned by {netObj.name} with owner {netObj.OwnerClientId}");
+           //ignoro se colpisco me stesso
+            if (OwnerClientId == netObj.OwnerClientId && other.GetComponent<TankPlayerController>() != null)
             {
                 return;
             }
 
-            //ignoro se colpisco un mio compagno di squadra
+            //ignoro se colpisco un mio compagno di squadra o me stesso
             if (other.gameObject.CompareTag(system.gameObject.tag))
             {
                 ReturnToPool();
@@ -66,7 +67,7 @@ public class Bullet : MonoBehaviour
             //se sono il proprietario del proiettile, segnalo il colpo
             if (amIOwner)
             {
-                system.ReportHit(netObj.OwnerClientId);
+                system.ReportHit(netObj.NetworkObjectId);
             }
 
 

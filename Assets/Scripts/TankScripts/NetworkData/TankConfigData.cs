@@ -11,14 +11,12 @@ public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
     public TeamColor Team;
     public int BaseId;
     public int WeaponId;
-    public int BulletId;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref Team);
         serializer.SerializeValue(ref BaseId);
         serializer.SerializeValue(ref WeaponId);
-        serializer.SerializeValue(ref BulletId);
         serializer.SerializeValue(ref ClientId);
         serializer.SerializeValue(ref PlayerId);
     }
@@ -28,7 +26,6 @@ public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
         return Team == other.Team &&
                BaseId == other.BaseId &&
                WeaponId == other.WeaponId &&
-               BulletId == other.BulletId &&
                ClientId == other.ClientId &&
                PlayerId == other.PlayerId;
     }

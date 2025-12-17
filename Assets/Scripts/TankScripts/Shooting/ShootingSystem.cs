@@ -179,31 +179,16 @@ public class ShootingSystem : NetworkBehaviour
     [ServerRpc]
     private void ApplyDamageServerRpc(ulong targetId)
     {
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(targetId, out var client))
+        Debug.Log($"Server applying damage to object ID {targetId}");
+
+        
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out var targetObject))
         {
-            if (client.PlayerObject != null)
+            Debug.Log($"Applying damage to object {targetObject.name}");
+            if (targetObject.TryGetComponent<IDamageble>(out var damageble))
             {
-                if (client.PlayerObject.TryGetComponent(out TankHealthManager healthManager))
-                {
-                    float damage = weapon.bulletConfig.damage;
-                    if(healthManager.Invulnerable)
-                    {
-                        Debug.Log($"Target {targetId} is invulnerable. No damage applied.");
-                        return;
-                    }
-                    healthManager.TakeDamage(damage);
-                    
-                    Debug.Log($"Applied {damage} damage to client {targetId}. Health: {healthManager.healthNetwork.Value}, Shield: {healthManager.shieldNetwork.Value}");
-                }
-                else
-                {
-                    Debug.LogWarning($"TankHealthManager not found on target {targetId}");
-                }
+                damageble.TakeDamage(weapon.bulletConfig.damage);
             }
-        }
-        else
-        {
-            Debug.LogWarning($"Target client {targetId} not found");
         }
     }
 

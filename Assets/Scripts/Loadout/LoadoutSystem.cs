@@ -6,7 +6,6 @@ public struct PlayerLoadoutData
 {
     public int BaseId;
     public int WeaponId;
-    public int BulletId;
     
 }
 
@@ -14,13 +13,12 @@ public static class LoadoutSystem
 {
     private static string Path => Application.persistentDataPath + "/user_loadout.json";
 
-    public static void SaveLoadout(int baseId, int weaponId, int bulletId)
+    public static void SaveLoadout(int baseId, int weaponId)
     {
         PlayerLoadoutData data = new PlayerLoadoutData
         {
             BaseId = baseId,
             WeaponId = weaponId,
-            BulletId = bulletId
         };
 
         string json = JsonUtility.ToJson(data, true);

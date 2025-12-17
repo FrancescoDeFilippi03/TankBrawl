@@ -1,6 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
-public abstract class ICollectable : NetworkBehaviour
+public abstract class Collectable : NetworkBehaviour
 {
     [SerializeField] protected float timeToSpawn = 10f;
     protected float spawnTimer = 0f;
