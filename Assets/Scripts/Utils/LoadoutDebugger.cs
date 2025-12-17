@@ -12,7 +12,7 @@ public class LoadoutDebugger : MonoBehaviour
 
     public void SaveToDisk()
     {
-        LoadoutSystem.SaveLoadout(baseId, weaponId, bulletId);
+        LoadoutSystem.SaveLoadout(baseId, weaponId);
     }
 
     public void LoadFromDisk()
@@ -20,6 +20,5 @@ public class LoadoutDebugger : MonoBehaviour
         var data = LoadoutSystem.LoadLoadout();
         baseId = data.BaseId;
         weaponId = data.WeaponId;
-        bulletId = data.BulletId;
     }
 }

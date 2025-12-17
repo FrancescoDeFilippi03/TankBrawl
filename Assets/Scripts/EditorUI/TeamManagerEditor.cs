@@ -83,13 +83,6 @@ public class TeamManagerEditor : Editor
                 EditorGUILayout.LabelField(data.WeaponId.ToString());
                 EditorGUILayout.EndHorizontal();
 
-                // Riga dettagli (Turret e Bullet)
-                GUI.backgroundColor = Color.Lerp(bgColor, new Color(0.8f, 0.8f, 0.8f), 0.5f);
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.Space(5); // Piccola spaziatura
-                EditorGUILayout.LabelField($"Bullet ID: {data.BulletId}", EditorStyles.miniLabel);
-                EditorGUILayout.EndHorizontal();
-                
                 EditorGUILayout.EndVertical(); // Fine box colorato
                 
                 GUI.backgroundColor = Color.white;

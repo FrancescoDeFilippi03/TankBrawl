@@ -146,7 +146,7 @@ public class SessionManager : MonoBehaviour
     }
 
 
-    public Dictionary<string, PlayerProperty> UpdateLoadoutToSession()
+    private Dictionary<string, PlayerProperty> UpdateLoadoutToSession()
     {
         PlayerLoadoutData loadout = LoadoutSystem.LoadLoadout();
 
@@ -154,7 +154,6 @@ public class SessionManager : MonoBehaviour
         {
             { "BaseId",   new PlayerProperty(loadout.BaseId.ToString(),   VisibilityPropertyOptions.Member) },
             { "WeaponId", new PlayerProperty(loadout.WeaponId.ToString(), VisibilityPropertyOptions.Member) },
-            { "BulletId", new PlayerProperty(loadout.BulletId.ToString(), VisibilityPropertyOptions.Member) }
         };
         return properties;
     }
@@ -193,7 +192,6 @@ public class SessionManager : MonoBehaviour
 
         if (baseIdProp != null)   configData.BaseId   = int.Parse(baseIdProp.Value);
         if (weaponIdProp != null) configData.WeaponId = int.Parse(weaponIdProp.Value);
-        if (bulletIdProp != null) configData.BulletId = int.Parse(bulletIdProp.Value);
         if (teamProp != null)     
         {
             configData.Team = (teamProp.Value == "Red") ? TeamColor.Red : TeamColor.Blue;
