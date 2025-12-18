@@ -5,6 +5,7 @@ public class TrackConfig : ScriptableObject
 {
     public float trackMaxSpeed;
     public float trackAcceleration;
-    public float rotationSpeed;
-    public float frictionValue;
+    public float maxMassHeld;
+    public float dashSpeed;
+    public float dashDuration;
 }

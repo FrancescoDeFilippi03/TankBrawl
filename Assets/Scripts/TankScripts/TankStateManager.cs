@@ -28,6 +28,7 @@ public class TankStateManager : NetworkBehaviour
     public enum PlayerState { 
         Idle,
         Moving,
+        Dashing,
         Dead , 
         Respawn
     }    

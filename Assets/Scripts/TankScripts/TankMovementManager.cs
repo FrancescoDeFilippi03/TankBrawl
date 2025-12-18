@@ -17,19 +17,21 @@ public class TankMovementManager : MonoBehaviour
     private Vector2 currentVelocity = Vector2.zero;
 
 
-    HullConfig hullConfig;
-    TrackConfig trackConfig;
+    private HullConfig hullConfig;
+    public HullConfig HullConfig => hullConfig;
+    
+    private TrackConfig trackConfig;    
+    public TrackConfig TrackConfig => trackConfig;
 
     public void InitializeMovement(HullConfig hullConfig, TrackConfig trackConfig)
     {
         this.hullConfig = hullConfig;
         this.trackConfig = trackConfig;
-        Debug.Log("Tank Movement Initialized with Hull and Track Configs.");
     }
     
     public void MoveTank(Vector2 MovementInput,Rigidbody2D rb)
     {
-       SmoothedMovementInput = Vector2.SmoothDamp(
+        SmoothedMovementInput = Vector2.SmoothDamp(
             SmoothedMovementInput,
             MovementInput,
             ref currentVelocity,
@@ -39,6 +41,7 @@ public class TankMovementManager : MonoBehaviour
         if (SmoothedMovementInput.magnitude > 0.01f)
         {
             Vector2 movement = hullConfig.speed * Time.fixedDeltaTime * SmoothedMovementInput;
+            
             rb.MovePosition(rb.position + movement);
         }
 
@@ -65,5 +68,9 @@ public class TankMovementManager : MonoBehaviour
     }
 
     
-
+    public void Dash( Vector2 movementInput , Rigidbody2D rb)
+    {
+        Vector2 dashVelocity = Time.fixedDeltaTime * trackConfig.dashSpeed * movementInput.normalized;
+        rb.MovePosition(rb.position + dashVelocity);
+    }
 }

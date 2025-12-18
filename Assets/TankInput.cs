@@ -118,6 +118,15 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""985f57a3-99c5-4e1c-af01-43eac4cfd453"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +206,17 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc3ba603-2279-48e3-a1a7-0aee9f84962f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +228,7 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         m_Tank_Movement = m_Tank.FindAction("Movement", throwIfNotFound: true);
         m_Tank_Aim = m_Tank.FindAction("Aim", throwIfNotFound: true);
         m_Tank_Shoot = m_Tank.FindAction("Shoot", throwIfNotFound: true);
+        m_Tank_Dash = m_Tank.FindAction("Dash", throwIfNotFound: true);
     }
 
     ~@TankInput()
@@ -291,6 +312,7 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Tank_Movement;
     private readonly InputAction m_Tank_Aim;
     private readonly InputAction m_Tank_Shoot;
+    private readonly InputAction m_Tank_Dash;
     /// <summary>
     /// Provides access to input actions defined in input action map "Tank".
     /// </summary>
@@ -314,6 +336,10 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Tank/Shoot".
         /// </summary>
         public InputAction @Shoot => m_Wrapper.m_Tank_Shoot;
+        /// <summary>
+        /// Provides access to the underlying input action "Tank/Dash".
+        /// </summary>
+        public InputAction @Dash => m_Wrapper.m_Tank_Dash;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -349,6 +375,9 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         /// <summary>
@@ -369,6 +398,9 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         /// <summary>
@@ -430,5 +462,12 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShoot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDash(InputAction.CallbackContext context);
     }
 }

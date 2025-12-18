@@ -33,6 +33,12 @@ public class TankMovingState : TankBaseState
             ChangeState(tank.StateFactory.Idle());
         }
 
+        if(tank.PlayerController.isDashing)
+        {
+            tank.playerState.Value = TankStateManager.PlayerState.Dashing;
+            ChangeState(tank.StateFactory.Dashing());
+        }
+
     }
 
     

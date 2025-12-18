@@ -58,12 +58,13 @@ public class TankPlayerData : NetworkBehaviour
 
         TankConfigData configData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
 
+        
         if (!IsOwner) return;
-        hullId.Value = configData.HullId;
-        weaponId.Value = configData.WeaponId;
-        trackId.Value = configData.TrackId;
 
-        Debug.Log($"Initialized TankPlayerData for Client {OwnerClientId} with HullID: {hullId.Value}, WeaponID: {weaponId.Value}, TrackID: {trackId.Value}");
+        OnHullIdChanged(configData.HullId, configData.HullId);
+        OnWeaponIdChanged(configData.WeaponId, configData.WeaponId);
+        OnTrackIdChanged(configData.TrackId, configData.TrackId);
+
     }   
 
     public override void OnNetworkDespawn()

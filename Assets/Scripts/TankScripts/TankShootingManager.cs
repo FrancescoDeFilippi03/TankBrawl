@@ -20,9 +20,9 @@ public class TankShootingManager : MonoBehaviour
     }
 
 
-    public void Shoot(Vector2 shootDirection , bool isHoldingTrigger)
+    public void Shoot(bool isHoldingTrigger)
     {
-        shootingSystem.TryShoot(shootDirection, isHoldingTrigger);
+        shootingSystem.TryShoot(aimDirection, isHoldingTrigger);
     }
 
     Vector2 GetAimDirection(Vector2 aimInput){

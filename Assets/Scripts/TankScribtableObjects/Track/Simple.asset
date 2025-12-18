@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4959ddd00708dc14ea4c3a040e970977, type: 3}
   m_Name: Simple
   m_EditorClassIdentifier: Assembly-CSharp::TrackConfig
-  trackMaxSpeed: 10
-  trackAcceleration: 10
-  rotationSpeed: 10
-  frictionValue: 10
+  trackMaxSpeed: 100
+  trackAcceleration: 40
+  maxMassHeld: 100
+  dashSpeed: 10
+  dashDuration: 1

@@ -35,6 +35,7 @@ public class TankPlayerController : NetworkBehaviour
     // Shooting state
     private bool isTriggerHeld = false;
 
+    public bool isDashing = false;
     
     private bool isRedTeam = false;
 
@@ -54,6 +55,7 @@ public class TankPlayerController : NetworkBehaviour
         tankInput.Tank.Shoot.performed += OnShootPerformed;
         tankInput.Tank.Shoot.canceled += OnShootCanceled;
 
+        tankInput.Tank.Dash.performed += OnDashPerformed;
 
         var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
         cameraInScene.Target.TrackingTarget = this.transform;
@@ -80,6 +82,7 @@ public class TankPlayerController : NetworkBehaviour
         if (!IsOwner) return;
         tankInput.Tank.Shoot.performed -= OnShootPerformed;
         tankInput.Tank.Shoot.canceled -= OnShootCanceled;
+        tankInput.Tank.Dash.performed -= OnDashPerformed;
         tankInput.Disable();
 
         tankShootingManager.CursorReset();
@@ -99,7 +102,7 @@ public class TankPlayerController : NetworkBehaviour
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
 
         TankShootingManager.HandleTurretRotation(aimInput);
-        TankShootingManager.Shoot(aimInput, isTriggerHeld);     
+        TankShootingManager.Shoot(isTriggerHeld);     
 
     }
 
@@ -113,7 +116,15 @@ public class TankPlayerController : NetworkBehaviour
         isTriggerHeld = false;
     }
     
-
+    private void OnDashPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+        
+        if (!isDashing)
+        {
+            isDashing = true;
+        }
+    }
     public void SetInputActive(bool isActive)
     {
         if (!IsOwner) return;
