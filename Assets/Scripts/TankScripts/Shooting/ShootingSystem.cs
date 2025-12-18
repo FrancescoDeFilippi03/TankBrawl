@@ -7,6 +7,8 @@ public class ShootingSystem : NetworkBehaviour
     public BulletPool bulletPool;
     private Transform[] firePoints;
     private WeaponConfig weapon;
+    private BulletConfig bulletConfig;
+
     
     // Fire rate control
     private float fireCooldown = 0f;
@@ -15,12 +17,15 @@ public class ShootingSystem : NetworkBehaviour
     // Burst control
     [SerializeField] private int burstCount = 3;
     [SerializeField] private float burstDelay = 0.1f;
-    
-    public void InitWeapon(WeaponConfig weapon, int ammoCount, Transform[] weaponFirePoints)
+
+    public void InitializeWeapon(WeaponConfig weaponConfig, BulletConfig bulletCfg, Transform[] firePoints = null)
     {
-        this.weapon = weapon;
-        firePoints = weaponFirePoints;
-        bulletPool.InitializePool(weapon.bulletConfig.bulletPrefab, ammoCount);
+        this.firePoints = firePoints;
+        weapon = weaponConfig;
+        bulletConfig = bulletCfg;
+        
+        bulletPool.InitializePool(bulletConfig.bulletPrefab, weapon.ammo);
+
     }
     
     void Update()
@@ -150,7 +155,7 @@ public class ShootingSystem : NetworkBehaviour
         
         bullet.transform.position = pos;
 
-        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId , weapon.bulletConfig , weapon.range);
+        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId , bulletConfig , weapon.range);
     }
 
     // --- RPCs per la visualizzazione sugli altri client ---
@@ -187,7 +192,7 @@ public class ShootingSystem : NetworkBehaviour
             Debug.Log($"Applying damage to object {targetObject.name}");
             if (targetObject.TryGetComponent<IDamageble>(out var damageble))
             {
-                damageble.TakeDamage(weapon.bulletConfig.damage);
+                damageble.TakeDamage(bulletConfig.damage);
             }
         }
     }

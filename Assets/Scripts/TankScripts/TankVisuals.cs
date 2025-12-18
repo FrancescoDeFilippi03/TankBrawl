@@ -19,11 +19,11 @@ public class TankVisuals : MonoBehaviour
 
     public void InitializeVisuals(TankConfigData configData)
     {
-        InstantiateTankBase(configData);
-        InstantiateWeaponPrefab(configData);
+        /* InstantiateTankBase(configData); */
+        /* InstantiateWeaponPrefab(configData); */
     }
 
-    public void InstantiateWeaponPrefab(TankConfigData configData)
+    /* public void InstantiateWeaponPrefab(TankConfigData configData)
     {
         if (tankPlayerData.TankWeapon.weaponVisualPrefab == null) return;
         
@@ -39,9 +39,9 @@ public class TankVisuals : MonoBehaviour
                 ? tankPlayerData.TankWeapon.weaponSpriteRed 
                 : tankPlayerData.TankWeapon.weaponSpriteBlue;
         }
-    }
+    } */
 
-    public void InstantiateTankBase(TankConfigData configData)
+   /*  public void InstantiateTankBase(TankConfigData configData)
     {
 
 
@@ -65,7 +65,7 @@ public class TankVisuals : MonoBehaviour
        
         trackSpriteLibraryLeft.spriteLibraryAsset = tankPlayerData.TankBase.trackSpriteLibraryAsset;
         trackSpriteLibraryRight.spriteLibraryAsset = tankPlayerData.TankBase.trackSpriteLibraryAsset;
-    }
+    } */
     
     /// <summary>
     /// Sets the alpha transparency for all tank visual elements

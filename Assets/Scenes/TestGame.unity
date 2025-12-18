@@ -183,7 +183,8 @@ MonoBehaviour:
   - {fileID: 642635448}
   - {fileID: 939829408}
   - {fileID: 1283536473}
-  tankPrefab: {fileID: 6523526402594576584, guid: 0376c296868679c44a4532189e68bd26, type: 3}
+  redTankPrefab: {fileID: 6523526402594576584, guid: 0376c296868679c44a4532189e68bd26, type: 3}
+  blueTankPrefab: {fileID: 2054432167418910586, guid: df3df64592d44a245aafefc67806b7b4, type: 3}
 --- !u!4 &286343541
 Transform:
   m_ObjectHideFlags: 0
@@ -232,6 +233,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb6969bf2c2ff5047a597d23844206cb, type: 2}
   AllWeapons:
   - {fileID: 11400000, guid: fba9850e442abfa40832111fe0057eed, type: 2}
+  AllTracks: []
 --- !u!4 &497859023
 Transform:
   m_ObjectHideFlags: 0

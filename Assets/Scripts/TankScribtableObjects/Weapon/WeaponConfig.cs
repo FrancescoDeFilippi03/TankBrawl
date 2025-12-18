@@ -9,12 +9,9 @@ public class WeaponConfig : ScriptableObject
     public float fireRate;
     public int ammo;
 
-    public Sprite weaponSpriteRed;
-    public Sprite weaponSpriteBlue;
     public Sprite crosshairSprite;
     public ShootingType shootingType;
     public BulletConfig bulletConfig;
-    public GameObject weaponVisualPrefab; 
 }
 
 public enum ShootingType

@@ -185,12 +185,11 @@ public class SessionManager : MonoBehaviour
         TankConfigData configData = new TankConfigData();
         configData.PlayerId = new Unity.Collections.FixedString64Bytes(playerId);
 
-        var baseIdProp = GetPlayerProperty(playerId, "BaseId");
+        var hullIdProp = GetPlayerProperty(playerId, "HullId");
         var weaponIdProp = GetPlayerProperty(playerId, "WeaponId");
-        var bulletIdProp = GetPlayerProperty(playerId, "BulletId");
         var teamProp = GetPlayerProperty(playerId, "Team");
 
-        if (baseIdProp != null)   configData.BaseId   = int.Parse(baseIdProp.Value);
+        if (hullIdProp != null)   configData.HullId   = int.Parse(hullIdProp.Value);
         if (weaponIdProp != null) configData.WeaponId = int.Parse(weaponIdProp.Value);
         if (teamProp != null)     
         {

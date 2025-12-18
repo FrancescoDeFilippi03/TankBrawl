@@ -55,10 +55,10 @@ public class TankHealthManager : NetworkBehaviour , IDamageble
     }
 
 
-    public void InitializeHealth(TankPlayerData tankPlayerData)
+    public void InitializeHealth(float health, float shield)
     {
-        MaxHealth = tankPlayerData.TankBase.health;
-        MaxShield = tankPlayerData.TankBase.armor;
+        MaxHealth = health;
+        MaxShield = shield;
 
         if(!IsServer) return;
         healthNetwork.Value = MaxHealth;

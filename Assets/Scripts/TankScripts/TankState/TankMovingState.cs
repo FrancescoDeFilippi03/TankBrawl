@@ -22,7 +22,7 @@ public class TankMovingState : TankBaseState
     public override void FixedUpdate()
     {
         
-        tank.PlayerController.MoveTank();
+        tank.PlayerController.TankMovementManager.MoveTank(tank.PlayerController.MovementInput , tank.PlayerController.Rb);
     }
     public override void CheckStateChange()
     {        

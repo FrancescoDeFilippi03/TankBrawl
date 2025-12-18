@@ -79,7 +79,6 @@ public class TeamManagerEditor : Editor
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(data.ClientId.ToString(), GUILayout.Width(MAX_WIDTH_ID));
                 EditorGUILayout.LabelField(data.Team.ToString(), GUILayout.Width(MAX_WIDTH_TEAM));
-                EditorGUILayout.LabelField(data.BaseId.ToString(), GUILayout.Width(60));
                 EditorGUILayout.LabelField(data.WeaponId.ToString());
                 EditorGUILayout.EndHorizontal();
 

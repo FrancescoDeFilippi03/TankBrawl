@@ -29,7 +29,7 @@ public class TankRespawnState : TankBaseState
         {
             rb.simulated = true;
         }
-        tank.PlayerController.TankVisuals.SetAlpha(0f);
+        //tank.PlayerController.TankVisuals.SetAlpha(0f);
     }
 
     public override void Update()
@@ -46,14 +46,14 @@ public class TankRespawnState : TankBaseState
         {
             float fadeProgress = 1f - (localTimer / respawnDuration);
             float alpha = Mathf.Clamp01(fadeProgress);
-            tank.PlayerController.TankVisuals.SetAlpha(alpha);
+            //tank.PlayerController.TankVisuals.SetAlpha(alpha);
         }
     }
 
     public override void Exit()
     {
         Debug.Log("Exiting Respawn State");
-        tank.PlayerController.TankVisuals.SetAlpha(1f);
+        //tank.PlayerController.TankVisuals.SetAlpha(1f);
 
         tank.PlayerController.TankHealthManager.Invulnerable = false;
         

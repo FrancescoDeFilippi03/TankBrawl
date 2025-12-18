@@ -16,7 +16,4 @@ MonoBehaviour:
   health: 100
   speed: 5
   armor: 50
-  baseSpriteRed: {fileID: 21300000, guid: adc7c30ba0cb5ec4087508c79a599060, type: 3}
-  baseSpriteBlue: {fileID: 21300000, guid: 949f54c9fd569bd4da7fcdb21e6105a2, type: 3}
-  trackSpriteLibraryAsset: {fileID: 7108339969198208228, guid: a78f0af544a19cf4b8246697c2eea7a4, type: 3}
-  baseVisualPrefab: {fileID: 240396999482611049, guid: 26aa666a22460334d9adc4e8f9e5147a, type: 3}
+  mass: 5
