@@ -14,12 +14,6 @@ public class TankHealthManager : NetworkBehaviour , IDamageble
         NetworkVariableWritePermission.Server
     );
 
-    private bool invulnerable = false;
-    public bool Invulnerable
-    {
-        get => invulnerable;
-        set => invulnerable = value;
-    }
 
     private float MaxHealth;
     private float MaxShield;
@@ -67,7 +61,7 @@ public class TankHealthManager : NetworkBehaviour , IDamageble
 
     public void TakeDamage(float damageAmount)
     {
-       if(!IsServer || invulnerable) return;
+       if(!IsServer) return;
 
         if (shieldNetwork.Value > 0)
         {

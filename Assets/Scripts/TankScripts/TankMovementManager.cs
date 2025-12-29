@@ -15,19 +15,18 @@ public class TankMovementManager : MonoBehaviour
         set => smoothedMovementInput = value;
     }
     private Vector2 currentVelocity = Vector2.zero;
+    private float movementSpeed;
+    private float dashSpeed;
+    private float dashDuration;
+    public float DashDuration => dashDuration;
 
-
-    private HullConfig hullConfig;
-    public HullConfig HullConfig => hullConfig;
-    
-    private TrackConfig trackConfig;    
-    public TrackConfig TrackConfig => trackConfig;
-
-    public void InitializeMovement(HullConfig hullConfig, TrackConfig trackConfig)
+    public void InitializeMovement(float movementSpeed, float dashSpeed, float dashDuration)
     {
-        this.hullConfig = hullConfig;
-        this.trackConfig = trackConfig;
+        this.movementSpeed = movementSpeed;
+        this.dashSpeed = dashSpeed;
+        this.dashDuration = dashDuration;
     }
+    
     
     public void MoveTank(Vector2 MovementInput,Rigidbody2D rb)
     {
@@ -40,15 +39,12 @@ public class TankMovementManager : MonoBehaviour
 
         if (SmoothedMovementInput.magnitude > 0.01f)
         {
-            Vector2 movement = hullConfig.speed * Time.fixedDeltaTime * SmoothedMovementInput;
+            Vector2 movement = movementSpeed * Time.fixedDeltaTime * SmoothedMovementInput;
             
             rb.MovePosition(rb.position + movement);
         }
 
-        if (MovementInput.magnitude > 0.1f)
-        {
-            HandleRotation(MovementInput, rb);
-        }
+        
     }
 
     public void HandleRotation(Vector2 inputDirection , Rigidbody2D rb)
@@ -68,9 +64,9 @@ public class TankMovementManager : MonoBehaviour
     }
 
     
-    public void Dash( Vector2 movementInput , Rigidbody2D rb)
+    public void Dash(Vector2 movementInput,Rigidbody2D rb)
     {
-        Vector2 dashVelocity = Time.fixedDeltaTime * trackConfig.dashSpeed * movementInput.normalized;
+        Vector2 dashVelocity = Time.fixedDeltaTime * dashSpeed * movementInput.normalized;
         rb.MovePosition(rb.position + dashVelocity);
     }
 }

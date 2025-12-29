@@ -14,9 +14,9 @@ public class TankShootingManager : MonoBehaviour
     [SerializeField] ShootingSystem shootingSystem;
     public ShootingSystem ShootingSystem => shootingSystem;
 
-    public void InitializeShooting(WeaponConfig weaponConfig , Transform[] firePoints)
+    public void InitializeShooting(ShootingType shootingType, float fireRate,float range, float damage,GameObject bulletPrefab ,int ammoCapacity)
     {
-        shootingSystem.InitializeWeapon(weaponConfig , weaponConfig.bulletConfig, firePoints);
+        shootingSystem.InitializeWeapon( shootingType, fireRate, range, damage, bulletPrefab, ammoCapacity);
     }
 
 
@@ -45,7 +45,7 @@ public class TankShootingManager : MonoBehaviour
         );
     }
 
-    public void CursorInitialization( Sprite crosshairSprite)
+    public void CursorInitialization(Sprite crosshairSprite)
     {
         if (crosshairSprite != null)
         {

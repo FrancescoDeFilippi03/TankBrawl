@@ -10,29 +10,29 @@ public class Bullet : MonoBehaviour
     private ShootingSystem system; 
     private IObjectPool<Bullet> pool;
     ulong OwnerClientId;
-    private BulletConfig bulletConfig;
-
     private float traveledDistance = 0f;
     private float maxRange = 0f;
 
+    float speed;
 
-    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId, BulletConfig config , float range)
+
+    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId,float range , float speed)
     {
         direction = dir;
         amIOwner = isOwner;
         system = sys;
         pool = originPool;
         OwnerClientId = ownerId;
-        bulletConfig = config;
         maxRange = range;
+        this.speed = speed;
 
         this.gameObject.name = $"BulletOwner_{ownerId}";
     }
 
     void Update()
     {
-        transform.Translate(bulletConfig.speed * Time.deltaTime * direction);
-        traveledDistance += bulletConfig.speed * Time.deltaTime;
+        transform.Translate(speed * Time.deltaTime * direction);
+        traveledDistance += speed * Time.deltaTime;
         if (traveledDistance >= maxRange)
         {
             ReturnToPool();

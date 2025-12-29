@@ -22,28 +22,18 @@ public class TankMovingState : TankBaseState
     public override void FixedUpdate()
     {
         
-        tank.PlayerController.TankMovementManager.MoveTank(tank.PlayerController.MovementInput , tank.PlayerController.Rb);
+        tank.PlayerController.Tank.MoveTank(tank.PlayerController.MovementInput, tank.PlayerController.Rb);
     }
     public override void CheckStateChange()
     {        
         if(!tank.IsOwner) return;
+        
         if(tank.PlayerController.MovementInput.magnitude <= 0.1f)
         {
             tank.playerState.Value = TankStateManager.PlayerState.Idle;
             ChangeState(tank.StateFactory.Idle());
         }
 
-        if(tank.PlayerController.isDashing)
-        {
-            tank.playerState.Value = TankStateManager.PlayerState.Dashing;
-            ChangeState(tank.StateFactory.Dashing());
-        }
 
     }
-
-    
-
-    
-
-    
 }

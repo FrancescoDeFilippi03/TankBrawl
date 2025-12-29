@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1afb274dddad65b4a9de88b518915a45, type: 3}
-  m_Name: Simple
-  m_EditorClassIdentifier: Assembly-CSharp::Bullet
-  speed: 10
-  damage: 10
-  bulletPrefab: {fileID: 8524408999537377327, guid: 7a2720c6e39272a4198cd83b0b05e095, type: 3}
+  m_Name: Medium_Shell
+  m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
+  bulletName: Medium_Shell
+  speed: 6
+  damage: 20
+  bulletPrefab: {fileID: 7540603068286962051, guid: 65a44a9c6afd1c64082cb5c83d0b7797, type: 3}

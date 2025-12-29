@@ -12,16 +12,10 @@ public class TankDeadState : TankBaseState
     public override void Enter()
     {
         Debug.Log("Entering Dead State");
-        // Dead state logic here
-
-        //tank.PlayerController.TankAnimator.SetBool("isDead", true);
 
         if (tank.IsOwner) tank.PlayerController.SetInputActive(false);
 
         if(tank.TryGetComponent<Rigidbody2D>(out var rb)) rb.simulated = false;
-
-        tank.PlayerController.TankHealthManager.Invulnerable = true;
-
         timeInDeadState = 0f;
     }
 
@@ -43,6 +37,5 @@ public class TankDeadState : TankBaseState
     {
         Debug.Log("Exiting Dead State");
 
-        //tank.PlayerController.TankAnimator.SetBool("isDead", false);
     }
 }

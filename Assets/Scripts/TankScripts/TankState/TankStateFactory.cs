@@ -20,10 +20,10 @@ public class TankStateFactory
         return new TankMovingState(tankStateManager);
     }
 
-    public TankDashingState Dashing()
+   /*  public TankDashingState Dashing()
     {
         return new TankDashingState(tankStateManager);
-    }
+    } */
 
     public TankDeadState Dead()
     {
@@ -44,9 +44,6 @@ public class TankStateFactory
                 return Idle();
             case TankStateManager.PlayerState.Moving:
                 return Moving();
-            case TankStateManager.PlayerState.Dashing:
-                //return Dashing();
-                return null;
             case TankStateManager.PlayerState.Dead:
                 return Dead();
             case TankStateManager.PlayerState.Respawn:

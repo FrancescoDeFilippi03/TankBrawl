@@ -4,21 +4,12 @@ using Unity.VisualScripting;
 
 public class TankPlayerController : NetworkBehaviour
 {
-    [SerializeField] private TankPlayerData tankPlayerData;
-    public TankPlayerData TankPlayerData => tankPlayerData;
-
-    [SerializeField] private TankHealthManager tankHealthManager;
-    public TankHealthManager TankHealthManager => tankHealthManager;
 
     private TankConfigData tankConfigData;
     public TankConfigData TankConfigData => tankConfigData;
+    [SerializeField] private Tank tank;
+    public Tank Tank => tank;
 
-
-    [SerializeField] private TankMovementManager tankMovementManager;
-    public TankMovementManager TankMovementManager => tankMovementManager;
-
-    [SerializeField] private TankShootingManager tankShootingManager;
-    public TankShootingManager TankShootingManager => tankShootingManager;
 
     private TankInput tankInput;
     [SerializeField] private Rigidbody2D rb;
@@ -46,7 +37,6 @@ public class TankPlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        tankPlayerData.InitializeTankPlayerData();
 
         if (!IsOwner) return;
         
@@ -85,25 +75,18 @@ public class TankPlayerController : NetworkBehaviour
         tankInput.Tank.Dash.performed -= OnDashPerformed;
         tankInput.Disable();
 
-        tankShootingManager.CursorReset();
     }
 
     void Update()
     {
         if (!IsOwner) return;
         movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
-        
-        // Invert input for red team to match rotated camera
         if (isRedTeam)
         {
             movementInput = -movementInput;
         }
-        
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
-
-        TankShootingManager.HandleTurretRotation(aimInput);
-        TankShootingManager.Shoot(isTriggerHeld);     
-
+        tank.Shoot(isTriggerHeld);
     }
 
     private void OnShootPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -142,8 +125,6 @@ public class TankPlayerController : NetworkBehaviour
     {
         isTriggerHeld = false;
         
-        TankShootingManager.ShootingSystem.ResetShootingState();
-
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;

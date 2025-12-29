@@ -62,7 +62,7 @@ public class SessionManager : MonoBehaviour
 
 
             TankConfigData tankConfigData = new TankDataBuilder()
-            .WithLoadout()
+            .WithTankId(0)
             .WithPlayerId(AuthenticationService.Instance.PlayerId)
             .WithClientId(NetworkManager.Singleton.LocalClientId)
             .WithTeam(TeamColor.Red)
@@ -94,7 +94,7 @@ public class SessionManager : MonoBehaviour
             TeamColor assignedTeam = (TeamManager.Instance.tankConfigs.Count % 2 == 0) ? TeamColor.Red : TeamColor.Blue;
             
             TankConfigData tankConfigData = new TankDataBuilder()
-            .WithLoadout()
+            .WithTankId(0)
             .WithPlayerId(AuthenticationService.Instance.PlayerId)
             .WithClientId(NetworkManager.Singleton.LocalClientId)
             .WithTeam(assignedTeam)
@@ -184,13 +184,9 @@ public class SessionManager : MonoBehaviour
 
         TankConfigData configData = new TankConfigData();
         configData.PlayerId = new Unity.Collections.FixedString64Bytes(playerId);
-
-        var hullIdProp = GetPlayerProperty(playerId, "HullId");
-        var weaponIdProp = GetPlayerProperty(playerId, "WeaponId");
         var teamProp = GetPlayerProperty(playerId, "Team");
 
-        if (hullIdProp != null)   configData.HullId   = int.Parse(hullIdProp.Value);
-        if (weaponIdProp != null) configData.WeaponId = int.Parse(weaponIdProp.Value);
+
         if (teamProp != null)     
         {
             configData.Team = (teamProp.Value == "Red") ? TeamColor.Red : TeamColor.Blue;

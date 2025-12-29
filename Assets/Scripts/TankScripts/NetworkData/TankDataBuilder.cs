@@ -27,14 +27,13 @@ public class TankDataBuilder
         return this;
     }
 
-    public TankDataBuilder WithLoadout()
+    public TankDataBuilder WithTankId(int tankId)
     {
-        PlayerLoadoutData playerLoadoutData = LoadoutSystem.LoadLoadout();
-
-        _data.HullId = playerLoadoutData.BaseId;
-        _data.WeaponId = playerLoadoutData.WeaponId;
+        _data.TankId = tankId;
         return this;
     }
+
+
 
     public TankConfigData Build() => _data;
 }

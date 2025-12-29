@@ -54,8 +54,6 @@ public class TankRespawnState : TankBaseState
     {
         Debug.Log("Exiting Respawn State");
         //tank.PlayerController.TankVisuals.SetAlpha(1f);
-
-        tank.PlayerController.TankHealthManager.Invulnerable = false;
         
         if (tank.IsOwner)
         {

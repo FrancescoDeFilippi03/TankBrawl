@@ -1,15 +1,15 @@
 using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class ShootingSystem : NetworkBehaviour
 {
     public BulletPool bulletPool;
     private Transform[] firePoints;
-    private WeaponConfig weapon;
-    private BulletConfig bulletConfig;
+    private bool isAlternateFirePoints = false;
+    private Transform lastUsedFirePoint;
 
-    
     // Fire rate control
     private float fireCooldown = 0f;
     private bool isFiring = false;
@@ -18,13 +18,28 @@ public class ShootingSystem : NetworkBehaviour
     [SerializeField] private int burstCount = 3;
     [SerializeField] private float burstDelay = 0.1f;
 
-    public void InitializeWeapon(WeaponConfig weaponConfig, BulletConfig bulletCfg, Transform[] firePoints = null)
+    private ShootingType shootingType;
+    float fireRate;
+    float range;
+    float damage;
+    GameObject bulletPrefab;
+
+    
+
+    public void InitializeWeapon(ShootingType shootingType, float fireRate,float range, float damage,GameObject bulletPrefab ,int ammoCapacity ,
+    Transform[] firePoints = null , bool isAlternateFirePoints = false)
     {
         this.firePoints = firePoints;
-        weapon = weaponConfig;
-        bulletConfig = bulletCfg;
+        this.isAlternateFirePoints = isAlternateFirePoints;
+        this.shootingType = shootingType;
+        this.fireRate = fireRate;
+        this.range = range;
+        this.damage = damage;
+        this.bulletPrefab = bulletPrefab;
+
+        lastUsedFirePoint = firePoints != null && firePoints.Length > 0 ? firePoints[0] : null;
         
-        bulletPool.InitializePool(bulletConfig.bulletPrefab, weapon.ammo);
+        bulletPool.InitializePool(bulletPrefab, ammoCapacity);
 
     }
     
@@ -32,30 +47,19 @@ public class ShootingSystem : NetworkBehaviour
     {
         if (!IsOwner) return;
         
-        // Countdown fire cooldown
         if (fireCooldown > 0)
         {
             fireCooldown -= Time.deltaTime;
         }
     }
 
-    /// <summary>
-    /// Attempts to shoot based on the weapon's fire mode
-    /// </summary>
-    /// <param name="shootDirection">Direction to shoot</param>
-    /// <param name="isHoldingTrigger">Is the player holding the fire button?</param>
     public void TryShoot(Vector2 shootDirection, bool isHoldingTrigger)
     {
         if (!IsOwner) return;
-        if (weapon == null) 
-        {
-            Debug.LogWarning("Weapon not initialized!");
-            return;
-        }
-        switch (weapon.shootingType)
+
+        switch (shootingType)
         {
             case ShootingType.Single:
-                // Single shot: fire once per button press, only when cooldown is ready
                 if (isHoldingTrigger && !isFiring)
                 {
                     if (CanFire())
@@ -71,7 +75,6 @@ public class ShootingSystem : NetworkBehaviour
                 break;
                 
             case ShootingType.Automatic:
-                // Automatic: fire continuously while holding, respecting cooldown
                 if (isHoldingTrigger)
                 {
                     if (CanFire())
@@ -82,7 +85,6 @@ public class ShootingSystem : NetworkBehaviour
                 break;
                 
             case ShootingType.Burst:
-                // Burst: fire burst on trigger pull, only when cooldown is ready
                 if (isHoldingTrigger && !isFiring)
                 {
                     if (CanFire())
@@ -100,31 +102,23 @@ public class ShootingSystem : NetworkBehaviour
         }
     }
     
-    /// <summary>
-    /// Check if fire cooldown has reached 0
-    /// </summary>
     private bool CanFire()
     {
         return fireCooldown <= 0;
     }
-    
-    /// <summary>
-    /// Coroutine for burst fire mode
-    /// </summary>
     private IEnumerator BurstFire(Vector2 shootDirection)
     {
         for (int i = 0; i < burstCount; i++)
         {
             Shoot(shootDirection);
             
-            if (i < burstCount - 1) // Don't wait after the last shot
+            if (i < burstCount - 1) 
             {
                 yield return new WaitForSeconds(burstDelay);
             }
         }
         
-        // Set cooldown after burst completes
-        float fireInterval = 1f / weapon.fireRate;
+        float fireInterval = 1f / fireRate;
         fireCooldown = fireInterval;
     }
 
@@ -132,33 +126,37 @@ public class ShootingSystem : NetworkBehaviour
     {
         if (firePoints == null || firePoints.Length == 0) return;
 
-        // Set fire cooldown
-        float fireInterval = 1f / weapon.fireRate;
+        float fireInterval = 1f / fireRate;
         fireCooldown = fireInterval;
         
         Vector2 dir = shootDirection.normalized;
-        
-        // Spara da tutti i punti di fuoco
+                
         foreach (Transform firePoint in firePoints)
         {
             if (firePoint == null) continue;
             
+            if (isAlternateFirePoints)
+            {
+                if (lastUsedFirePoint == firePoint)
+                {
+                    continue;
+                }
+                lastUsedFirePoint = firePoint;
+            }
+
             SpawnFromPool(firePoint.position, dir, true);
             SpawnVisualsServerRpc(firePoint.position, dir);
         }
     }
 
-    // Metodo unico per estrarre dal pool
     private void SpawnFromPool(Vector2 pos, Vector2 dir, bool isOwner)
     {
         Bullet bullet = bulletPool.bulletPool.Get(); 
         
         bullet.transform.position = pos;
 
-        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId , bulletConfig , weapon.range);
+        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId , damage , range);
     }
-
-    // --- RPCs per la visualizzazione sugli altri client ---
 
     [ServerRpc]
     private void SpawnVisualsServerRpc(Vector2 pos, Vector2 dir)
@@ -174,7 +172,6 @@ public class ShootingSystem : NetworkBehaviour
         SpawnFromPool(pos, dir, false); 
     }
 
-    // --- Gestione Danno ---
     public void ReportHit(ulong targetId)
     {
         if(!IsOwner) return;
@@ -192,7 +189,7 @@ public class ShootingSystem : NetworkBehaviour
             Debug.Log($"Applying damage to object {targetObject.name}");
             if (targetObject.TryGetComponent<IDamageble>(out var damageble))
             {
-                damageble.TakeDamage(bulletConfig.damage);
+                damageble.TakeDamage(damage);
             }
         }
     }
