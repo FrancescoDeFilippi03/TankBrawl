@@ -1,9 +1,9 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-public class TankRegistry : MonoBehaviour
+public class TankRegistry : MonoBehaviour 
 {
     public static TankRegistry Instance { get; private set; }
+    [SerializeField] private TankConfig[] tankConfigs;
     private void Awake()
     {
         // Singleton Pattern
@@ -13,6 +13,16 @@ public class TankRegistry : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    public TankConfig GetTankConfigById(int id)
+    {
+        if (id < 0 || id >= tankConfigs.Length)
+        {
+            Debug.LogError("Invalid TankConfig ID: " + id);
+            return null;
+        }
+        return tankConfigs[id];
     }
     
 }

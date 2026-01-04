@@ -5,34 +5,39 @@ using Unity.Netcode;
 
 public class Bullet : MonoBehaviour 
 {
+    // Movement
     private Vector2 direction;
-    private bool amIOwner;     
-    private ShootingSystem system; 
-    private IObjectPool<Bullet> pool;
-    ulong OwnerClientId;
+    private float speed;
     private float traveledDistance = 0f;
     private float maxRange = 0f;
+    
+    // Ownership & References
+    private bool isOwnedByLocalPlayer;
+    private ShootingSystem shootingSystem;
+    private IObjectPool<Bullet> pool;
+    private ulong ownerClientId;
 
-    float speed;
 
-
-    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId,float range , float speed)
+    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId, WeaponData weaponData)
     {
         direction = dir;
-        amIOwner = isOwner;
-        system = sys;
+        isOwnedByLocalPlayer = isOwner;
+        shootingSystem = sys;
         pool = originPool;
-        OwnerClientId = ownerId;
-        maxRange = range;
-        this.speed = speed;
+        ownerClientId = ownerId;
+        maxRange = weaponData.range;
+        speed = weaponData.bulletSpeed;
+        traveledDistance = 0f;
 
-        this.gameObject.name = $"BulletOwner_{ownerId}";
+        gameObject.name = isOwner ? $"Bullet_Owner_{ownerId}" : $"Bullet_Visual_{ownerId}";
     }
 
     void Update()
     {
-        transform.Translate(speed * Time.deltaTime * direction);
-        traveledDistance += speed * Time.deltaTime;
+        float distance = speed * Time.deltaTime;
+        transform.Translate(distance * direction);
+        
+        traveledDistance += distance;
         if (traveledDistance >= maxRange)
         {
             ReturnToPool();
@@ -41,45 +46,39 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        /* if (other.CompareTag("Wall"))
+        // Check if we hit a networked object
+        if (!other.TryGetComponent(out NetworkObject netObj))
+        {
+            return;
+        }
+
+        Debug.Log($"Bullet owned by {ownerClientId} hit {netObj.name} (Owner: {netObj.OwnerClientId})");
+        
+        // Don't hit yourself
+        if (ownerClientId == netObj.OwnerClientId && other.GetComponent<TankPlayerController>() != null)
+        {
+            return;
+        }
+
+        // Don't hit teammates (same tag)
+        if (other.gameObject.CompareTag(shootingSystem.gameObject.tag))
         {
             ReturnToPool();
             return;
-        } */
-
-        //itero sui network object per vedere se ho colpito un tank
-        if (other.TryGetComponent(out NetworkObject netObj))
-        {
-            Debug.Log($"Bullet owned by {OwnerClientId} hit object owned by {netObj.name} with owner {netObj.OwnerClientId}");
-           //ignoro se colpisco me stesso
-            if (OwnerClientId == netObj.OwnerClientId && other.GetComponent<TankPlayerController>() != null)
-            {
-                return;
-            }
-
-            //ignoro se colpisco un mio compagno di squadra o me stesso
-            if (other.gameObject.CompareTag(system.gameObject.tag))
-            {
-                ReturnToPool();
-                return;
-            }
-
-            //se sono il proprietario del proiettile, segnalo il colpo
-            if (amIOwner)
-            {
-                system.ReportHit(netObj.NetworkObjectId);
-            }
-
-
-            ReturnToPool();
         }
+
+        // Only the bullet owner reports hits to the server
+        if (isOwnedByLocalPlayer)
+        {
+            shootingSystem.ReportHit(netObj.NetworkObjectId);
+        }
+
+        ReturnToPool();
     }
 
     private void ReturnToPool()
     {
-        //StopAllCoroutines(); 
         traveledDistance = 0f;
-        
         pool?.Release(this);
     }
 }

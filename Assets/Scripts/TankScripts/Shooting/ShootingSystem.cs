@@ -1,46 +1,27 @@
 using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class ShootingSystem : NetworkBehaviour
 {
     public BulletPool bulletPool;
-    private Transform[] firePoints;
-    private bool isAlternateFirePoints = false;
-    private Transform lastUsedFirePoint;
-
+    [SerializeField] private Transform[] firePoints;
+    
     // Fire rate control
     private float fireCooldown = 0f;
-    private bool isFiring = false;
     
-    // Burst control
-    [SerializeField] private int burstCount = 3;
-    [SerializeField] private float burstDelay = 0.1f;
+    private WeaponData currentWeapon;
+    private int currentFirePointIndex = 0;
 
-    private ShootingType shootingType;
-    float fireRate;
-    float range;
-    float damage;
-    GameObject bulletPrefab;
-
-    
-
-    public void InitializeWeapon(ShootingType shootingType, float fireRate,float range, float damage,GameObject bulletPrefab ,int ammoCapacity ,
-    Transform[] firePoints = null , bool isAlternateFirePoints = false)
+    public void InitializeWeapon(WeaponData weaponData)
     {
-        this.firePoints = firePoints;
-        this.isAlternateFirePoints = isAlternateFirePoints;
-        this.shootingType = shootingType;
-        this.fireRate = fireRate;
-        this.range = range;
-        this.damage = damage;
-        this.bulletPrefab = bulletPrefab;
-
-        lastUsedFirePoint = firePoints != null && firePoints.Length > 0 ? firePoints[0] : null;
+        currentWeapon = weaponData;
+        currentFirePointIndex = 0;
         
-        bulletPool.InitializePool(bulletPrefab, ammoCapacity);
-
+        if (currentWeapon != null && currentWeapon.bulletPrefab != null)
+        {
+            bulletPool.InitializePool(currentWeapon.bulletPrefab, currentWeapon.ammoCapacity);
+        }
     }
     
     void Update()
@@ -55,49 +36,21 @@ public class ShootingSystem : NetworkBehaviour
 
     public void TryShoot(Vector2 shootDirection, bool isHoldingTrigger)
     {
-        if (!IsOwner) return;
+        if (!IsOwner || currentWeapon == null || !CanFire()) return;
 
-        switch (shootingType)
+        if (!isHoldingTrigger) return;
+
+        switch (currentWeapon.shootingType)
         {
             case ShootingType.Single:
-                if (isHoldingTrigger && !isFiring)
-                {
-                    if (CanFire())
-                    {
-                        Shoot(shootDirection);
-                        isFiring = true;
-                    }
-                }
-                else if (!isHoldingTrigger)
-                {
-                    isFiring = false;
-                }
-                break;
-                
             case ShootingType.Automatic:
-                if (isHoldingTrigger)
-                {
-                    if (CanFire())
-                    {
-                        Shoot(shootDirection);
-                    }
-                }
+                Shoot(shootDirection);
+                fireCooldown = 1f / currentWeapon.fireRate;
                 break;
                 
             case ShootingType.Burst:
-                if (isHoldingTrigger && !isFiring)
-                {
-                    if (CanFire())
-                    {
-                        StartCoroutine(BurstFire(shootDirection));
-                        isFiring = true;
-                    }
-                }
-                
-                if (!isHoldingTrigger)
-                {
-                    isFiring = false;
-                }
+                StartCoroutine(BurstFire(shootDirection));
+                fireCooldown = 1f / currentWeapon.fireRate;
                 break;
         }
     }
@@ -108,54 +61,62 @@ public class ShootingSystem : NetworkBehaviour
     }
     private IEnumerator BurstFire(Vector2 shootDirection)
     {
-        for (int i = 0; i < burstCount; i++)
+        for (int i = 0; i < currentWeapon.burstCount; i++)
         {
             Shoot(shootDirection);
             
-            if (i < burstCount - 1) 
+            if (i < currentWeapon.burstCount - 1) 
             {
-                yield return new WaitForSeconds(burstDelay);
+                yield return new WaitForSeconds(currentWeapon.burstDelay);
             }
         }
-        
-        float fireInterval = 1f / fireRate;
-        fireCooldown = fireInterval;
     }
 
     private void Shoot(Vector2 shootDirection)
     {
-        if (firePoints == null || firePoints.Length == 0) return;
+        if (firePoints == null || firePoints.Length == 0 || currentWeapon == null) return;
 
-        float fireInterval = 1f / fireRate;
-        fireCooldown = fireInterval;
-        
         Vector2 dir = shootDirection.normalized;
-                
-        foreach (Transform firePoint in firePoints)
-        {
-            if (firePoint == null) continue;
-            
-            if (isAlternateFirePoints)
-            {
-                if (lastUsedFirePoint == firePoint)
-                {
-                    continue;
-                }
-                lastUsedFirePoint = firePoint;
-            }
 
-            SpawnFromPool(firePoint.position, dir, true);
-            SpawnVisualsServerRpc(firePoint.position, dir);
+        if (currentWeapon.isAlternateFirePoints)
+        {
+            Transform firePoint = firePoints[currentFirePointIndex];
+            if (firePoint != null)
+            {
+                SpawnBulletLocally(firePoint.position, dir);
+                SpawnVisualsServerRpc(firePoint.position, dir);
+            }
+            
+            currentFirePointIndex = (currentFirePointIndex + 1) % firePoints.Length;
+        }
+        else
+        {
+            foreach (Transform firePoint in firePoints)
+            {
+                if (firePoint == null) continue;
+                
+                SpawnBulletLocally(firePoint.position, dir);
+                SpawnVisualsServerRpc(firePoint.position, dir);
+            }
         }
     }
 
-    private void SpawnFromPool(Vector2 pos, Vector2 dir, bool isOwner)
+    private void SpawnBulletLocally(Vector2 pos, Vector2 dir)
     {
-        Bullet bullet = bulletPool.bulletPool.Get(); 
+        if (currentWeapon == null || bulletPool == null) return;
         
+        Bullet bullet = bulletPool.bulletPool.Get(); 
         bullet.transform.position = pos;
+        bullet.Initialize(dir, true, this, bulletPool.bulletPool, OwnerClientId, currentWeapon);
+    }
 
-        bullet.Initialize(dir, isOwner, this, bulletPool.bulletPool, OwnerClientId , damage , range);
+    private void SpawnBulletVisual(Vector2 pos, Vector2 dir)
+    {
+        if (currentWeapon == null || bulletPool == null) return;
+        
+        Bullet bullet = bulletPool.bulletPool.Get(); 
+        bullet.transform.position = pos;
+        bullet.Initialize(dir, false, this, bulletPool.bulletPool, OwnerClientId, currentWeapon);
     }
 
     [ServerRpc]
@@ -169,7 +130,7 @@ public class ShootingSystem : NetworkBehaviour
     {
         if (IsOwner) return;
 
-        SpawnFromPool(pos, dir, false); 
+        SpawnBulletVisual(pos, dir);
     }
 
     public void ReportHit(ulong targetId)
@@ -181,25 +142,23 @@ public class ShootingSystem : NetworkBehaviour
     [ServerRpc]
     private void ApplyDamageServerRpc(ulong targetId)
     {
-        Debug.Log($"Server applying damage to object ID {targetId}");
+        if (currentWeapon == null) return;
 
-        
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out var targetObject))
         {
-            Debug.Log($"Applying damage to object {targetObject.name}");
             if (targetObject.TryGetComponent<IDamageble>(out var damageble))
             {
-                damageble.TakeDamage(damage);
+                damageble.TakeDamage(currentWeapon.damage);
+                Debug.Log($"[Server] Applied {currentWeapon.damage} damage to {targetObject.name}");
             }
         }
     }
 
     public void ResetShootingState()
     {
-        StopAllCoroutines(); 
-
-        isFiring = false;
+        StopAllCoroutines();
         fireCooldown = 0f;
+        currentFirePointIndex = 0;
         
         Debug.Log("Shooting System Reset");
     }

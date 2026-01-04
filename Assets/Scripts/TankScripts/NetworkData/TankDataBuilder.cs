@@ -32,8 +32,5 @@ public class TankDataBuilder
         _data.TankId = tankId;
         return this;
     }
-
-
-
     public TankConfigData Build() => _data;
 }

@@ -22,31 +22,6 @@ public class TankConfig : ScriptableObject
 
 
     //weapon stats
-    public float damage;
-    public float fireRate;
-    public float fireRange;
-    public int ammoCapacity;
-    public float reloadTime;
-    public int burstCount;
-    public Sprite crosshairSprite;
-    public ShootingType shootingType;
+    public WeaponData weaponData;
 
-
-    //bullet stats
-    public float bulletSpeed;
-    public float bulletDamage;
-    public GameObject bulletPrefab;
-
-
-    //prefabs
-    public GameObject redTankPrefab;
-    public GameObject blueTankPrefab;
-    
-}
-
-public enum ShootingType
-{
-    Single,
-    Automatic,
-    Burst
 }

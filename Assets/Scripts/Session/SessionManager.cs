@@ -83,9 +83,7 @@ public class SessionManager : MonoBehaviour
     
     //CLIENT LOGIC 
     public async Task JoinSessionAsClient(string joinCode)
-    {   
-
-
+    {
         try
         {
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
@@ -99,8 +97,8 @@ public class SessionManager : MonoBehaviour
             .WithClientId(NetworkManager.Singleton.LocalClientId)
             .WithTeam(assignedTeam)
             .Build();
-         
-            TeamManager.Instance.RegisterMyLoadout(tankConfigData);
+            
+            TeamManager.Instance.RegisterMyPlayer(tankConfigData);
         }
         catch (Exception e) 
         { 
@@ -143,19 +141,6 @@ public class SessionManager : MonoBehaviour
         await currentSession.AsHost().SavePropertiesAsync();
         
         NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
-    }
-
-
-    private Dictionary<string, PlayerProperty> UpdateLoadoutToSession()
-    {
-        PlayerLoadoutData loadout = LoadoutSystem.LoadLoadout();
-
-        var properties = new Dictionary<string, PlayerProperty>
-        {
-            { "BaseId",   new PlayerProperty(loadout.BaseId.ToString(),   VisibilityPropertyOptions.Member) },
-            { "WeaponId", new PlayerProperty(loadout.WeaponId.ToString(), VisibilityPropertyOptions.Member) },
-        };
-        return properties;
     }
 
     //UTILS

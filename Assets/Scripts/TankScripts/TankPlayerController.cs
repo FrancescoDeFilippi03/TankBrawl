@@ -9,11 +9,7 @@ public class TankPlayerController : NetworkBehaviour
     public TankConfigData TankConfigData => tankConfigData;
     [SerializeField] private Tank tank;
     public Tank Tank => tank;
-
-
     private TankInput tankInput;
-    [SerializeField] private Rigidbody2D rb;
-    public Rigidbody2D Rb => rb;
     
     //movement variables
     private Vector2 movementInput;
@@ -86,6 +82,7 @@ public class TankPlayerController : NetworkBehaviour
             movementInput = -movementInput;
         }
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
+        
         tank.Shoot(isTriggerHeld);
     }
 
@@ -111,6 +108,7 @@ public class TankPlayerController : NetworkBehaviour
     public void SetInputActive(bool isActive)
     {
         if (!IsOwner) return;
+
         if (isActive)
         {
             tankInput.Enable();
@@ -124,12 +122,7 @@ public class TankPlayerController : NetworkBehaviour
     public void ResetPlayer()
     {
         isTriggerHeld = false;
-        
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-        }
+        tank.ResetVelocity();
 
         /* smoothedMovementInput = Vector2.zero;
         currentVelocity = Vector2.zero;

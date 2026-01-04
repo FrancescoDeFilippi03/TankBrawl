@@ -1,80 +1,262 @@
 using UnityEngine;
 using Unity.Netcode;
+using System;
 
-public class Tank : NetworkBehaviour
+public class Tank : NetworkBehaviour, IDamageble
 {
-    [SerializeField] private NetworkVariable<int> tankId = new NetworkVariable<int>(
-        0,
+    // === References ===
+    [SerializeField] private TankStateManager tankStateManager;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Transform weaponPivotTransform;
+    [SerializeField] private ShootingSystem shootingSystem;
+
+    // === Health ===
+    public event Action OnDeath;
+    public event Action<float, float> OnHealthChanged;
+    public event Action<float> OnDamageTaken;
+
+    public NetworkVariable<float> healthNetwork = new NetworkVariable<float>(
+        100f,
         NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner
+        NetworkVariableWritePermission.Server
     );
-    [SerializeField] private TankHealthManager tankHealthManager;
-    [SerializeField] private TankMovementManager tankMovementManager;
-    [SerializeField] private TankShootingManager tankShootingManager;
+    public NetworkVariable<float> shieldNetwork = new NetworkVariable<float>(
+        50f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
 
-    public int TankId => tankId.Value;
+    private float MaxHealth;
+    private float MaxShield;
 
+    // === Movement ===
+    public event Action<Vector2> OnDashPerformed;
+    public event Action OnDashCooldownStarted;
+    public event Action<float> OnMovementSpeedChanged;
+
+    [SerializeField] private float movementSmoothing = 5f;
+    [SerializeField] private float rotationSmoothing = 7f;
+
+    private Vector2 smoothedMovementInput;
+    private Vector2 currentVelocity = Vector2.zero;
+    private float movementSpeed;
+    private float dashSpeed;
+    private float dashDuration;
+
+    // === Shooting ===
+    public event Action<Vector2> OnShootPerformed;
+    public event Action<WeaponData> OnWeaponChanged;
+    public event Action OnAmmoEmpty;
+
+    [SerializeField] private float turretRotationSmoothing = 7f;
+    private Vector2 aimDirection;
+
+    // === Properties ===
+    public Rigidbody2D Rigidbody => rb;
+    public NetworkVariable<float> Health => healthNetwork;
+    public NetworkVariable<float> Shield => shieldNetwork;
+    public float DashDuration => dashDuration;
+    public Transform WeaponPivotTransform => weaponPivotTransform;
+    public ShootingSystem ShootingSystem => shootingSystem;
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) return;
-
-        tankId.OnValueChanged += OnTankIdChanged;   
+        healthNetwork.OnValueChanged += HandleHealthChanged;
     }
 
     public override void OnNetworkDespawn()
     {
-        if (!IsOwner) return;
-
-        tankId.OnValueChanged -= OnTankIdChanged;   
+        healthNetwork.OnValueChanged -= HandleHealthChanged;
     }
 
-    private void OnTankIdChanged(int previousValue, int newValue)
-    {
-        Debug.Log($"Tank ID changed to: {newValue}");
+    // ============================================
+    // HEALTH SYSTEM
+    // ============================================
 
+    private void HandleHealthChanged(float previousValue, float newValue)
+    {
+        OnHealthChanged?.Invoke(newValue, shieldNetwork.Value);
         
-    }
-    public void SetTankId(int id)
-    {
-        if (!NetworkObject.IsSpawned) {
-            return;
+        if (newValue <= 0 && previousValue > 0)
+        {
+            Debug.Log("Tank has died.");
+
+            if (IsOwner)
+            {
+                OnDeath?.Invoke();
+                
+                if (tankStateManager != null)
+                {
+                    tankStateManager.playerState.Value = TankStateManager.PlayerState.Dead;
+                    tankStateManager.CurrentState.ChangeState(tankStateManager.StateFactory.Dead());
+                }
+            }
         }
-        if (IsOwner) tankId.Value = id;
     }
 
-    public void InitializeTankData(TankConfig configData)
+    public void InitializeHealth(float health, float shield)
     {
-        tankHealthManager.InitializeHealth(configData.maxHealth, configData.maxShield);
-        tankMovementManager.InitializeMovement(configData.moveSpeed, configData.dashSpeed , configData.dashDuration);
-        tankShootingManager.InitializeShooting( 
-                                                configData.shootingType, 
-                                                configData.fireRate,
-                                                configData.fireRange,
-                                                configData.damage,
-                                                configData.bulletPrefab,
-                                                configData.ammoCapacity
-                                            );
+        MaxHealth = health;
+        MaxShield = shield;
+
+        if (!IsServer) return;
+        healthNetwork.Value = MaxHealth;
+        shieldNetwork.Value = MaxShield;
     }
 
-
-    public void MoveTank(Vector2 movementInput,Rigidbody2D rb)
+    public void TakeDamage(float damageAmount)
     {
-        tankMovementManager.MoveTank(movementInput, rb);
+        if (!IsServer) return;
+
+        float totalDamage = damageAmount;
+
+        if (shieldNetwork.Value > 0)
+        {
+            float shieldDamage = Mathf.Min(shieldNetwork.Value, damageAmount);
+            shieldNetwork.Value -= shieldDamage;
+            damageAmount -= shieldDamage;
+        }
+        if (damageAmount > 0)
+        {
+            healthNetwork.Value = Mathf.Max(healthNetwork.Value - damageAmount, 0);
+        }
+
+        OnDamageTaken?.Invoke(totalDamage);
     }
 
-    public void HandleRotation(Vector2 inputDirection , Rigidbody2D rb)
+    public void ResetHealth()
     {
-        tankMovementManager.HandleRotation(inputDirection, rb);
+        if (!IsServer) return;
+        healthNetwork.Value = MaxHealth;
+        shieldNetwork.Value = MaxShield;
+    }
+
+    public void Heal(float healAmount)
+    {
+        if (!IsServer) return;
+        healthNetwork.Value = Mathf.Min(healthNetwork.Value + healAmount, MaxHealth);
+    }
+
+    public void RechargeShield(float shieldAmount)
+    {
+        if (!IsServer) return;
+        shieldNetwork.Value = Mathf.Min(shieldNetwork.Value + shieldAmount, MaxShield);
+    }
+
+    // ============================================
+    // MOVEMENT SYSTEM
+    // ============================================
+
+    public void InitializeMovement(float movementSpeed, float dashSpeed, float dashDuration)
+    {
+        this.movementSpeed = movementSpeed;
+        this.dashSpeed = dashSpeed;
+        this.dashDuration = dashDuration;
+    }
+
+    public void MoveTank(Vector2 movementInput)
+    {
+        smoothedMovementInput = Vector2.SmoothDamp(
+            smoothedMovementInput,
+            movementInput,
+            ref currentVelocity,
+            1f / movementSmoothing
+        );
+
+        if (smoothedMovementInput.magnitude > 0.01f)
+        {
+            Vector2 movement = movementSpeed * Time.fixedDeltaTime * smoothedMovementInput;
+            rb.MovePosition(rb.position + movement);
+        }
+    }
+
+    public void HandleRotation(Vector2 inputDirection)
+    {
+        float targetAngle = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg - 90f;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
+        Quaternion currentRotation = Quaternion.Euler(0, 0, rb.rotation);
+
+        Quaternion newRotation = Quaternion.Slerp(
+            currentRotation,
+            targetRotation,
+            rotationSmoothing * Time.fixedDeltaTime
+        );
+
+        rb.MoveRotation(newRotation.eulerAngles.z);
+    }
+
+    public void Dash(Vector2 movementInput)
+    {
+        Vector2 dashVelocity = Time.fixedDeltaTime * dashSpeed * movementInput.normalized;
+        rb.MovePosition(rb.position + dashVelocity);
+
+        OnDashPerformed?.Invoke(movementInput.normalized);
+    }
+
+    public void ResetVelocity()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+    }
+
+    // ============================================
+    // SHOOTING SYSTEM
+    // ============================================
+
+    public void InitializeShooting(WeaponData weaponData)
+    {
+        shootingSystem.InitializeWeapon(weaponData);
+        CursorInitialization(weaponData.crosshairSprite);
+
+        OnWeaponChanged?.Invoke(weaponData);
     }
 
     public void Shoot(bool isHoldingTrigger)
     {
-        tankShootingManager.Shoot(isHoldingTrigger);
+        shootingSystem.TryShoot(aimDirection, isHoldingTrigger);
+
+        if (isHoldingTrigger)
+        {
+            OnShootPerformed?.Invoke(aimDirection);
+        }
     }
 
-    public void Dash(Vector2 dashDirection , Rigidbody2D rb)
+    private Vector2 GetAimDirection(Vector2 aimInput)
     {
-        tankMovementManager.Dash(dashDirection, rb);
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(aimInput.x, aimInput.y, 0f));
+        Vector2 direction = (worldMousePosition - weaponPivotTransform.position).normalized;
+        return direction;
+    }
+
+    public void HandleTurretRotation(Vector2 aimInput)
+    {
+        aimDirection = GetAimDirection(aimInput);
+
+        float targetAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
+        weaponPivotTransform.rotation = Quaternion.Slerp(
+            weaponPivotTransform.rotation,
+            targetRotation,
+            Time.fixedDeltaTime * turretRotationSmoothing
+        );
+    }
+
+    private void CursorInitialization(Sprite crosshairSprite)
+    {
+        if (crosshairSprite != null)
+        {
+            Texture2D cursorTexture = crosshairSprite.texture;
+            Vector2 hotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+            Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
+        }
+        Cursor.visible = true;
+    }
+
+    public void CursorReset()
+    {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }

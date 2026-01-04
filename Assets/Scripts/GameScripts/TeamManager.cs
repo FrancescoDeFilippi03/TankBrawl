@@ -54,7 +54,7 @@ public class TeamManager : NetworkBehaviour
         }
     }
 
-    public void RegisterMyLoadout(TankConfigData myData)    
+    public void RegisterMyPlayer(TankConfigData myData)    
     {
         RegisterPlayerServerRpc(myData);
     }

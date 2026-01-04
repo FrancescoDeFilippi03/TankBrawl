@@ -35,15 +35,12 @@ public class TankStateManager : NetworkBehaviour
 
     [SerializeField] private TankPlayerController playerController;
     public TankPlayerController PlayerController => playerController;
-
     
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;
 
         stateFactory = new TankStateFactory(this);
-
-       
 
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();
@@ -73,9 +70,9 @@ public class TankStateManager : NetworkBehaviour
     [ServerRpc]
     public void RequestHealthResetServerRpc()
     {
-        if (TryGetComponent<TankHealthManager>(out var healthManager))
+        if (TryGetComponent<Tank>(out var tank))
         {
-            healthManager.ResetHealth(); 
+            tank.ResetHealth(); 
         }
     }
 }
