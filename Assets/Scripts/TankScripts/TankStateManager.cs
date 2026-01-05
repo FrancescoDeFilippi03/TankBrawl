@@ -36,6 +36,9 @@ public class TankStateManager : NetworkBehaviour
     [SerializeField] private TankPlayerController playerController;
     public TankPlayerController PlayerController => playerController;
     
+    [SerializeField] private Tank tank;
+    public Tank Tank => tank;
+    
     public override void OnNetworkSpawn()
     {
         playerState.OnValueChanged += OnPlayerStateChanged;

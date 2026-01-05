@@ -9,6 +9,11 @@ public class Tank : NetworkBehaviour, IDamageble
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform weaponPivotTransform;
     [SerializeField] private ShootingSystem shootingSystem;
+    [SerializeField] private TankConfig tankConfig;
+
+    // === Animation ===
+    [SerializeField]private Animator tankAnimator;
+    public Animator TankAnimator => tankAnimator;
 
     // === Health ===
     public event Action OnDeath;
@@ -25,7 +30,6 @@ public class Tank : NetworkBehaviour, IDamageble
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
-
     private float MaxHealth;
     private float MaxShield;
 
@@ -59,15 +63,51 @@ public class Tank : NetworkBehaviour, IDamageble
     public Transform WeaponPivotTransform => weaponPivotTransform;
     public ShootingSystem ShootingSystem => shootingSystem;
 
+    // === Other ===
+    private TankConfigData tankConfigData;
+    public TankConfigData TankConfigData => tankConfigData;
+    private bool isRedTeam = false;
+
+
     public override void OnNetworkSpawn()
     {
         healthNetwork.OnValueChanged += HandleHealthChanged;
+
+        InitializeTank(tankConfig);
     }
 
     public override void OnNetworkDespawn()
     {
         healthNetwork.OnValueChanged -= HandleHealthChanged;
     }
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    public void InitializeTank(TankConfig tankConfig)
+    {
+        if(!IsOwner) return;
+
+        tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
+
+        isRedTeam = tankConfigData.Team == TeamColor.Red;
+
+        // Initialize Movement
+        InitializeMovement(
+            tankConfig.moveSpeed,
+            tankConfig.dashSpeed,
+            tankConfig.dashDuration
+        );
+        // Initialize Health
+        InitializeHealth(
+            tankConfig.maxHealth,
+            tankConfig.maxShield
+        );
+        // Initialize Shooting
+        InitializeShooting(tankConfig.weaponData);
+
+    }
+
+
 
     // ============================================
     // HEALTH SYSTEM
@@ -99,7 +139,6 @@ public class Tank : NetworkBehaviour, IDamageble
         MaxHealth = health;
         MaxShield = shield;
 
-        if (!IsServer) return;
         healthNetwork.Value = MaxHealth;
         shieldNetwork.Value = MaxShield;
     }
@@ -156,6 +195,7 @@ public class Tank : NetworkBehaviour, IDamageble
 
     public void MoveTank(Vector2 movementInput)
     {
+        movementInput = isRedTeam ? -movementInput : movementInput;
         smoothedMovementInput = Vector2.SmoothDamp(
             smoothedMovementInput,
             movementInput,
@@ -259,4 +299,26 @@ public class Tank : NetworkBehaviour, IDamageble
     {
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
+
+    void CameraSetupOnSpawn()
+    {
+        var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
+        cameraInScene.Target.TrackingTarget = this.transform;
+        
+        // Rotate camera based on team
+        tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
+        isRedTeam = tankConfigData.Team == TeamColor.Red;
+
+        if (tankConfigData.Team == TeamColor.Red)
+        {
+            // Red team spawns facing down, rotate camera 180 degrees
+            cameraInScene.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else
+        {
+            // Blue team faces up, default rotation
+            cameraInScene.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+        
 }

@@ -15,6 +15,7 @@ public class TankIdleState : TankBaseState
     public override void CheckStateChange()
     {        
         if(!tank.IsOwner) return;
+        
         if(tank.PlayerController.MovementInput.magnitude > 0.1f)
         {
             tank.playerState.Value = TankStateManager.PlayerState.Moving;

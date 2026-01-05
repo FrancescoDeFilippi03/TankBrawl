@@ -8,12 +8,12 @@ public class TankMovingState : TankBaseState
 
     public override void Enter()
     {
-        tank.PlayerController.TankAnimator.SetBool("isMoving", true);
+        tank.Tank.TankAnimator.SetBool("isMoving", true);
     }
 
     public override void Exit()
     {
-        tank.PlayerController.TankAnimator.SetBool("isMoving", false);
+        tank.Tank.TankAnimator.SetBool("isMoving", false);
     }
     public override void Update()
     {
@@ -22,7 +22,7 @@ public class TankMovingState : TankBaseState
     public override void FixedUpdate()
     {
         
-        tank.PlayerController.Tank.MoveTank(tank.PlayerController.MovementInput);
+        tank.Tank.MoveTank(tank.PlayerController.MovementInput);
     }
     public override void CheckStateChange()
     {        

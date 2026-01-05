@@ -2,7 +2,6 @@ public abstract class TankBaseState
 {
     
     protected TankStateManager tank;
-    
     public TankBaseState(TankStateManager tankStateManager)
     {
         tank = tankStateManager;
