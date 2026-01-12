@@ -1,27 +1,40 @@
 using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ShootingSystem : NetworkBehaviour
 {
     public BulletPool bulletPool;
-    [SerializeField] private Transform[] firePoints;
-    
+    public Transform[] firePoints;
+    [SerializeField] private Image reloadIndicator;
+    //reloading
+    private int currentAmmo;
+    private bool isReloading = false;
+    private float reloadTimer = 0f;
+
     // Fire rate control
     private float fireCooldown = 0f;
-    
     private WeaponData currentWeapon;
     private int currentFirePointIndex = 0;
+    private bool hasFiredThisPress = false;
 
     public void InitializeWeapon(WeaponData weaponData)
     {
         currentWeapon = weaponData;
         currentFirePointIndex = 0;
+
+
+        currentAmmo = currentWeapon.ammoCapacity;
+        isReloading = false;
+        reloadTimer = 0f;
         
-        if (currentWeapon != null && currentWeapon.bulletPrefab != null)
+        if (currentWeapon.bulletPrefab != null)
         {
             bulletPool.InitializePool(currentWeapon.bulletPrefab, currentWeapon.ammoCapacity);
         }
+
+        reloadIndicator.fillAmount = 0f;
     }
     
     void Update()
@@ -32,17 +45,33 @@ public class ShootingSystem : NetworkBehaviour
         {
             fireCooldown -= Time.deltaTime;
         }
+
+        UpdateReloading();
     }
 
     public void TryShoot(Vector2 shootDirection, bool isHoldingTrigger)
     {
-        if (!IsOwner || currentWeapon == null || !CanFire()) return;
+        if (!IsOwner || currentWeapon.bulletPrefab == null) return;
 
-        if (!isHoldingTrigger) return;
+        if (!isHoldingTrigger)
+        {
+            hasFiredThisPress = false;
+            return;
+        }
+
+        if (!CanFire()) return;
 
         switch (currentWeapon.shootingType)
         {
             case ShootingType.Single:
+                if (!hasFiredThisPress)
+                {
+                    Shoot(shootDirection);
+                    fireCooldown = 1f / currentWeapon.fireRate;
+                    hasFiredThisPress = true;
+                }
+                break;
+            
             case ShootingType.Automatic:
                 Shoot(shootDirection);
                 fireCooldown = 1f / currentWeapon.fireRate;
@@ -74,7 +103,13 @@ public class ShootingSystem : NetworkBehaviour
 
     private void Shoot(Vector2 shootDirection)
     {
-        if (firePoints == null || firePoints.Length == 0 || currentWeapon == null) return;
+        if (firePoints == null || firePoints.Length == 0 || currentWeapon.bulletPrefab == null) return;
+
+        if (currentAmmo <= 0)
+        {
+            StartReloading();
+            return;
+        }
 
         Vector2 dir = shootDirection.normalized;
 
@@ -99,11 +134,37 @@ public class ShootingSystem : NetworkBehaviour
                 SpawnVisualsServerRpc(firePoint.position, dir);
             }
         }
+        
+        currentAmmo--;
     }
 
+    void UpdateReloading()
+    {
+        if (isReloading)
+        {
+            reloadTimer -= Time.deltaTime;
+            reloadIndicator.fillAmount = 1f - (reloadTimer / currentWeapon.reloadTime);
+            if (reloadTimer <= 0f)
+            {
+                currentAmmo = currentWeapon.ammoCapacity;
+                isReloading = false;
+                reloadIndicator.fillAmount = 0f;
+            }
+        }
+    }
+
+    public void StartReloading()
+    {
+        if (isReloading || currentAmmo == currentWeapon.ammoCapacity) return;
+
+        isReloading = true;
+        reloadTimer = currentWeapon.reloadTime;
+    }
+
+    //multiplayer bullet spawning
     private void SpawnBulletLocally(Vector2 pos, Vector2 dir)
     {
-        if (currentWeapon == null || bulletPool == null) return;
+        if (currentWeapon.bulletPrefab == null || bulletPool == null) return;
         
         Bullet bullet = bulletPool.bulletPool.Get(); 
         bullet.transform.position = pos;
@@ -112,7 +173,7 @@ public class ShootingSystem : NetworkBehaviour
 
     private void SpawnBulletVisual(Vector2 pos, Vector2 dir)
     {
-        if (currentWeapon == null || bulletPool == null) return;
+        if (currentWeapon.bulletPrefab == null || bulletPool == null) return;
         
         Bullet bullet = bulletPool.bulletPool.Get(); 
         bullet.transform.position = pos;
@@ -129,7 +190,6 @@ public class ShootingSystem : NetworkBehaviour
     private void SpawnVisualsClientRpc(Vector2 pos, Vector2 dir)
     {
         if (IsOwner) return;
-
         SpawnBulletVisual(pos, dir);
     }
 
@@ -142,7 +202,7 @@ public class ShootingSystem : NetworkBehaviour
     [ServerRpc]
     private void ApplyDamageServerRpc(ulong targetId)
     {
-        if (currentWeapon == null) return;
+        if (currentWeapon.bulletPrefab == null) return;
 
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out var targetObject))
         {
@@ -159,6 +219,7 @@ public class ShootingSystem : NetworkBehaviour
         StopAllCoroutines();
         fireCooldown = 0f;
         currentFirePointIndex = 0;
+        hasFiredThisPress = false;
         
         Debug.Log("Shooting System Reset");
     }

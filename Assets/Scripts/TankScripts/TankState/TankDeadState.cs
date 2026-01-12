@@ -4,7 +4,7 @@ public class TankDeadState : TankBaseState
 {
 
     private float timeInDeadState = 0f;
-    private float deadAnimDuration = 1.0f;
+    private readonly float deadAnimDuration = 1.0f;
     public TankDeadState(TankStateManager tankStateManager) : base(tankStateManager)
     {
     }
@@ -13,7 +13,7 @@ public class TankDeadState : TankBaseState
     {
         Debug.Log("Entering Dead State");
 
-        if (tank.IsOwner) tank.PlayerController.SetInputActive(false);
+        if (IsOwner) tank.PlayerController.SetInputActive(false);
 
         if(tank.TryGetComponent<Rigidbody2D>(out var rb)) rb.simulated = false;
         timeInDeadState = 0f;
@@ -21,7 +21,7 @@ public class TankDeadState : TankBaseState
 
     public override void Update()
     {
-        if (!tank.IsOwner) return;
+        if (!IsOwner) return;
         
         timeInDeadState += Time.deltaTime;
 

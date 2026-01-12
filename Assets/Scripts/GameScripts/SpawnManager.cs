@@ -8,8 +8,8 @@ public class SpawnManager : NetworkBehaviour
     public Transform[] RedTeamSpawns => redTeamSpawns;
     [SerializeField] private Transform[] blueTeamSpawns;
     public Transform[] BlueTeamSpawns => blueTeamSpawns; 
-    [SerializeField] private NetworkObject redTankPrefab;
-    [SerializeField] private NetworkObject blueTankPrefab;
+    [SerializeField] private NetworkObject[] redTankPrefab;
+    [SerializeField] private NetworkObject[] blueTankPrefab;
 
 
 
@@ -44,10 +44,9 @@ public class SpawnManager : NetworkBehaviour
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
             TankConfigData configData = TeamManager.Instance.GetTankConfigDataForClient(clientId);
-
+            
             Transform spawnPoint = GetSpawnPointForTeam(configData.Team, clientId);
-            //NetworkObject tankPrefab = (configData.Team == TeamColor.Red) ? redTankPrefab : blueTankPrefab;
-            NetworkObject tankPrefab = redTankPrefab;
+            NetworkObject tankPrefab = (configData.Team == TeamColor.Red) ? redTankPrefab[configData.TankId] : blueTankPrefab[configData.TankId];
             NetworkObject tankInstance = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
             tankInstance.SpawnAsPlayerObject(clientId);
         }

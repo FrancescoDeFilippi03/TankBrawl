@@ -14,28 +14,31 @@ public class TankRespawnState : TankBaseState
         Debug.Log("Entering Respawn State");
         localTimer = respawnDuration;
         
-        if (tank.IsOwner)
+        if (IsOwner)
         {
             var configData = TeamManager.Instance.GetTankConfigDataForClient(tank.OwnerClientId);
             Transform spawnPoint = SpawnManager.Instance.GetSpawnPointForTeam(configData.Team, tank.OwnerClientId);
             
             tank.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
-            tank.PlayerController.ResetPlayer();
-
-            tank.RequestHealthResetServerRpc();
+            PlayerController.ResetPlayer();
+            
+            // Reset health immediately on respawn
+            Tank.ResetHealth();
         }
 
         if (tank.TryGetComponent<Rigidbody2D>(out var rb))
         {
             rb.simulated = true;
         }
-        //tank.PlayerController.TankVisuals.SetAlpha(0f);
+
+
+        Tank.SetAlpha(0f);
     }
 
     public override void Update()
     {
         localTimer -= Time.deltaTime;
-        if (tank.IsOwner && localTimer <= 0)
+        if (IsOwner && localTimer <= 0)
         {
             Debug.Log("Respawn complete, transitioning to Idle State");
             tank.playerState.Value = TankStateManager.PlayerState.Idle;
@@ -46,18 +49,18 @@ public class TankRespawnState : TankBaseState
         {
             float fadeProgress = 1f - (localTimer / respawnDuration);
             float alpha = Mathf.Clamp01(fadeProgress);
-            //tank.PlayerController.TankVisuals.SetAlpha(alpha);
+            Tank.SetAlpha(alpha);
         }
     }
 
     public override void Exit()
     {
         Debug.Log("Exiting Respawn State");
-        //tank.PlayerController.TankVisuals.SetAlpha(1f);
+        Tank.SetAlpha(1f);
         
-        if (tank.IsOwner)
+        if (IsOwner)
         {
-            tank.PlayerController.SetInputActive(true); 
+            PlayerController.SetInputActive(true);
         }
     }
 }

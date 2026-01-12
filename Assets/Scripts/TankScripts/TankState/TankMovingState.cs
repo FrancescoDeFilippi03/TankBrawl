@@ -8,32 +8,36 @@ public class TankMovingState : TankBaseState
 
     public override void Enter()
     {
-        tank.Tank.TankAnimator.SetBool("isMoving", true);
+        Tank.TankAnimator.SetBool("isMoving", true);
     }
 
     public override void Exit()
     {
-        tank.Tank.TankAnimator.SetBool("isMoving", false);
+        Tank.TankAnimator.SetBool("isMoving", false);
     }
     public override void Update()
     {
+        base.Update();
         CheckStateChange();
+        Tank.HandleTurretRotation(PlayerController.AimInput);
     }
     public override void FixedUpdate()
     {
-        
-        tank.Tank.MoveTank(tank.PlayerController.MovementInput);
+        Tank.MoveTank(PlayerController.MovementInput);
+        Tank.HandleRotation(PlayerController.MovementInput);
     }
     public override void CheckStateChange()
     {        
-        if(!tank.IsOwner) return;
-        
-        if(tank.PlayerController.MovementInput.magnitude <= 0.1f)
+        if(PlayerController.MovementInput.magnitude <= 0.1f)
         {
             tank.playerState.Value = TankStateManager.PlayerState.Idle;
             ChangeState(tank.StateFactory.Idle());
         }
 
-
+        if (PlayerController.IsDashing)
+        {
+            tank.playerState.Value = TankStateManager.PlayerState.Dashing;
+            ChangeState(tank.StateFactory.Dashing());
+        }
     }
 }

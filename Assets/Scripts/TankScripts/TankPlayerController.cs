@@ -15,11 +15,22 @@ public class TankPlayerController : NetworkBehaviour
 
     //shooting input variables
     private bool isTriggerHeld = false;
-
+    public bool IsTriggerHeld => isTriggerHeld;
 
     //dashing input variables
     private bool isDashing = false;
-
+    public bool IsDashing
+    {
+        get
+        {
+            if (isDashing)
+            {
+                isDashing = false;
+                return true;
+            }
+            return false;
+        }
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -27,51 +38,34 @@ public class TankPlayerController : NetworkBehaviour
         if (!IsOwner) return;
         
         tankInput = new TankInput();
+        
         tankInput.Enable();
 
-        tankInput.Tank.Shoot.performed += OnShootPerformed;
-        tankInput.Tank.Shoot.canceled += OnShootCanceled;
-        tankInput.Tank.Dash.performed += OnDashPerformed;
+        tankInput.Tank.Shoot.performed += _ => isTriggerHeld = true;
+        tankInput.Tank.Shoot.canceled += _ => isTriggerHeld = false;
+        tankInput.Tank.Dash.performed += _ => isDashing = true;
 
     }
 
     public override void OnNetworkDespawn()
     {
         if (!IsOwner) return;
-
-
-        tankInput.Tank.Shoot.performed -= OnShootPerformed;
-        tankInput.Tank.Shoot.canceled -= OnShootCanceled;
-        tankInput.Tank.Dash.performed -= OnDashPerformed;
-
-
         tankInput.Disable();
-
     }
 
     void Update()
     {
         if (!IsOwner) return;
         movementInput = tankInput.Tank.Movement.ReadValue<Vector2>();
+        if(Tank.isRedTeam)
+        {
+            movementInput = -movementInput;
+        }
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
+
+        Tank.Shoot(IsTriggerHeld);
     }
 
-    private void OnShootPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        isTriggerHeld = true;
-    }
-    
-    private void OnShootCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        isTriggerHeld = false;
-    }
-    
-    private void OnDashPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        if (!IsOwner) return;
-        
-        isDashing = true;
-    }
     public void SetInputActive(bool isActive)
     {
         if (!IsOwner) return;

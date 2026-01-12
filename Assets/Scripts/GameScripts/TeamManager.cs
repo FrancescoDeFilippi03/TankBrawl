@@ -10,7 +10,6 @@ public enum TeamColor
 public class TeamManager : NetworkBehaviour
 {
     public static TeamManager Instance;
-
     public NetworkList<TankConfigData> tankConfigs = new();
 
     public void Awake()

@@ -9,17 +9,29 @@ public class TankIdleState : TankBaseState
 
     public override void Update()
     {
-       CheckStateChange();
+        
+        base.Update();
+
+        CheckStateChange();
+        Tank.HandleTurretRotation(PlayerController.AimInput);
+    }
+
+    public override void FixedUpdate()
+    {
     }
 
     public override void CheckStateChange()
-    {        
-        if(!tank.IsOwner) return;
-        
-        if(tank.PlayerController.MovementInput.magnitude > 0.1f)
+    {
+        if(PlayerController.MovementInput.magnitude > 0.1f)
         {
             tank.playerState.Value = TankStateManager.PlayerState.Moving;
             ChangeState(tank.StateFactory.Moving());
+        }
+
+        if (PlayerController.IsDashing)
+        {
+            tank.playerState.Value = TankStateManager.PlayerState.Dashing;
+            ChangeState(tank.StateFactory.Dashing());
         }
     }
 }

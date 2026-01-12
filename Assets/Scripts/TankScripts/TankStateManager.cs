@@ -47,10 +47,30 @@ public class TankStateManager : NetworkBehaviour
 
         currentState = stateFactory.GetState(playerState.Value);
         currentState.Enter();
+        
+        // Subscribe to Tank events
+        if (IsOwner && tank != null)
+        {
+            tank.OnDeath += HandleTankDeath;
+        }
     }
     public override void OnNetworkDespawn()
     {
         playerState.OnValueChanged -= OnPlayerStateChanged;
+        
+        // Unsubscribe from Tank events
+        if (IsOwner && tank != null)
+        {
+            tank.OnDeath -= HandleTankDeath;
+        }
+    }
+    
+    private void HandleTankDeath()
+    {
+        if (!IsOwner) return;
+        
+        playerState.Value = PlayerState.Dead;
+        currentState.ChangeState(stateFactory.Dead());
     }
 
     private void OnPlayerStateChanged(PlayerState previousValue, PlayerState newValue)
@@ -70,12 +90,8 @@ public class TankStateManager : NetworkBehaviour
     }
 
 
-    [ServerRpc]
-    public void RequestHealthResetServerRpc()
-    {
-        if (TryGetComponent<Tank>(out var tank))
-        {
-            tank.ResetHealth(); 
-        }
-    }
+    
+
+
+    
 }

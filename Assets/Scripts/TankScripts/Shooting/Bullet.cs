@@ -3,6 +3,7 @@ using UnityEngine.Pool;
 using System.Collections;
 using Unity.Netcode;
 
+
 public class Bullet : MonoBehaviour 
 {
     // Movement
@@ -16,9 +17,11 @@ public class Bullet : MonoBehaviour
     private ShootingSystem shootingSystem;
     private IObjectPool<Bullet> pool;
     private ulong ownerClientId;
+    [SerializeField] private TrailRenderer trail;
 
-
-    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, IObjectPool<Bullet> originPool, ulong ownerId, WeaponData weaponData)
+    public void Initialize(Vector2 dir, bool isOwner, ShootingSystem sys, 
+                            IObjectPool<Bullet> originPool, ulong ownerId, 
+                            WeaponData weaponData)
     {
         direction = dir;
         isOwnedByLocalPlayer = isOwner;
@@ -28,14 +31,17 @@ public class Bullet : MonoBehaviour
         maxRange = weaponData.range;
         speed = weaponData.bulletSpeed;
         traveledDistance = 0f;
-
+        
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        
         gameObject.name = isOwner ? $"Bullet_Owner_{ownerId}" : $"Bullet_Visual_{ownerId}";
     }
 
     void Update()
     {
         float distance = speed * Time.deltaTime;
-        transform.Translate(distance * direction);
+        transform.position += (Vector3)(distance * direction);
         
         traveledDistance += distance;
         if (traveledDistance >= maxRange)
@@ -46,7 +52,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if we hit a networked object
         if (!other.TryGetComponent(out NetworkObject netObj))
         {
             return;
@@ -76,9 +81,17 @@ public class Bullet : MonoBehaviour
         ReturnToPool();
     }
 
-    private void ReturnToPool()
+    protected virtual void ReturnToPool()
     {
         traveledDistance = 0f;
+        
+        if (trail != null)
+        {
+            trail.Clear();
+        }
+        
         pool?.Release(this);
     }
+
+    
 }

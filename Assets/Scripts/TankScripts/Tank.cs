@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using System;
+using System.Collections;
 
 public class Tank : NetworkBehaviour, IDamageble
 {
@@ -10,7 +11,19 @@ public class Tank : NetworkBehaviour, IDamageble
     [SerializeField] private Transform weaponPivotTransform;
     [SerializeField] private ShootingSystem shootingSystem;
     [SerializeField] private TankConfig tankConfig;
+    
 
+
+    // === Sprite References ===
+    [Serializable]
+    public struct TankSprites
+    {
+        public SpriteRenderer Body;
+        public SpriteRenderer Turret;
+        public SpriteRenderer LeftTrack;
+        public SpriteRenderer RightTrack;
+    } 
+    [SerializeField] private TankSprites tankSprites;
     // === Animation ===
     [SerializeField]private Animator tankAnimator;
     public Animator TankAnimator => tankAnimator;
@@ -30,6 +43,12 @@ public class Tank : NetworkBehaviour, IDamageble
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
+    public NetworkVariable<float> visualAlpha = new NetworkVariable<float>(
+        1f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    );
+
     private float MaxHealth;
     private float MaxShield;
 
@@ -66,12 +85,13 @@ public class Tank : NetworkBehaviour, IDamageble
     // === Other ===
     private TankConfigData tankConfigData;
     public TankConfigData TankConfigData => tankConfigData;
-    private bool isRedTeam = false;
+    public bool isRedTeam = false;
 
 
     public override void OnNetworkSpawn()
     {
         healthNetwork.OnValueChanged += HandleHealthChanged;
+        visualAlpha.OnValueChanged += HandleAlphaChanged;
 
         InitializeTank(tankConfig);
     }
@@ -79,17 +99,32 @@ public class Tank : NetworkBehaviour, IDamageble
     public override void OnNetworkDespawn()
     {
         healthNetwork.OnValueChanged -= HandleHealthChanged;
+        visualAlpha.OnValueChanged -= HandleAlphaChanged;
     }
     // ============================================
     // INITIALIZATION
     // ============================================
     public void InitializeTank(TankConfig tankConfig)
     {
+        // Initialize shooting on all clients (needed for bullet pool)
+        InitializeShooting(tankConfig.weaponData);
+        
+        // Initialize Health on server (needed for respawn)
+        if (IsServer)
+        {
+            InitializeHealth(
+                tankConfig.maxHealth,
+                tankConfig.maxShield
+            );
+        }
+        
         if(!IsOwner) return;
 
         tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
 
         isRedTeam = tankConfigData.Team == TeamColor.Red;
+
+        CameraSetupOnSpawn();
 
         // Initialize Movement
         InitializeMovement(
@@ -97,17 +132,7 @@ public class Tank : NetworkBehaviour, IDamageble
             tankConfig.dashSpeed,
             tankConfig.dashDuration
         );
-        // Initialize Health
-        InitializeHealth(
-            tankConfig.maxHealth,
-            tankConfig.maxShield
-        );
-        // Initialize Shooting
-        InitializeShooting(tankConfig.weaponData);
-
     }
-
-
 
     // ============================================
     // HEALTH SYSTEM
@@ -119,17 +144,9 @@ public class Tank : NetworkBehaviour, IDamageble
         
         if (newValue <= 0 && previousValue > 0)
         {
-            Debug.Log("Tank has died.");
-
             if (IsOwner)
             {
                 OnDeath?.Invoke();
-                
-                if (tankStateManager != null)
-                {
-                    tankStateManager.playerState.Value = TankStateManager.PlayerState.Dead;
-                    tankStateManager.CurrentState.ChangeState(tankStateManager.StateFactory.Dead());
-                }
             }
         }
     }
@@ -147,7 +164,15 @@ public class Tank : NetworkBehaviour, IDamageble
     {
         if (!IsServer) return;
 
+        if (tankStateManager != null && 
+            (tankStateManager.playerState.Value == TankStateManager.PlayerState.Dead ||
+             tankStateManager.playerState.Value == TankStateManager.PlayerState.Respawn))
+        {
+            return;
+        }
+
         float totalDamage = damageAmount;
+        Color hitColor = new Color(2f, 2f, 2f, 1f);
 
         if (shieldNetwork.Value > 0)
         {
@@ -158,14 +183,32 @@ public class Tank : NetworkBehaviour, IDamageble
         if (damageAmount > 0)
         {
             healthNetwork.Value = Mathf.Max(healthNetwork.Value - damageAmount, 0);
+            hitColor = Color.red;
         }
 
+        // Sync color change to all clients
+        ShowHitEffectClientRpc(hitColor);
         OnDamageTaken?.Invoke(totalDamage);
+    }
+
+    [ClientRpc]
+    private void ShowHitEffectClientRpc(Color hitColor)
+    {
+        ChangeColorOnHit(hitColor);
+        StartCoroutine(RevertColorCoroutine(0.1f));
     }
 
     public void ResetHealth()
     {
-        if (!IsServer) return;
+        if (IsOwner)
+        {
+            ResetHealthServerRpc();
+        }
+    }
+
+    [ServerRpc]
+    private void ResetHealthServerRpc()
+    {
         healthNetwork.Value = MaxHealth;
         shieldNetwork.Value = MaxShield;
     }
@@ -195,7 +238,6 @@ public class Tank : NetworkBehaviour, IDamageble
 
     public void MoveTank(Vector2 movementInput)
     {
-        movementInput = isRedTeam ? -movementInput : movementInput;
         smoothedMovementInput = Vector2.SmoothDamp(
             smoothedMovementInput,
             movementInput,
@@ -208,6 +250,7 @@ public class Tank : NetworkBehaviour, IDamageble
             Vector2 movement = movementSpeed * Time.fixedDeltaTime * smoothedMovementInput;
             rb.MovePosition(rb.position + movement);
         }
+
     }
 
     public void HandleRotation(Vector2 inputDirection)
@@ -250,14 +293,14 @@ public class Tank : NetworkBehaviour, IDamageble
     {
         shootingSystem.InitializeWeapon(weaponData);
         CursorInitialization(weaponData.crosshairSprite);
-
         OnWeaponChanged?.Invoke(weaponData);
     }
 
     public void Shoot(bool isHoldingTrigger)
-    {
-        shootingSystem.TryShoot(aimDirection, isHoldingTrigger);
+    {   
 
+        shootingSystem.TryShoot(aimDirection, isHoldingTrigger);
+        
         if (isHoldingTrigger)
         {
             OnShootPerformed?.Invoke(aimDirection);
@@ -300,16 +343,17 @@ public class Tank : NetworkBehaviour, IDamageble
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
+
+    // ============================================
+    // CAMERA SETUP
+    // ============================================
+
     void CameraSetupOnSpawn()
     {
         var cameraInScene = FindAnyObjectByType<Unity.Cinemachine.CinemachineCamera>();
         cameraInScene.Target.TrackingTarget = this.transform;
-        
-        // Rotate camera based on team
-        tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
-        isRedTeam = tankConfigData.Team == TeamColor.Red;
 
-        if (tankConfigData.Team == TeamColor.Red)
+        if (isRedTeam)
         {
             // Red team spawns facing down, rotate camera 180 degrees
             cameraInScene.transform.rotation = Quaternion.Euler(0, 0, 180);
@@ -320,5 +364,53 @@ public class Tank : NetworkBehaviour, IDamageble
             cameraInScene.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
-        
+
+    // ============================================
+    // VISUALS
+    // ============================================
+    public void SetAlpha(float alpha)
+    {
+        if (IsOwner)
+        {
+            visualAlpha.Value = alpha;
+        }
+    }
+
+    private void HandleAlphaChanged(float previousValue, float newValue)
+    {
+        ApplyAlphaToSprites(newValue);
+    }
+
+    private void ApplyAlphaToSprites(float alpha)
+    {
+        Color color = tankSprites.Body.color;
+        color.a = alpha;
+        tankSprites.Body.color = color;
+        tankSprites.Turret.color = color;
+        tankSprites.LeftTrack.color = color;
+        tankSprites.RightTrack.color = color;
+    }
+    
+    void ChangeColorOnHit(Color hitColor = default)
+    {
+        if (hitColor == default)
+        {
+            hitColor = Color.red;
+        }
+        tankSprites.Body.color = hitColor;
+        tankSprites.Turret.color = hitColor;
+        tankSprites.LeftTrack.color = hitColor;
+        tankSprites.RightTrack.color = hitColor;
+
+    }
+
+    IEnumerator RevertColorCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Color normalColor = new Color(1f, 1f, 1f, visualAlpha.Value);
+        tankSprites.Body.color = normalColor;
+        tankSprites.Turret.color = normalColor;
+        tankSprites.LeftTrack.color = normalColor;
+        tankSprites.RightTrack.color = normalColor;
+    }
 }
