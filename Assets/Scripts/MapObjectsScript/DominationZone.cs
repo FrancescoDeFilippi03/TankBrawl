@@ -79,9 +79,12 @@ public class DominationZone : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<Tank>(out var tankController))
+        if (other.TryGetComponent<Tank>(out var tank))
         {
-            TeamColor team = tankController.TankConfigData.Team; 
+            TeamColor team = tank.CompareTag("Red") ? TeamColor.Red : 
+                                tank.CompareTag("Blue") ? TeamColor.Blue : 
+                                TeamColor.None;
+            
             
             if (team != TeamColor.None)
             {
@@ -93,9 +96,11 @@ public class DominationZone : NetworkBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent<Tank>(out var tankController))
+        if (other.TryGetComponent<Tank>(out var tank))
         {
-            TeamColor team = tankController.TankConfigData.Team; 
+            TeamColor team = tank.CompareTag("Red") ? TeamColor.Red : 
+                                tank.CompareTag("Blue") ? TeamColor.Blue : 
+                                TeamColor.None;
             
             if (team != TeamColor.None && tanksInZone[team] > 0)
             {

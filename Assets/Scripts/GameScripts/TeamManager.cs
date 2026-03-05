@@ -64,6 +64,12 @@ public class TeamManager : NetworkBehaviour
         tankConfigs.Add(data);
         Debug.Log($"Registered TankConfigData for PlayerId: {data.PlayerId} on ClientId: {data.ClientId} with Team: {data.Team}");
     }
+
+    public void Clean()
+    {
+        if (IsServer) 
+            tankConfigs.Clear();
+    }
     
 
     public TankConfigData GetTankConfigDataForClient(ulong clientId)

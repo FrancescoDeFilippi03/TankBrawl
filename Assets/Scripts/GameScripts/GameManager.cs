@@ -12,7 +12,8 @@ public class GameManager : NetworkBehaviour
         SpawningPlayers,
         Intro,
         InGame,
-        GameOver
+        GameOver , 
+        ExitGame
     }
 
     private GameStateBase currentState;
@@ -43,6 +44,13 @@ public class GameManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
 
+    public NetworkVariable<float> gameTimer = new NetworkVariable<float>(10f,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
+    );
+
+    [SerializeField] public GameMainUI gameMainUI;
+
+
     public static GameManager Instance;
 
     public void Awake()
@@ -57,9 +65,9 @@ public class GameManager : NetworkBehaviour
     }
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
+        if (ConnectionManager.Instance != null)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+            ConnectionManager.Instance.OnSceneLoadedEvent += OnSceneLoaded;
         }
 
         stateFactory = new GameStateFactory(this);
@@ -74,12 +82,12 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        if (IsServer)
+        if (ConnectionManager.Instance != null)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
+            ConnectionManager.Instance.OnSceneLoadedEvent -= OnSceneLoaded;
         }
+
         CurrentGameState.OnValueChanged -= OnGameStateChanged;
-        
     }
 
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -96,5 +104,4 @@ public class GameManager : NetworkBehaviour
     {
         currentState?.Update();
     }
-
 }

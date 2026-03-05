@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Tank1
   m_EditorClassIdentifier: Assembly-CSharp::TankConfig
   tankName: TankGeneral
+  hull: {fileID: 21300000, guid: adc7c30ba0cb5ec4087508c79a599060, type: 3}
+  turret: {fileID: 21300000, guid: 95b058a2d4b44d54a8b5970c0badd2d8, type: 3}
+  track: {fileID: 21300000, guid: 34c763469f39b964b97f455dcd6a4534, type: 3}
   maxHealth: 100
   maxShield: 100
   shieldRegenRate: 5

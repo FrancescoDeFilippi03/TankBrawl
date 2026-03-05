@@ -2,7 +2,7 @@ using System;
 using Unity.Collections;
 using Unity.Netcode;
 
-// CONFIGURAZIONE (Dati pesanti, cambiano quasi mai)
+// CONFIGURAZIONE (Dati pesanti,non cambiano mai)
 [Serializable]
 public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
 {

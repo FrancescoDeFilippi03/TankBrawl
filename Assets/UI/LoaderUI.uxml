@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Hangar/Background.png?fileID=2800000&amp;guid=8d466218935da0a46a402185b6a7eb6a&amp;type=3#Background&quot;);">
+        <ui:VisualElement name="Shadow" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Tank_Shop/Decor_Table_01.png?fileID=2800000&amp;guid=fc13d2548ae90ec44b16584c6f522828&amp;type=3#Decor_Table_01&quot;);">
+            <ui:VisualElement name="LoaderBarContainer1" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Loading_Bar/Table.png?fileID=2800000&amp;guid=c433f27b61d0b67498cc314a54f8ad80&amp;type=3#Table&quot;); width: 0%; height: 0%; min-width: 80%; min-height: 0%; max-height: 20%; justify-content: center; align-self: center; top: 40%;">
+                <ui:VisualElement name="LoaderBarContainer2" style="flex-grow: 1; width: 95%; left: 2.5%; height: 0%; max-height: 14%; top: 17%;">
+                    <ui:VisualElement name="LoaderBar" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Loading_Bar/Loading_Bar_A.png?fileID=2800000&amp;guid=f8009591ab8474f4ca2ff881cb362ee2&amp;type=3#Loading_Bar_A&quot;); min-height: 0%; max-height: 100%; min-width: 0%; width: 100%; max-width: 100%; background-size: 100% 100%; background-position-x: left 0; display: flex;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -64,6 +64,8 @@ public class TankPlayerController : NetworkBehaviour
         aimInput = tankInput.Tank.Aim.ReadValue<Vector2>();
 
         Tank.Shoot(IsTriggerHeld);
+
+        
     }
 
     public void SetInputActive(bool isActive)

@@ -127,6 +127,15 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TableStats"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1178d32-8f12-42c4-b04a-639027549bba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -217,6 +226,17 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81110cfb-1b74-441c-a0b3-2ad8c4eeeace"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TableStats"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -229,6 +249,7 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         m_Tank_Aim = m_Tank.FindAction("Aim", throwIfNotFound: true);
         m_Tank_Shoot = m_Tank.FindAction("Shoot", throwIfNotFound: true);
         m_Tank_Dash = m_Tank.FindAction("Dash", throwIfNotFound: true);
+        m_Tank_TableStats = m_Tank.FindAction("TableStats", throwIfNotFound: true);
     }
 
     ~@TankInput()
@@ -313,6 +334,7 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Tank_Aim;
     private readonly InputAction m_Tank_Shoot;
     private readonly InputAction m_Tank_Dash;
+    private readonly InputAction m_Tank_TableStats;
     /// <summary>
     /// Provides access to input actions defined in input action map "Tank".
     /// </summary>
@@ -340,6 +362,10 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Tank/Dash".
         /// </summary>
         public InputAction @Dash => m_Wrapper.m_Tank_Dash;
+        /// <summary>
+        /// Provides access to the underlying input action "Tank/TableStats".
+        /// </summary>
+        public InputAction @TableStats => m_Wrapper.m_Tank_TableStats;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -378,6 +404,9 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @TableStats.started += instance.OnTableStats;
+            @TableStats.performed += instance.OnTableStats;
+            @TableStats.canceled += instance.OnTableStats;
         }
 
         /// <summary>
@@ -401,6 +430,9 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @TableStats.started -= instance.OnTableStats;
+            @TableStats.performed -= instance.OnTableStats;
+            @TableStats.canceled -= instance.OnTableStats;
         }
 
         /// <summary>
@@ -469,5 +501,12 @@ public partial class @TankInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TableStats" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTableStats(InputAction.CallbackContext context);
     }
 }

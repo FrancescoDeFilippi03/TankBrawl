@@ -2,9 +2,12 @@ using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class ShootingSystem : NetworkBehaviour
 {
+    public event Action<int, int> OnAmmoChanged; // current, max
+    
     public BulletPool bulletPool;
     public Transform[] firePoints;
     [SerializeField] private Image reloadIndicator;
@@ -18,6 +21,10 @@ public class ShootingSystem : NetworkBehaviour
     private WeaponData currentWeapon;
     private int currentFirePointIndex = 0;
     private bool hasFiredThisPress = false;
+
+    public int CurrentAmmo => currentAmmo;
+    public int MaxAmmo => currentWeapon.ammoCapacity;
+    public WeaponData CurrentWeapon => currentWeapon;
 
     public void InitializeWeapon(WeaponData weaponData)
     {
@@ -136,6 +143,7 @@ public class ShootingSystem : NetworkBehaviour
         }
         
         currentAmmo--;
+        OnAmmoChanged?.Invoke(currentAmmo, currentWeapon.ammoCapacity);
     }
 
     void UpdateReloading()
@@ -149,6 +157,7 @@ public class ShootingSystem : NetworkBehaviour
                 currentAmmo = currentWeapon.ammoCapacity;
                 isReloading = false;
                 reloadIndicator.fillAmount = 0f;
+                OnAmmoChanged?.Invoke(currentAmmo, currentWeapon.ammoCapacity);
             }
         }
     }
@@ -208,8 +217,15 @@ public class ShootingSystem : NetworkBehaviour
         {
             if (targetObject.TryGetComponent<IDamageble>(out var damageble))
             {
+                if(targetObject.TryGetComponent<Tank>(out var tank))
+                {
+                    tank.RecordDamageFrom(OwnerClientId);
+                }
+
                 damageble.TakeDamage(currentWeapon.damage);
                 Debug.Log($"[Server] Applied {currentWeapon.damage} damage to {targetObject.name}");
+
+                
             }
         }
     }

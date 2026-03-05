@@ -8,6 +8,12 @@ public class TankConfig : ScriptableObject
     [Header("General Info")]
     public string tankName;
 
+    //sprite per mostare 
+    [Header("Sprite Visual")]
+    public Sprite hull;
+    public Sprite turret;
+    public Sprite track;
+
     //health stats
     [Header("Health Stats")]
     public float maxHealth;
@@ -37,28 +43,28 @@ public enum ShootingType
     Automatic
 }
 [System.Serializable]
-    public struct WeaponData
-    {
-        [Header("Shooting Mechanics")]
-        public ShootingType shootingType;
-        [Tooltip("Shots per second")]
-        public float fireRate;
-        public float range;
-        public float damage;
-        public float bulletSpeed;
+public struct WeaponData
+{
+    [Header("Shooting Mechanics")]
+    public ShootingType shootingType;
+    [Tooltip("Shots per second")]
+    public float fireRate;
+    public float range;
+    public float damage;
+    public float bulletSpeed;
 
-        [Header("Burst Fire")]
-        [Tooltip("Number of shots in a single burst")]
-        public int burstCount;
-        [Tooltip("Delay between shots in a burst")]
-        public float burstDelay;
+    [Header("Burst Fire")]
+    [Tooltip("Number of shots in a single burst")]
+    public int burstCount;
+    [Tooltip("Delay between shots in a burst")]
+    public float burstDelay;
 
-        [Header("Resources")]
-        public GameObject bulletPrefab;
-        public int ammoCapacity;
-        public float reloadTime;
-        public Sprite crosshairSprite;
+    [Header("Resources")]
+    public GameObject bulletPrefab;
+    public int ammoCapacity;
+    public float reloadTime;
+    public Sprite crosshairSprite;
 
-        [Header("Alternate Fire Points")]
-        public bool isAlternateFirePoints;
-    }
+    [Header("Alternate Fire Points")]
+    public bool isAlternateFirePoints;
+}

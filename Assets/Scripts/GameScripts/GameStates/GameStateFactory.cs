@@ -34,6 +34,11 @@ public class GameStateFactory
         return new SpawningPlayersState(gameManager, this);
     }
 
+    public ExitGame ExitGame()
+    {
+        return new ExitGame(gameManager,this);
+    }
+
 
     public GameStateBase GetState(GameManager.GameState state)
     {
@@ -49,6 +54,8 @@ public class GameStateFactory
                 return InGameState();
             case GameManager.GameState.GameOver:
                 return GameOverState();
+            case GameManager.GameState.ExitGame:
+                return ExitGame();
             default:
                 Debug.LogError($"No GameStateBase found for state: {state}");
                 return null;

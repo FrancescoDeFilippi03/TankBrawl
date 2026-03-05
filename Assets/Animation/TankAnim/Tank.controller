@@ -172,8 +172,8 @@ AnimatorStateMachine:
     m_State: {fileID: -1872125212910884655}
     m_Position: {x: 540, y: 90, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 4621320373461633202}
-    m_Position: {x: 575, y: 155, z: 0}
+    m_State: {fileID: 4876076497844863574}
+    m_Position: {x: 615, y: 225, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -197,7 +197,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   - m_Name: isDashing
     m_Type: 4
@@ -255,14 +255,14 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &4621320373461633202
+--- !u!1102 &4876076497844863574
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dying
+  m_Name: Move
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -275,7 +275,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7f15a1b2947dd8c4e88ff0850e3208e2, type: 2}
+  m_Motion: {fileID: 7400000, guid: a5257f96bd89a0c4cbd7710e304188df, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -302,7 +302,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4998e0c8cbbdb2d4e984b4057ed497cb, type: 2}
+  m_Motion: {fileID: 7400000, guid: a5257f96bd89a0c4cbd7710e304188df, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

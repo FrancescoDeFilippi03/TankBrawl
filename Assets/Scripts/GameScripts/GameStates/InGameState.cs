@@ -1,16 +1,38 @@
+using System;
 using UnityEngine;
 
 public class InGameState : GameStateBase
 {
-    private readonly float gameDuration = 180f;
-    private float elapsedTime = 0f;
+    private float elapsedOneSecond = 0f;
     private readonly float scorePerSecond = 5f;
     private float redScoreAccumulator = 0f;
     private float blueScoreAccumulator = 0f;
-    private readonly float pointToWin = 100f;
+
+
     
     public InGameState(GameManager manager, GameStateFactory factory) : base(manager, factory)
     {
+    }
+
+
+  
+
+    public override void Enter()
+    {
+        redScoreAccumulator = 0f;
+        blueScoreAccumulator = 0f;
+
+        gameManager.gameTimer.OnValueChanged += gameManager.gameMainUI.UpdateTimer;
+        gameManager.RedTeamScore.OnValueChanged += gameManager.gameMainUI.UpdateRedTeamScore;
+        gameManager.BlueTeamScore.OnValueChanged += gameManager.gameMainUI.UpdateBlueTeamScore;
+
+    }
+
+    public override void Exit()
+    {
+        gameManager.gameTimer.OnValueChanged -= gameManager.gameMainUI.UpdateTimer;
+        gameManager.RedTeamScore.OnValueChanged -= gameManager.gameMainUI.UpdateRedTeamScore;
+        gameManager.BlueTeamScore.OnValueChanged -= gameManager.gameMainUI.UpdateBlueTeamScore;
     }
 
     public override void Update()
@@ -18,14 +40,20 @@ public class InGameState : GameStateBase
 
         if (!gameManager.GetIsServer ) return;
 
-        elapsedTime += Time.deltaTime;
-        if (elapsedTime >= gameDuration)
+        if (gameManager.gameTimer.Value <= 0f)
         {
             gameManager.CurrentGameState.Value = GameManager.GameState.GameOver;
+            return;
+        }
+
+        elapsedOneSecond += Time.deltaTime;
+        if (elapsedOneSecond >= 1f)
+        {
+            elapsedOneSecond = 0f;
+            gameManager.gameTimer.Value = Mathf.Max(0f, gameManager.gameTimer.Value - 1f);
         }
 
         CheckAreaControl();
-        CheckWinCondition();
     }
 
 
@@ -55,16 +83,4 @@ public class InGameState : GameStateBase
         }
     }
 
-
-    void CheckWinCondition()
-    {        
-        if (gameManager.RedTeamScore.Value >= pointToWin)
-        {
-            gameManager.CurrentGameState.Value = GameManager.GameState.GameOver;
-        }
-        else if (gameManager.BlueTeamScore.Value >= pointToWin)
-        {
-            gameManager.CurrentGameState.Value = GameManager.GameState.GameOver;
-        }
-    }
 }

@@ -69,8 +69,23 @@ public class TankStateManager : NetworkBehaviour
     {
         if (!IsOwner) return;
         
+        AddDeath();
         playerState.Value = PlayerState.Dead;
         currentState.ChangeState(stateFactory.Dead());
+    }
+
+    private void AddDeath()
+    {
+        if (IsOwner)
+        {
+            AddDeathServerRpc();
+        }
+    }
+
+    [ServerRpc]
+    private void AddDeathServerRpc()
+    {
+        Tank.death.Value++;
     }
 
     private void OnPlayerStateChanged(PlayerState previousValue, PlayerState newValue)

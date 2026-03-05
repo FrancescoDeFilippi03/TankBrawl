@@ -7,6 +7,7 @@ using Unity.Services.Core;
 using Unity.Services.Matchmaker.Models;
 using Unity.Services.Multiplayer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SessionManager : MonoBehaviour
 {
@@ -88,6 +89,7 @@ public class SessionManager : MonoBehaviour
         {
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
 
+            currentSession.RemovedFromSession += OnRemovedFromSession;
 
             TeamColor assignedTeam = (TeamManager.Instance.tankConfigs.Count % 2 == 0) ? TeamColor.Red : TeamColor.Blue;
             
@@ -105,6 +107,12 @@ public class SessionManager : MonoBehaviour
             Debug.LogException(e);
         }
     }
+
+    private void OnRemovedFromSession()
+    {
+        currentSession = null;
+    }
+
     //COMMON LOGIC
     public async Task LeaveSession()
     {
@@ -119,6 +127,7 @@ public class SessionManager : MonoBehaviour
                 }
                 else
                 {
+                    currentSession.RemovedFromSession -= OnRemovedFromSession;
                     await currentSession.LeaveAsync();
                     Debug.Log("Left session.");
                 }
@@ -130,6 +139,7 @@ public class SessionManager : MonoBehaviour
             
             currentSession = null;
         }
+        SceneManager.LoadScene("Lobby");
     }
     public async Task StartGame(){
         
@@ -138,6 +148,7 @@ public class SessionManager : MonoBehaviour
         Debug.Log("Starting game and loading scene...");
 
         currentSession.AsHost().IsLocked = true;
+
         await currentSession.AsHost().SavePropertiesAsync();
         
         NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
@@ -167,8 +178,10 @@ public class SessionManager : MonoBehaviour
         var player = GetPlayerById(playerId);
         if (player == null) return default;
 
-        TankConfigData configData = new TankConfigData();
-        configData.PlayerId = new Unity.Collections.FixedString64Bytes(playerId);
+        TankConfigData configData = new TankConfigData
+        {
+            PlayerId = new Unity.Collections.FixedString64Bytes(playerId)
+        };
         var teamProp = GetPlayerProperty(playerId, "Team");
 
 

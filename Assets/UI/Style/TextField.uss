@@ -1,0 +1,257 @@
+:root {
+}
+
+#Background > #Shadow > #TankContainer > #StatsTable > #PlayerNameInput > #PlayerNameField > #unity-text-input {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+}
+
+#LobbyModal #ModalPlayerNameField > #unity-text-input {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    color: rgb(255, 200, 0);
+    --unity-cursor-color: rgb(255, 200, 0);
+}
+
+#LobbyModal #LobbyCodeField > #unity-text-input {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    color: rgb(255, 200, 0);
+    --unity-cursor-color: rgb(255, 200, 0);
+}
+
+#ModalContent {
+    transition-property: scale, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+#TankModalContent {
+    transition-property: scale, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+#TanksGrid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.tank-button {
+    width: 0%;
+    min-width: 220px;
+    max-width: 100%;
+    height: 0%;
+    margin: 1.5%;
+    background-color: rgba(50, 50, 50, 0.8);
+    border-width: 3px;
+    border-color: rgb(150, 150, 150);
+    border-radius: 12px;
+    padding-bottom: 2%;
+    justify-content: center;
+    align-items: center;
+    transition-property: scale, border-color, background-color;
+    transition-duration: 0.2s;
+    padding-top: 2%;
+    padding-right: 2%;
+    padding-left: 2%;
+    min-height: 320px;
+    max-height: 100%;
+    margin-top: 2%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    align-self: center;
+    align-content: center;
+}
+
+.tank-button:hover {
+    scale: 1.05;
+    border-color: rgb(255, 200, 0);
+    background-color: rgba(70, 70, 70, 0.9);
+}
+
+.tank-button:active {
+    scale: 0.95;
+}
+
+.tank-button.selected {
+    background-color: rgba(0, 80, 0, 0.9);
+    border-color: rgb(0, 255, 0);
+    border-width: 4px;
+}
+
+.tank-button.selected:hover {
+    background-color: rgba(0, 100, 0, 0.95);
+    border-color: rgb(50, 255, 50);
+}
+
+.tank-preview {
+    width: 192px;
+    height: 192px;
+    position: relative;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    align-self: center;
+    align-content: center;
+}
+
+.tank-track {
+    width: 100%;
+    height: 100%;
+    -unity-background-scale-mode: scale-to-fit;
+    position: absolute;
+    top: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+}
+
+.tank-hull {
+    width: 100%;
+    height: 100%;
+    -unity-background-scale-mode: scale-to-fit;
+    position: relative;
+}
+
+.tank-weapon {
+    width: 100%;
+    height: 100%;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.tank-button Label {
+    font-size: 24px;
+    -unity-font-definition: url("project://database/Assets/Font/AldotheApache.ttf?fileID=12800000&guid=35db1d0ecf5f46b48af76c68e2649c27&type=3#AldotheApache");
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#TanksScrollView > #unity-content-container {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#TanksScrollView .unity-scroller--vertical {
+    width: 18px;
+    margin-left: 4px;
+}
+
+#TanksScrollView .unity-scroller--vertical .unity-scroller__slider {
+    width: 18px;
+    background-color: rgba(50, 50, 50, 0.7);
+    border-radius: 9px;
+    border-width: 2px;
+    border-color: rgb(255, 200, 0);
+}
+
+#TanksScrollView .unity-scroller--vertical .unity-base-slider__dragger {
+    background-color: rgb(255, 200, 0);
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgb(200, 150, 0);
+    margin: 2px;
+    transition-duration: 0.2s;
+}
+
+#TanksScrollView .unity-scroller--vertical .unity-base-slider__dragger:hover {
+    background-color: rgb(255, 220, 50);
+    scale: 1.1;
+}
+
+#TanksScrollView .unity-scroller--vertical .unity-base-slider__dragger:active {
+    background-color: rgb(200, 150, 0);
+}
+
+#MainTankVisual1 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_1_B.png?fileID=21300000&guid=b591d03bb9a614f44ba0bff3bca1275f&type=3#Track_1_B");
+}
+
+#MainTankVisual2 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_1_B.png?fileID=21300000&guid=b591d03bb9a614f44ba0bff3bca1275f&type=3#Track_1_B");
+}
+
+#MainTankVisual3 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_2_B.png?fileID=21300000&guid=e86fbaadd73ce5647b45dec5b1961db2&type=3#Track_2_B");
+}
+
+#MainTankVisual4 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_2_B.png?fileID=21300000&guid=e86fbaadd73ce5647b45dec5b1961db2&type=3#Track_2_B");
+}
+
+#MainTankVisual5 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_3_B.png?fileID=21300000&guid=9605ff6c6ac9b73479ef2c1cc9a25863&type=3#Track_3_B");
+}
+
+#MainTankVisual6 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_3_B.png?fileID=21300000&guid=9605ff6c6ac9b73479ef2c1cc9a25863&type=3#Track_3_B");
+}
+
+#MainTankVisual7 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_4_B.png?fileID=21300000&guid=55b1de8e10a22664083d6597d1ddb4dc&type=3#Track_4_B");
+}
+
+#MainTankVisual8 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_4_B.png?fileID=21300000&guid=55b1de8e10a22664083d6597d1ddb4dc&type=3#Track_4_B");
+}
+
+#MainTankVisual9 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_5_B.png?fileID=21300000&guid=b51cb9e3508c317499da168a28a03b34&type=3#Track_5_B");
+}
+
+#MainTankVisual10 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_5_B.png?fileID=21300000&guid=b51cb9e3508c317499da168a28a03b34&type=3#Track_5_B");
+}
+
+#MainTankVisual11 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_6_B.png?fileID=21300000&guid=01e939433cff20540998c670e6e45ded&type=3#Track_6_B");
+}
+
+#MainTankVisual12 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_6_B.png?fileID=21300000&guid=01e939433cff20540998c670e6e45ded&type=3#Track_6_B");
+}
+
+#MainTankVisual13 .tank-track.tank-tracks-animated {
+    background-image: url('project://database/Assets/Art/Tank_Asset/Tracks/Track_7_B.png?fileID=21300000&guid=e13eedf64ba48d14cb8771de1cc7c8ca&type=3#Tank_7_B');
+}
+
+#MainTankVisual14 .tank-track.tank-tracks-animated {
+    background-image: url('project://database/Assets/Art/Tank_Asset/Tracks/Track_7_B.png?fileID=21300000&guid=e13eedf64ba48d14cb8771de1cc7c8ca&type=3#Tank_7_B');
+}
+
+#MainTankVisual15 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_8_B.png?fileID=21300000&guid=cada4c690de6afd42a011ebb58c709ae&type=3#Track_8_B");
+}
+
+#MainTankVisual16 .tank-track.tank-tracks-animated {
+    background-image: url("project://database/Assets/Art/Tank_Asset/Tracks/Track_8_B.png?fileID=21300000&guid=cada4c690de6afd42a011ebb58c709ae&type=3#Track_8_B");
+}
+
+.tank-burst {
+    width: 100%;
+    height: 100%;
+    top: 50%;
+}

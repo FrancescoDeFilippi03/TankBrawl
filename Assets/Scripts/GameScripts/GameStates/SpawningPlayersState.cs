@@ -12,7 +12,6 @@ public class SpawningPlayersState : GameStateBase
 
         if (!gameManager.GetIsServer) return;
         SpawnManager.Instance.SpawnAllTanks();  
-
         gameManager.CurrentGameState.Value = GameManager.GameState.Intro;
         
     }

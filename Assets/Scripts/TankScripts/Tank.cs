@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 using System.Collections;
+using Unity.Services.Matchmaker.Models;
 
 public class Tank : NetworkBehaviour, IDamageble
 {
@@ -11,8 +12,7 @@ public class Tank : NetworkBehaviour, IDamageble
     [SerializeField] private Transform weaponPivotTransform;
     [SerializeField] private ShootingSystem shootingSystem;
     [SerializeField] private TankConfig tankConfig;
-    
-
+    public TankConfig TankConfig => tankConfig;
 
     // === Sprite References ===
     [Serializable]
@@ -31,6 +31,7 @@ public class Tank : NetworkBehaviour, IDamageble
     // === Health ===
     public event Action OnDeath;
     public event Action<float, float> OnHealthChanged;
+    public event Action<float, float> OnShieldChanged;
     public event Action<float> OnDamageTaken;
 
     public NetworkVariable<float> healthNetwork = new NetworkVariable<float>(
@@ -87,10 +88,31 @@ public class Tank : NetworkBehaviour, IDamageble
     public TankConfigData TankConfigData => tankConfigData;
     public bool isRedTeam = false;
 
+    // === Game Stats === 
+    public NetworkVariable<int> kill = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    public NetworkVariable<int> assist = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    public NetworkVariable<int> death = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    private ulong lastDamageAppliedFrom;
 
     public override void OnNetworkSpawn()
     {
         healthNetwork.OnValueChanged += HandleHealthChanged;
+        shieldNetwork.OnValueChanged += HandleShieldChanged;
         visualAlpha.OnValueChanged += HandleAlphaChanged;
 
         InitializeTank(tankConfig);
@@ -99,6 +121,7 @@ public class Tank : NetworkBehaviour, IDamageble
     public override void OnNetworkDespawn()
     {
         healthNetwork.OnValueChanged -= HandleHealthChanged;
+        shieldNetwork.OnValueChanged -= HandleShieldChanged;
         visualAlpha.OnValueChanged -= HandleAlphaChanged;
     }
     // ============================================
@@ -117,6 +140,12 @@ public class Tank : NetworkBehaviour, IDamageble
                 tankConfig.maxShield
             );
         }
+
+        var gameStats = FindAnyObjectByType<GameStatsUI>();
+        if(gameStats != null)
+        {
+            gameStats.BindTank(this);
+        }
         
         if(!IsOwner) return;
 
@@ -132,6 +161,13 @@ public class Tank : NetworkBehaviour, IDamageble
             tankConfig.dashSpeed,
             tankConfig.dashDuration
         );
+
+        // Connect to UI
+        var ui = FindAnyObjectByType<TankMainUI>();
+        if (ui != null)
+        {
+            ui.SubscribeToTank(this);
+        }
     }
 
     // ============================================
@@ -140,7 +176,7 @@ public class Tank : NetworkBehaviour, IDamageble
 
     private void HandleHealthChanged(float previousValue, float newValue)
     {
-        OnHealthChanged?.Invoke(newValue, shieldNetwork.Value);
+        OnHealthChanged?.Invoke(previousValue, newValue);
         
         if (newValue <= 0 && previousValue > 0)
         {
@@ -149,6 +185,11 @@ public class Tank : NetworkBehaviour, IDamageble
                 OnDeath?.Invoke();
             }
         }
+    }
+
+    private void HandleShieldChanged(float previousValue, float newValue)
+    {
+        OnShieldChanged?.Invoke(previousValue, newValue);
     }
 
     public void InitializeHealth(float health, float shield)
@@ -186,8 +227,11 @@ public class Tank : NetworkBehaviour, IDamageble
             hitColor = Color.red;
         }
 
-        // Sync color change to all clients
+        if(healthNetwork.Value <= 0)
+            ReportKill();
+
         ShowHitEffectClientRpc(hitColor);
+
         OnDamageTaken?.Invoke(totalDamage);
     }
 
@@ -196,6 +240,29 @@ public class Tank : NetworkBehaviour, IDamageble
     {
         ChangeColorOnHit(hitColor);
         StartCoroutine(RevertColorCoroutine(0.1f));
+    }
+
+    public void RecordDamageFrom(ulong attackerId)
+    {
+        if (!IsServer) return;
+        lastDamageAppliedFrom = attackerId;
+    }
+
+    public void ReportKill()
+    {
+        if (!IsServer) return;
+
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(lastDamageAppliedFrom, out var killerClient))
+        {
+            var killerTank = killerClient.PlayerObject != null
+                ? killerClient.PlayerObject.GetComponent<Tank>()
+                : null;
+
+            if (killerTank != null)
+            {
+                killerTank.kill.Value++;
+            }
+        }
     }
 
     public void ResetHealth()
