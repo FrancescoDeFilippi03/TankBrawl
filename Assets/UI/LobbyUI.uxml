@@ -1,0 +1,1122 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style/Lobby.uss?fileID=7433441132597879392&amp;guid=a405bd998ebc93e4ca0f16867dfcbbdc&amp;type=3#Lobby" />
+    <Style src="project://database/Assets/UI/Style/TextField.uss?fileID=7433441132597879392&amp;guid=be7a6b209d12fa44aac6bae768849e7a&amp;type=3#TextField" />
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Accept/Background.png?fileID=2800000&amp;guid=c9255fe8c1167894b81bf2442fb7476c&amp;type=3#Background&quot;);">
+        <ui:VisualElement name="Shadow" style="flex-grow: 1; justify-content: center; align-self: center; width: 100%; height: 100%; align-items: center; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Hangar/Decor_Table_01.png?fileID=2800000&amp;guid=80f25361cc87f874ea9389af8b396ca5&amp;type=3#Decor_Table_01&quot;); padding-top: 4%; padding-right: 4%; padding-bottom: 4%; padding-left: 4%;">
+            <ui:VisualElement name="Header" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Shop/Header_Table.png?fileID=61794860176112050&amp;guid=cca72a3555a7fc54a87895d871e9f9e4&amp;type=3#Header_Table_0&quot;); align-self: center; justify-content: center; width: 31%; min-height: 0%; max-height: 20%; height: 20%; min-width: 0%; max-width: 100%; top: 0%; flex-direction: column;">
+                <ui:Label text="LOBBY " name="LobbyCode" style="-unity-font-definition: url(&quot;project://database/Assets/Font/AldotheApache.ttf?fileID=12800000&amp;guid=35db1d0ecf5f46b48af76c68e2649c27&amp;type=3#AldotheApache&quot;); font-size: 82px; color: rgb(255, 255, 255); -unity-text-align: middle-center; min-width: 0%; width: 60%; max-width: 100%; min-height: 0%; max-height: 100%; height: 53%; justify-content: center; align-items: center; align-self: center;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Container" style="flex-grow: 1; width: 100%; height: 60%; justify-content: center; align-self: center; flex-direction: row; max-height: 100%; margin-top: 2%; margin-bottom: 0%; display: flex; min-height: 0%;">
+                <ui:VisualElement name="RedTeamContainer" style="flex-grow: 1; width: 50%; height: 100%; align-self: center; justify-content: center; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Score_Table/Stats_Table_03.png?fileID=2800000&amp;guid=fbd7c3130f5b43c44b1d71df762b22ec&amp;type=3#Stats_Table_03&quot;); color: rgb(7, 7, 7); border-left-color: rgb(255, 200, 0); border-right-color: rgb(255, 200, 0); border-top-color: rgb(255, 200, 0); border-bottom-color: rgb(255, 200, 0); border-top-left-radius: 40px; border-top-right-radius: 40px; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-right: 0%; display: flex; background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgba(255, 255, 255, 0);">
+                    <ui:VisualElement name="LabelContainer" style="flex-grow: 1; border-top-left-radius: 41px; border-top-right-radius: 41px; border-bottom-right-radius: 41px; border-bottom-left-radius: 41px; border-left-color: rgb(255, 200, 0); border-right-color: rgb(255, 200, 0); border-top-color: rgb(255, 200, 0); border-bottom-color: rgb(255, 200, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; align-self: center; width: 100%; height: 100%; max-height: 100%; display: flex; min-height: 0%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 6%; padding-right: 6%; padding-bottom: 6%; padding-left: 6%;">
+                        <ui:VisualElement name="RedPlayer1" style="flex-grow: 1; justify-content: center; align-self: center; flex-direction: row; width: 100%; align-items: stretch; align-content: center; height: 0%; max-height: 100%; min-height: 24%; margin-top: 0%; margin-right: 0%; margin-bottom: 1%; margin-left: 0%; padding-top: 0%; padding-right: 0%; padding-bottom: 0%; padding-left: 0%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; max-width: 100%; min-width: 0%;">
+                            <ui:Label text="Label" name="NameLabel" class="player-label" style="display: flex; justify-content: center; -unity-text-align: middle-center; width: 50%; max-height: 100%; height: 100%; min-height: 25%;" />
+                            <ui:VisualElement name="TankContainer" style="flex-grow: 1; width: 50%; height: 100%; align-items: center; justify-content: center; align-self: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                                <ui:VisualElement name="RedTankPartsContainer" class="tank-preview" style="justify-content: center; align-self: center; width: 128px; max-width: 100%; min-width: 0%; height: 128px; min-height: 0%; max-height: 100%; display: flex; position: relative; top: -3%;">
+                                    <ui:VisualElement name="MainTankVisual1" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: flex;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none; width: 100%; height: 100%; background-image: none; -unity-background-scale-mode: stretch-to-fill; background-position-y: center; background-size: 100% 100%;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_01.png?fileID=2800000&amp;guid=adc7c30ba0cb5ec4087508c79a599060&amp;type=3#Hull_01&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_01.png?fileID=2800000&amp;guid=11f0b4a9aa35a92488baee6277fceb74&amp;type=3#Gun_01&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual2" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_02.png?fileID=2800000&amp;guid=bbdcbf0fb67c1a840bafe22e6acc2767&amp;type=3#Hull_02&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_02.png?fileID=2800000&amp;guid=218933b68be80f0428462bdb95b95197&amp;type=3#Gun_02&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual3" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_03.png?fileID=2800000&amp;guid=8c61198c84dbc214fadbac972431f386&amp;type=3#Hull_03&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_03.png?fileID=2800000&amp;guid=350adcc8089ab0d48bf7e744fab7eac6&amp;type=3#Gun_03&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual4" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_04.png?fileID=2800000&amp;guid=82339c2d6bf89c341a0b45ce97d5ed19&amp;type=3#Hull_04&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_04.png?fileID=2800000&amp;guid=1e35c5b65adeb0f4090ab4aad02cd98c&amp;type=3#Gun_04&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual5" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_05.png?fileID=2800000&amp;guid=5e10f17ed23c6a642b1e3fd15ad8f275&amp;type=3#Hull_05&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_05.png?fileID=2800000&amp;guid=3a740772b3c20c54fa0f63543f2688ad&amp;type=3#Gun_05&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual6" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_06.png?fileID=2800000&amp;guid=14c6b63527c68e941b971148d3fd4c3f&amp;type=3#Hull_06&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_06.png?fileID=2800000&amp;guid=1860a3797879b6b44a6f229be8d9ef78&amp;type=3#Gun_06&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual7" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -22%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 22%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_07.png?fileID=2800000&amp;guid=f45db8df785bed74f807cf5ed8a3e99c&amp;type=3#Hull_07&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_07.png?fileID=2800000&amp;guid=74623376e5587fe4285de36b156fdbb6&amp;type=3#Gun_07&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual8" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_08.png?fileID=2800000&amp;guid=13af64ba21cfc994da40333efa4c13dd&amp;type=3#Hull_08&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_08.png?fileID=2800000&amp;guid=922c90c6004f976498e7e5e62e3ccf93&amp;type=3#Gun_08&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual9" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_09.png?fileID=2800000&amp;guid=65699d9745a982942b5acd5527f0ecb0&amp;type=3#Hull_09&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_09.png?fileID=2800000&amp;guid=5f1e2aa734c82e04290ef2b06777ce54&amp;type=3#Gun_09&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual10" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_10.png?fileID=2800000&amp;guid=82e8389fd1341304ba99e75fb40141c9&amp;type=3#Hull_10&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_10.png?fileID=2800000&amp;guid=0711e66d578a91040a18883d6ce07ec3&amp;type=3#Gun_10&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual11" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_11.png?fileID=2800000&amp;guid=7067f4993084bf044a661d60709d87dd&amp;type=3#Hull_11&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_11.png?fileID=2800000&amp;guid=73de81d94d3ec974d9763f220707baae&amp;type=3#Gun_11&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual12" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_12.png?fileID=2800000&amp;guid=f07a1ee731121e04f8c94fb3d7a049e9&amp;type=3#Hull_12&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_12.png?fileID=2800000&amp;guid=000ae4804ae5b4141b99cf68bfaf85a1&amp;type=3#Gun_12&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual13" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_13.png?fileID=2800000&amp;guid=b21d3d401a454044ab24336590d69a77&amp;type=3#Hull_13&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_13.png?fileID=2800000&amp;guid=b8208c59a75814f47b61345e588361af&amp;type=3#Gun_13&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual14" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_14.png?fileID=2800000&amp;guid=3aeb0878fc10db14d80c7e07bb80cbb8&amp;type=3#Hull_14&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_14.png?fileID=2800000&amp;guid=b10a4012cdfa96c498e52822a87d84d5&amp;type=3#Gun_14&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual15" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_15.png?fileID=2800000&amp;guid=81a7119537c67734c8233495e18da4ed&amp;type=3#Hull_15&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_15.png?fileID=2800000&amp;guid=7a16e15da66a38f41aeeef685a7a40ab&amp;type=3#Gun_15&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual16" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_16.png?fileID=2800000&amp;guid=1b4dac48807012d46be1071027c3cda4&amp;type=3#Hull_16&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_16.png?fileID=2800000&amp;guid=d9485efa0d65ffa4b9e1c4ebdf974a7a&amp;type=3#Gun_16&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="RedPlayer2" style="flex-grow: 1; justify-content: center; align-self: center; flex-direction: row; width: 100%; align-items: stretch; align-content: center; height: 0%; max-height: 100%; min-height: 25%; margin-top: 2%; margin-right: 0%; margin-bottom: 2%; margin-left: 0%; padding-top: 0%; padding-right: 0%; padding-bottom: 0%; padding-left: 0%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; max-width: 100%; min-width: 0%; display: flex;">
+                            <ui:Label text="Label" name="NameLabel" class="player-label" style="display: flex; justify-content: center; -unity-text-align: middle-center; width: 50%; max-height: 100%; height: 100%; min-height: 25%;" />
+                            <ui:VisualElement name="TankContainer" style="flex-grow: 1; width: 50%; height: 100%; align-items: center; justify-content: center; align-self: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                                <ui:VisualElement name="RedTankPartsContainer" class="tank-preview" style="justify-content: center; align-self: center; width: 128px; max-width: 100%; min-width: 0%; height: 128px; min-height: 0%; max-height: 100%; display: flex; position: relative; top: -3%;">
+                                    <ui:VisualElement name="MainTankVisual1" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: flex;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none; width: 100%; height: 100%; background-image: none; -unity-background-scale-mode: stretch-to-fill; background-position-y: center; background-size: 100% 100%;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_01.png?fileID=2800000&amp;guid=adc7c30ba0cb5ec4087508c79a599060&amp;type=3#Hull_01&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_01.png?fileID=2800000&amp;guid=11f0b4a9aa35a92488baee6277fceb74&amp;type=3#Gun_01&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual2" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_02.png?fileID=2800000&amp;guid=bbdcbf0fb67c1a840bafe22e6acc2767&amp;type=3#Hull_02&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_02.png?fileID=2800000&amp;guid=218933b68be80f0428462bdb95b95197&amp;type=3#Gun_02&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual3" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_03.png?fileID=2800000&amp;guid=8c61198c84dbc214fadbac972431f386&amp;type=3#Hull_03&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_03.png?fileID=2800000&amp;guid=350adcc8089ab0d48bf7e744fab7eac6&amp;type=3#Gun_03&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual4" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_04.png?fileID=2800000&amp;guid=82339c2d6bf89c341a0b45ce97d5ed19&amp;type=3#Hull_04&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_04.png?fileID=2800000&amp;guid=1e35c5b65adeb0f4090ab4aad02cd98c&amp;type=3#Gun_04&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual5" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_05.png?fileID=2800000&amp;guid=5e10f17ed23c6a642b1e3fd15ad8f275&amp;type=3#Hull_05&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_05.png?fileID=2800000&amp;guid=3a740772b3c20c54fa0f63543f2688ad&amp;type=3#Gun_05&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual6" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_06.png?fileID=2800000&amp;guid=14c6b63527c68e941b971148d3fd4c3f&amp;type=3#Hull_06&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_06.png?fileID=2800000&amp;guid=1860a3797879b6b44a6f229be8d9ef78&amp;type=3#Gun_06&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual7" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -22%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 22%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_07.png?fileID=2800000&amp;guid=f45db8df785bed74f807cf5ed8a3e99c&amp;type=3#Hull_07&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_07.png?fileID=2800000&amp;guid=74623376e5587fe4285de36b156fdbb6&amp;type=3#Gun_07&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual8" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_08.png?fileID=2800000&amp;guid=13af64ba21cfc994da40333efa4c13dd&amp;type=3#Hull_08&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_08.png?fileID=2800000&amp;guid=922c90c6004f976498e7e5e62e3ccf93&amp;type=3#Gun_08&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual9" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_09.png?fileID=2800000&amp;guid=65699d9745a982942b5acd5527f0ecb0&amp;type=3#Hull_09&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_09.png?fileID=2800000&amp;guid=5f1e2aa734c82e04290ef2b06777ce54&amp;type=3#Gun_09&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual10" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_10.png?fileID=2800000&amp;guid=82e8389fd1341304ba99e75fb40141c9&amp;type=3#Hull_10&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_10.png?fileID=2800000&amp;guid=0711e66d578a91040a18883d6ce07ec3&amp;type=3#Gun_10&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual11" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_11.png?fileID=2800000&amp;guid=7067f4993084bf044a661d60709d87dd&amp;type=3#Hull_11&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_11.png?fileID=2800000&amp;guid=73de81d94d3ec974d9763f220707baae&amp;type=3#Gun_11&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual12" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_12.png?fileID=2800000&amp;guid=f07a1ee731121e04f8c94fb3d7a049e9&amp;type=3#Hull_12&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_12.png?fileID=2800000&amp;guid=000ae4804ae5b4141b99cf68bfaf85a1&amp;type=3#Gun_12&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual13" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_13.png?fileID=2800000&amp;guid=b21d3d401a454044ab24336590d69a77&amp;type=3#Hull_13&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_13.png?fileID=2800000&amp;guid=b8208c59a75814f47b61345e588361af&amp;type=3#Gun_13&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual14" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_14.png?fileID=2800000&amp;guid=3aeb0878fc10db14d80c7e07bb80cbb8&amp;type=3#Hull_14&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_14.png?fileID=2800000&amp;guid=b10a4012cdfa96c498e52822a87d84d5&amp;type=3#Gun_14&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual15" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_15.png?fileID=2800000&amp;guid=81a7119537c67734c8233495e18da4ed&amp;type=3#Hull_15&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_15.png?fileID=2800000&amp;guid=7a16e15da66a38f41aeeef685a7a40ab&amp;type=3#Gun_15&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual16" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_16.png?fileID=2800000&amp;guid=1b4dac48807012d46be1071027c3cda4&amp;type=3#Hull_16&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_16.png?fileID=2800000&amp;guid=d9485efa0d65ffa4b9e1c4ebdf974a7a&amp;type=3#Gun_16&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="RedPlayer3" style="flex-grow: 1; justify-content: center; align-self: center; flex-direction: row; width: 100%; align-items: stretch; align-content: center; height: 0%; max-height: 100%; min-height: 25%; margin-top: 2%; margin-right: 0%; margin-bottom: 2%; margin-left: 0%; padding-top: 0%; padding-right: 0%; padding-bottom: 0%; padding-left: 0%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; max-width: 100%; min-width: 0%;">
+                            <ui:Label text="Label" name="NameLabel" class="player-label" style="display: flex; justify-content: center; -unity-text-align: middle-center; width: 50%; max-height: 100%; height: 100%; min-height: 25%;" />
+                            <ui:VisualElement name="TankContainer" style="flex-grow: 1; width: 50%; height: 100%; align-items: center; justify-content: center; align-self: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                                <ui:VisualElement name="RedTankPartsContainer" class="tank-preview" style="justify-content: center; align-self: center; width: 128px; max-width: 100%; min-width: 0%; height: 128px; min-height: 0%; max-height: 100%; display: flex; position: relative; top: -3%;">
+                                    <ui:VisualElement name="MainTankVisual1" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: flex;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none; width: 100%; height: 100%; background-image: none; -unity-background-scale-mode: stretch-to-fill; background-position-y: center; background-size: 100% 100%;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_01.png?fileID=2800000&amp;guid=adc7c30ba0cb5ec4087508c79a599060&amp;type=3#Hull_01&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_01.png?fileID=2800000&amp;guid=11f0b4a9aa35a92488baee6277fceb74&amp;type=3#Gun_01&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual2" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_02.png?fileID=2800000&amp;guid=bbdcbf0fb67c1a840bafe22e6acc2767&amp;type=3#Hull_02&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_02.png?fileID=2800000&amp;guid=218933b68be80f0428462bdb95b95197&amp;type=3#Gun_02&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual3" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_03.png?fileID=2800000&amp;guid=8c61198c84dbc214fadbac972431f386&amp;type=3#Hull_03&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_03.png?fileID=2800000&amp;guid=350adcc8089ab0d48bf7e744fab7eac6&amp;type=3#Gun_03&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual4" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_04.png?fileID=2800000&amp;guid=82339c2d6bf89c341a0b45ce97d5ed19&amp;type=3#Hull_04&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_04.png?fileID=2800000&amp;guid=1e35c5b65adeb0f4090ab4aad02cd98c&amp;type=3#Gun_04&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual5" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_05.png?fileID=2800000&amp;guid=5e10f17ed23c6a642b1e3fd15ad8f275&amp;type=3#Hull_05&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_05.png?fileID=2800000&amp;guid=3a740772b3c20c54fa0f63543f2688ad&amp;type=3#Gun_05&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual6" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_06.png?fileID=2800000&amp;guid=14c6b63527c68e941b971148d3fd4c3f&amp;type=3#Hull_06&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_06.png?fileID=2800000&amp;guid=1860a3797879b6b44a6f229be8d9ef78&amp;type=3#Gun_06&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual7" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -22%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 22%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_07.png?fileID=2800000&amp;guid=f45db8df785bed74f807cf5ed8a3e99c&amp;type=3#Hull_07&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_07.png?fileID=2800000&amp;guid=74623376e5587fe4285de36b156fdbb6&amp;type=3#Gun_07&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual8" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_08.png?fileID=2800000&amp;guid=13af64ba21cfc994da40333efa4c13dd&amp;type=3#Hull_08&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_08.png?fileID=2800000&amp;guid=922c90c6004f976498e7e5e62e3ccf93&amp;type=3#Gun_08&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual9" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_09.png?fileID=2800000&amp;guid=65699d9745a982942b5acd5527f0ecb0&amp;type=3#Hull_09&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_09.png?fileID=2800000&amp;guid=5f1e2aa734c82e04290ef2b06777ce54&amp;type=3#Gun_09&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual10" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_10.png?fileID=2800000&amp;guid=82e8389fd1341304ba99e75fb40141c9&amp;type=3#Hull_10&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_10.png?fileID=2800000&amp;guid=0711e66d578a91040a18883d6ce07ec3&amp;type=3#Gun_10&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual11" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_11.png?fileID=2800000&amp;guid=7067f4993084bf044a661d60709d87dd&amp;type=3#Hull_11&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_11.png?fileID=2800000&amp;guid=73de81d94d3ec974d9763f220707baae&amp;type=3#Gun_11&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual12" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_12.png?fileID=2800000&amp;guid=f07a1ee731121e04f8c94fb3d7a049e9&amp;type=3#Hull_12&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_12.png?fileID=2800000&amp;guid=000ae4804ae5b4141b99cf68bfaf85a1&amp;type=3#Gun_12&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual13" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_13.png?fileID=2800000&amp;guid=b21d3d401a454044ab24336590d69a77&amp;type=3#Hull_13&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_13.png?fileID=2800000&amp;guid=b8208c59a75814f47b61345e588361af&amp;type=3#Gun_13&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual14" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_14.png?fileID=2800000&amp;guid=3aeb0878fc10db14d80c7e07bb80cbb8&amp;type=3#Hull_14&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_14.png?fileID=2800000&amp;guid=b10a4012cdfa96c498e52822a87d84d5&amp;type=3#Gun_14&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual15" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_15.png?fileID=2800000&amp;guid=81a7119537c67734c8233495e18da4ed&amp;type=3#Hull_15&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_15.png?fileID=2800000&amp;guid=7a16e15da66a38f41aeeef685a7a40ab&amp;type=3#Gun_15&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual16" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Red/Hull/Hull_16.png?fileID=2800000&amp;guid=1b4dac48807012d46be1071027c3cda4&amp;type=3#Hull_16&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponRed256x256/Gun_16.png?fileID=2800000&amp;guid=d9485efa0d65ffa4b9e1c4ebdf974a7a&amp;type=3#Gun_16&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="BlueTeamContainer" style="flex-grow: 1; width: 50%; height: 100%; align-self: center; justify-content: center; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Score_Table/Stats_Table_03.png?fileID=2800000&amp;guid=fbd7c3130f5b43c44b1d71df762b22ec&amp;type=3#Stats_Table_03&quot;); color: rgb(7, 7, 7); border-left-color: rgb(255, 200, 0); border-right-color: rgb(255, 200, 0); border-top-color: rgb(255, 200, 0); border-bottom-color: rgb(255, 200, 0); border-top-left-radius: 40px; border-top-right-radius: 40px; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-right: 0%; display: flex; background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgba(255, 255, 255, 0); margin-left: 0%;">
+                    <ui:VisualElement name="LabelContainer" style="flex-grow: 1; border-top-left-radius: 41px; border-top-right-radius: 41px; border-bottom-right-radius: 41px; border-bottom-left-radius: 41px; border-left-color: rgb(255, 200, 0); border-right-color: rgb(255, 200, 0); border-top-color: rgb(255, 200, 0); border-bottom-color: rgb(255, 200, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; align-self: center; width: 100%; height: 100%; max-height: 100%; display: flex; min-height: 0%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 6%; padding-right: 6%; padding-bottom: 6%; padding-left: 6%;">
+                        <ui:VisualElement name="BluePlayer1" style="flex-grow: 1; justify-content: center; align-self: center; flex-direction: row; width: 100%; align-items: stretch; align-content: center; height: 0%; max-height: 100%; min-height: 24%; margin-top: 0%; margin-right: 0%; margin-bottom: 1%; margin-left: 0%; padding-top: 0%; padding-right: 0%; padding-bottom: 0%; padding-left: 0%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; max-width: 100%; min-width: 0%;">
+                            <ui:Label text="Label" name="NameLabel" class="player-label" style="display: flex; justify-content: center; -unity-text-align: middle-center; width: 50%; max-height: 100%; height: 100%; min-height: 25%;" />
+                            <ui:VisualElement name="TankContainer" style="flex-grow: 1; width: 50%; height: 100%; align-items: center; justify-content: center; align-self: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                                <ui:VisualElement name="BlueTankPartsContainer" class="tank-preview" style="justify-content: center; align-self: center; width: 128px; max-width: 100%; min-width: 0%; height: 128px; min-height: 0%; max-height: 100%; display: flex; position: relative; top: -3%;">
+                                    <ui:VisualElement name="MainTankVisual1" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: flex;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none; width: 100%; height: 100%; background-image: none; -unity-background-scale-mode: stretch-to-fill; background-position-y: center; background-size: 100% 100%;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_01.png?fileID=2800000&amp;guid=949f54c9fd569bd4da7fcdb21e6105a2&amp;type=3#Hull_01&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_01.png?fileID=2800000&amp;guid=8ab4eb2c464a7764ab5c1d7c68a3c9d4&amp;type=3#Gun_01&quot;); display: flex;" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual2" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_02.png?fileID=2800000&amp;guid=dc63cab8e750a16458016a423642eadd&amp;type=3#Hull_02&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_02.png?fileID=2800000&amp;guid=c09f5fe8943985b49bd9cd1ff1aeb737&amp;type=3#Gun_02&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual3" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_03.png?fileID=2800000&amp;guid=80d7d5337f491cc48b8f6c71169450b8&amp;type=3#Hull_03&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_03.png?fileID=2800000&amp;guid=09b49b09196196140a39971a6b70055c&amp;type=3#Gun_03&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual4" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_04.png?fileID=2800000&amp;guid=8fa6ce675394da74c9c1415ea9d031f5&amp;type=3#Hull_04&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_04.png?fileID=2800000&amp;guid=2899262d9ab57a8428cd649b9afbe1e1&amp;type=3#Gun_04&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual5" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_05.png?fileID=2800000&amp;guid=5bde7421b76bcb940b9d4190dd28ffa2&amp;type=3#Hull_05&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_05.png?fileID=2800000&amp;guid=a53bcf5be6d11604f831044647f5a59e&amp;type=3#Gun_05&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual6" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_06.png?fileID=2800000&amp;guid=ca5b9c6d2816c7a40b2c8f1594747a74&amp;type=3#Hull_06&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_06.png?fileID=2800000&amp;guid=2b9b57267be4a3945a7f4f65a2e6611c&amp;type=3#Gun_06&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual7" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -22%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 22%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_07.png?fileID=2800000&amp;guid=9c7209ace81d74f4b9aded24f7988c6a&amp;type=3#Hull_07&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_07.png?fileID=2800000&amp;guid=fb729bba28dec344093be72ad658c0c7&amp;type=3#Gun_07&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual8" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_08.png?fileID=2800000&amp;guid=77b179873b7ac4342950424155f56b0e&amp;type=3#Hull_08&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_08.png?fileID=2800000&amp;guid=4897dade6d280944ba64caef12d7ce06&amp;type=3#Gun_08&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual9" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_09.png?fileID=2800000&amp;guid=0d1e05e720ff747488a28463612292b4&amp;type=3#Hull_09&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_09.png?fileID=2800000&amp;guid=b63752e47b5074843b13efb58c03d696&amp;type=3#Gun_09&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual10" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_10.png?fileID=2800000&amp;guid=7ce226ead6a0d534fabf63eb40ec7fdb&amp;type=3#Hull_10&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_10.png?fileID=2800000&amp;guid=b385eed4e525f0b4f8ce271eca57d774&amp;type=3#Gun_10&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual11" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_11.png?fileID=2800000&amp;guid=585987b0307ea6c48be7c7d40b3b88da&amp;type=3#Hull_11&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_11.png?fileID=2800000&amp;guid=19d38eaf9fa7082408d3969609c445f4&amp;type=3#Gun_11&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual12" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_12.png?fileID=2800000&amp;guid=c7f788a0045fe6e4fbc11e4d5fb5a302&amp;type=3#Hull_12&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_12.png?fileID=2800000&amp;guid=d759c01cdc771954b8ea56c1eaaf9478&amp;type=3#Gun_12&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual13" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_13.png?fileID=2800000&amp;guid=f1b2571d35193a44bb786ef4121ae016&amp;type=3#Hull_13&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_13.png?fileID=2800000&amp;guid=0b766279b0c817d43baaa0e83e756c99&amp;type=3#Gun_13&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual14" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_14.png?fileID=2800000&amp;guid=76c1e3de6e2eb4845ba280c1d3327ed5&amp;type=3#Hull_14&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_14.png?fileID=2800000&amp;guid=ea02a703aa16a354ebe84de32d7709c5&amp;type=3#Gun_14&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual15" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_15.png?fileID=2800000&amp;guid=350226364e16cc84fb24b6445b28c112&amp;type=3#Hull_15&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_15.png?fileID=2800000&amp;guid=05aed393fa2170b4d9cd707e4429b08a&amp;type=3#Gun_15&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual16" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_16.png?fileID=2800000&amp;guid=804bde9644f23524c91ef701489efe97&amp;type=3#Hull_16&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_16.png?fileID=2800000&amp;guid=d89adc99b7b2b1b4b9b110f268f5adde&amp;type=3#Gun_16&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="BluePlayer2" style="flex-grow: 1; justify-content: center; align-self: center; flex-direction: row; width: 100%; align-items: stretch; align-content: center; height: 0%; max-height: 100%; min-height: 24%; margin-top: 0%; margin-right: 0%; margin-bottom: 1%; margin-left: 0%; padding-top: 0%; padding-right: 0%; padding-bottom: 0%; padding-left: 0%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; max-width: 100%; min-width: 0%;">
+                            <ui:Label text="Label" name="NameLabel" class="player-label" style="display: flex; justify-content: center; -unity-text-align: middle-center; width: 50%; max-height: 100%; height: 100%; min-height: 25%;" />
+                            <ui:VisualElement name="TankContainer" style="flex-grow: 1; width: 50%; height: 100%; align-items: center; justify-content: center; align-self: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                                <ui:VisualElement name="BlueTankPartsContainer" class="tank-preview" style="justify-content: center; align-self: center; width: 128px; max-width: 100%; min-width: 0%; height: 128px; min-height: 0%; max-height: 100%; display: flex; position: relative; top: -3%;">
+                                    <ui:VisualElement name="MainTankVisual1" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: flex;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none; width: 100%; height: 100%; background-image: none; -unity-background-scale-mode: stretch-to-fill; background-position-y: center; background-size: 100% 100%;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_01.png?fileID=2800000&amp;guid=949f54c9fd569bd4da7fcdb21e6105a2&amp;type=3#Hull_01&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_01.png?fileID=2800000&amp;guid=8ab4eb2c464a7764ab5c1d7c68a3c9d4&amp;type=3#Gun_01&quot;); display: flex;" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual2" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_02.png?fileID=2800000&amp;guid=dc63cab8e750a16458016a423642eadd&amp;type=3#Hull_02&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_02.png?fileID=2800000&amp;guid=c09f5fe8943985b49bd9cd1ff1aeb737&amp;type=3#Gun_02&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual3" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_03.png?fileID=2800000&amp;guid=80d7d5337f491cc48b8f6c71169450b8&amp;type=3#Hull_03&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_03.png?fileID=2800000&amp;guid=09b49b09196196140a39971a6b70055c&amp;type=3#Gun_03&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual4" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_04.png?fileID=2800000&amp;guid=8fa6ce675394da74c9c1415ea9d031f5&amp;type=3#Hull_04&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_04.png?fileID=2800000&amp;guid=2899262d9ab57a8428cd649b9afbe1e1&amp;type=3#Gun_04&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual5" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_05.png?fileID=2800000&amp;guid=5bde7421b76bcb940b9d4190dd28ffa2&amp;type=3#Hull_05&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_05.png?fileID=2800000&amp;guid=a53bcf5be6d11604f831044647f5a59e&amp;type=3#Gun_05&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual6" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_06.png?fileID=2800000&amp;guid=ca5b9c6d2816c7a40b2c8f1594747a74&amp;type=3#Hull_06&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_06.png?fileID=2800000&amp;guid=2b9b57267be4a3945a7f4f65a2e6611c&amp;type=3#Gun_06&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual7" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -22%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 22%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_07.png?fileID=2800000&amp;guid=9c7209ace81d74f4b9aded24f7988c6a&amp;type=3#Hull_07&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_07.png?fileID=2800000&amp;guid=fb729bba28dec344093be72ad658c0c7&amp;type=3#Gun_07&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual8" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_08.png?fileID=2800000&amp;guid=77b179873b7ac4342950424155f56b0e&amp;type=3#Hull_08&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_08.png?fileID=2800000&amp;guid=4897dade6d280944ba64caef12d7ce06&amp;type=3#Gun_08&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual9" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_09.png?fileID=2800000&amp;guid=0d1e05e720ff747488a28463612292b4&amp;type=3#Hull_09&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_09.png?fileID=2800000&amp;guid=b63752e47b5074843b13efb58c03d696&amp;type=3#Gun_09&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual10" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_10.png?fileID=2800000&amp;guid=7ce226ead6a0d534fabf63eb40ec7fdb&amp;type=3#Hull_10&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_10.png?fileID=2800000&amp;guid=b385eed4e525f0b4f8ce271eca57d774&amp;type=3#Gun_10&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual11" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_11.png?fileID=2800000&amp;guid=585987b0307ea6c48be7c7d40b3b88da&amp;type=3#Hull_11&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_11.png?fileID=2800000&amp;guid=19d38eaf9fa7082408d3969609c445f4&amp;type=3#Gun_11&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual12" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_12.png?fileID=2800000&amp;guid=c7f788a0045fe6e4fbc11e4d5fb5a302&amp;type=3#Hull_12&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_12.png?fileID=2800000&amp;guid=d759c01cdc771954b8ea56c1eaaf9478&amp;type=3#Gun_12&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual13" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_13.png?fileID=2800000&amp;guid=f1b2571d35193a44bb786ef4121ae016&amp;type=3#Hull_13&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_13.png?fileID=2800000&amp;guid=0b766279b0c817d43baaa0e83e756c99&amp;type=3#Gun_13&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual14" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_14.png?fileID=2800000&amp;guid=76c1e3de6e2eb4845ba280c1d3327ed5&amp;type=3#Hull_14&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_14.png?fileID=2800000&amp;guid=ea02a703aa16a354ebe84de32d7709c5&amp;type=3#Gun_14&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual15" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_15.png?fileID=2800000&amp;guid=350226364e16cc84fb24b6445b28c112&amp;type=3#Hull_15&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_15.png?fileID=2800000&amp;guid=05aed393fa2170b4d9cd707e4429b08a&amp;type=3#Gun_15&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual16" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_16.png?fileID=2800000&amp;guid=804bde9644f23524c91ef701489efe97&amp;type=3#Hull_16&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_16.png?fileID=2800000&amp;guid=d89adc99b7b2b1b4b9b110f268f5adde&amp;type=3#Gun_16&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="BluePlayer3" style="flex-grow: 1; justify-content: center; align-self: center; flex-direction: row; width: 100%; align-items: stretch; align-content: center; height: 0%; max-height: 100%; min-height: 24%; margin-top: 0%; margin-right: 0%; margin-bottom: 1%; margin-left: 0%; padding-top: 0%; padding-right: 0%; padding-bottom: 0%; padding-left: 0%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; max-width: 100%; min-width: 0%;">
+                            <ui:Label text="Label" name="NameLabel" class="player-label" style="display: flex; justify-content: center; -unity-text-align: middle-center; width: 50%; max-height: 100%; height: 100%; min-height: 25%;" />
+                            <ui:VisualElement name="TankContainer" style="flex-grow: 1; width: 50%; height: 100%; align-items: center; justify-content: center; align-self: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                                <ui:VisualElement name="BlueTankPartsContainer" class="tank-preview" style="justify-content: center; align-self: center; width: 128px; max-width: 100%; min-width: 0%; height: 128px; min-height: 0%; max-height: 100%; display: flex; position: relative; top: -3%;">
+                                    <ui:VisualElement name="MainTankVisual1" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: flex;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none; width: 100%; height: 100%; background-image: none; -unity-background-scale-mode: stretch-to-fill; background-position-y: center; background-size: 100% 100%;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_01.png?fileID=2800000&amp;guid=949f54c9fd569bd4da7fcdb21e6105a2&amp;type=3#Hull_01&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_01.png?fileID=2800000&amp;guid=8ab4eb2c464a7764ab5c1d7c68a3c9d4&amp;type=3#Gun_01&quot;); display: flex;" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual2" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_1_A.png?fileID=21300000&amp;guid=34c763469f39b964b97f455dcd6a4534&amp;type=3#Track_1_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_02.png?fileID=2800000&amp;guid=dc63cab8e750a16458016a423642eadd&amp;type=3#Hull_02&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_02.png?fileID=2800000&amp;guid=c09f5fe8943985b49bd9cd1ff1aeb737&amp;type=3#Gun_02&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual3" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_03.png?fileID=2800000&amp;guid=80d7d5337f491cc48b8f6c71169450b8&amp;type=3#Hull_03&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_03.png?fileID=2800000&amp;guid=09b49b09196196140a39971a6b70055c&amp;type=3#Gun_03&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual4" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_2_A.png?fileID=21300000&amp;guid=c15aeb2f63a96a248b021cd1ca22863f&amp;type=3#Track_2_A&quot;); left: 20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_04.png?fileID=2800000&amp;guid=8fa6ce675394da74c9c1415ea9d031f5&amp;type=3#Hull_04&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_04.png?fileID=2800000&amp;guid=2899262d9ab57a8428cd649b9afbe1e1&amp;type=3#Gun_04&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual5" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_05.png?fileID=2800000&amp;guid=5bde7421b76bcb940b9d4190dd28ffa2&amp;type=3#Hull_05&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_05.png?fileID=2800000&amp;guid=a53bcf5be6d11604f831044647f5a59e&amp;type=3#Gun_05&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual6" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_3_A.png?fileID=21300000&amp;guid=ac4beac73a4e77e469b7d3ae05afe708&amp;type=3#Track_3_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_06.png?fileID=2800000&amp;guid=ca5b9c6d2816c7a40b2c8f1594747a74&amp;type=3#Hull_06&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_06.png?fileID=2800000&amp;guid=2b9b57267be4a3945a7f4f65a2e6611c&amp;type=3#Gun_06&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual7" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -22%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 22%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_07.png?fileID=2800000&amp;guid=9c7209ace81d74f4b9aded24f7988c6a&amp;type=3#Hull_07&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_07.png?fileID=2800000&amp;guid=fb729bba28dec344093be72ad658c0c7&amp;type=3#Gun_07&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual8" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: -20%; height: 80%; top: 10%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_4_A.png?fileID=21300000&amp;guid=4221b9b7fef7ba54ca78f77e757ff2fb&amp;type=3#Track_4_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_08.png?fileID=2800000&amp;guid=77b179873b7ac4342950424155f56b0e&amp;type=3#Hull_08&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_08.png?fileID=2800000&amp;guid=4897dade6d280944ba64caef12d7ce06&amp;type=3#Gun_08&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual9" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_09.png?fileID=2800000&amp;guid=0d1e05e720ff747488a28463612292b4&amp;type=3#Hull_09&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_09.png?fileID=2800000&amp;guid=b63752e47b5074843b13efb58c03d696&amp;type=3#Gun_09&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual10" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_5_A.png?fileID=21300000&amp;guid=445a7ed6b72ccb1478e9977411349746&amp;type=3#Track_5_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_10.png?fileID=2800000&amp;guid=7ce226ead6a0d534fabf63eb40ec7fdb&amp;type=3#Hull_10&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_10.png?fileID=2800000&amp;guid=b385eed4e525f0b4f8ce271eca57d774&amp;type=3#Gun_10&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual11" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_11.png?fileID=2800000&amp;guid=585987b0307ea6c48be7c7d40b3b88da&amp;type=3#Hull_11&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_11.png?fileID=2800000&amp;guid=19d38eaf9fa7082408d3969609c445f4&amp;type=3#Gun_11&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual12" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_6_A.png?fileID=21300000&amp;guid=a750a7f11fe738f48aeab30d02c416ce&amp;type=3#Track_6_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_12.png?fileID=2800000&amp;guid=c7f788a0045fe6e4fbc11e4d5fb5a302&amp;type=3#Hull_12&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_12.png?fileID=2800000&amp;guid=d759c01cdc771954b8ea56c1eaaf9478&amp;type=3#Gun_12&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual13" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_13.png?fileID=2800000&amp;guid=f1b2571d35193a44bb786ef4121ae016&amp;type=3#Hull_13&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_13.png?fileID=2800000&amp;guid=0b766279b0c817d43baaa0e83e756c99&amp;type=3#Gun_13&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual14" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: -30%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_7_A.png?fileID=21300000&amp;guid=ac891e61d7be3a840be5facb228cd7d6&amp;type=3#Track_7_A&quot;); left: 30%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_14.png?fileID=2800000&amp;guid=76c1e3de6e2eb4845ba280c1d3327ed5&amp;type=3#Hull_14&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_14.png?fileID=2800000&amp;guid=ea02a703aa16a354ebe84de32d7709c5&amp;type=3#Gun_14&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual15" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_15.png?fileID=2800000&amp;guid=350226364e16cc84fb24b6445b28c112&amp;type=3#Hull_15&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_15.png?fileID=2800000&amp;guid=05aed393fa2170b4d9cd707e4429b08a&amp;type=3#Gun_15&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                    <ui:VisualElement name="MainTankVisual16" class="tank-preview" style="position: absolute; width: 100%; height: 100%; display: none;">
+                                        <ui:VisualElement name="TrackLeft" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: -20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstLeft" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="TrackRight" class="tank-track" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Tracks/Track_8_A.png?fileID=21300000&amp;guid=926d12848db4be14b98b5fda7ce7f404&amp;type=3#Track_8_A&quot;); left: 20%; top: 10%; height: 80%;">
+                                            <ui:VisualElement name="BurstRight" class="tank-burst" style="display: none;" />
+                                        </ui:VisualElement>
+                                        <ui:VisualElement name="Hull" class="tank-hull" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/Blue/Hull/Hull_16.png?fileID=2800000&amp;guid=804bde9644f23524c91ef701489efe97&amp;type=3#Hull_16&quot;);">
+                                            <ui:VisualElement name="Weapon" class="tank-weapon" style="background-image: url(&quot;project://database/Assets/Art/Tank_Asset/WeaponBlue256x256/Gun_16.png?fileID=2800000&amp;guid=d89adc99b7b2b1b4b9b110f268f5adde&amp;type=3#Gun_16&quot;);" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ButtonFooter" style="flex-grow: 1; align-items: center; justify-content: center; margin-bottom: 0%; display: flex; height: 0%; width: 100%; min-height: 0%; max-height: 100%; align-self: center; max-width: 100%; min-width: 0%;">
+                <ui:Button text="START GAME" name="StartGameButton" class="start-button" style="width: 20%; height: 100%; font-size: 36px; -unity-font-definition: url(&quot;project://database/Assets/Font/AldotheApache.ttf?fileID=12800000&amp;guid=35db1d0ecf5f46b48af76c68e2649c27&amp;type=3#AldotheApache&quot;); color: rgb(255, 255, 255); background-color: rgb(46, 125, 50); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-left-color: rgb(27, 94, 32); border-right-color: rgb(27, 94, 32); border-top-color: rgb(27, 94, 32); border-bottom-color: rgb(27, 94, 32); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; -unity-text-align: middle-center; display: none;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

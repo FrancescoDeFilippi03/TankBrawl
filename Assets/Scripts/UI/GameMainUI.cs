@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 
 public class GameMainUI : UI
 {
-    [SerializeField] private UIDocument uiDocument;
 
     private Label redTeamScoreLabel;
     private Label blueTeamScoreLabel;

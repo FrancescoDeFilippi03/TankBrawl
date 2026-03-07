@@ -3,13 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class BootstrapLoader : MonoBehaviour
 {
-    [SerializeField] private string nextSceneName = "Lobby"; 
+    [SerializeField] private string nextSceneName = "MainMenu"; 
 
     void Start()
     {
-        // Carica la scena successiva.
-        // I manager (NetworkManager, SessionManager) rimarranno vivi 
-        // perché sono impostati come DontDestroyOnLoad.
         SceneManager.LoadScene(nextSceneName);
     }
 }

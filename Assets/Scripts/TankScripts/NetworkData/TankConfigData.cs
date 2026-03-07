@@ -6,7 +6,7 @@ using Unity.Netcode;
 [Serializable]
 public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
 {
-    public FixedString64Bytes PlayerId;
+    public FixedString64Bytes PlayerName;
     public ulong ClientId;
     public TeamColor Team;
     public int TankId;
@@ -15,7 +15,7 @@ public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
     {
         serializer.SerializeValue(ref Team);
         serializer.SerializeValue(ref ClientId);
-        serializer.SerializeValue(ref PlayerId);
+        serializer.SerializeValue(ref PlayerName);
         serializer.SerializeValue(ref TankId);
     }
 
@@ -24,7 +24,7 @@ public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
         return  Team == other.Team &&
                 ClientId == other.ClientId &&
                 TankId == other.TankId &&
-                PlayerId == other.PlayerId;
+                PlayerName == other.PlayerName;
     }
 
     

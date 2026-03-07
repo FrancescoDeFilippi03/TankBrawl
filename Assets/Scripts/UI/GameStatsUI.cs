@@ -5,8 +5,6 @@ using Unity.Netcode;
 
 public class GameStatsUI : UI
 {
-    [SerializeField] private UIDocument uiDocument;
-
     private List<VisualElement> teamRows = new List<VisualElement>();
     protected override void OnEnable()
     {

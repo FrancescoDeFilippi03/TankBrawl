@@ -155,7 +155,7 @@ Camera:
   m_GameObject: {fileID: 1034710514}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -179,7 +179,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 62
   orthographic: 1
   orthographic size: 5
   m_Depth: -1
@@ -256,7 +256,7 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1734363591
+--- !u!1 &1866186280
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,67 +264,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1734363593}
-  - component: {fileID: 1734363592}
-  - component: {fileID: 1734363594}
-  m_Layer: 5
-  m_Name: LoaderUI
+  - component: {fileID: 1866186282}
+  - component: {fileID: 1866186281}
+  m_Layer: 0
+  m_Name: MainMenuController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1734363592
+--- !u!114 &1866186281
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1734363591}
+  m_GameObject: {fileID: 1866186280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Script: {fileID: 11500000, guid: a01fe1354fd38264a9ca78c61c723d96, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: 8a6cd2d29b2f2f64392c7128cf82366d, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 55a7047560bf3d840aea77f8e4c596d5, type: 3}
-  m_SortingOrder: 0
-  m_Position: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
-  m_PivotReferenceSize: 0
-  m_Pivot: 0
-  m_WorldSpaceCollider: {fileID: 0}
---- !u!4 &1734363593
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
+  mainMenuUI: {fileID: 2136425006}
+--- !u!4 &1866186282
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1734363591}
+  m_GameObject: {fileID: 1866186280}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.32503, y: -0.11752, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1734363594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1734363591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c1ee7ac0e1d5814cbd79f59bcf65d18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LoaderUI
-  uiDocument: {fileID: 1734363592}
 --- !u!1 &2136425003
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,4 +376,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1034710517}
   - {fileID: 2136425005}
-  - {fileID: 1734363593}
+  - {fileID: 1866186282}

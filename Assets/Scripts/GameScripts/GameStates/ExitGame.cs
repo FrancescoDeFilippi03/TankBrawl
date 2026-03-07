@@ -14,7 +14,7 @@ public class ExitGame : GameStateBase
         Exit();
     }
 
-    public override async void Exit()
+    public override void Exit()
     {
         Debug.Log("Exiting ExitGame State");
 

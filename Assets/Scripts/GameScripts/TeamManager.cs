@@ -62,7 +62,7 @@ public class TeamManager : NetworkBehaviour
     void RegisterPlayerServerRpc(TankConfigData data)
     {
         tankConfigs.Add(data);
-        Debug.Log($"Registered TankConfigData for PlayerId: {data.PlayerId} on ClientId: {data.ClientId} with Team: {data.Team}");
+        Debug.Log($"Registered TankConfigData for PlayerId: {data.PlayerName} on ClientId: {data.ClientId} with Team: {data.Team}");
     }
 
     public void Clean()

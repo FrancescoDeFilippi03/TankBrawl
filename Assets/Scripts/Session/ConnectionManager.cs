@@ -59,17 +59,14 @@ public class ConnectionManager : NetworkBehaviour
 
     private async void OnClientDisconnected(ulong clientId)
     {
-        // Previeni chiamate multiple durante lo shutdown
         if (isShuttingDown)
             return;
             
         Debug.Log($"Client {clientId} disconnected - shutting down server");
         OnClientDisconnectedEvent?.Invoke(clientId);
         
-        // Imposta il flag prima di iniziare lo shutdown
         isShuttingDown = true;
         
-        // Disconnetti l'host - i client gestiranno la disconnessione automaticamente
         await SessionManager.Instance.LeaveSession();
     }
 

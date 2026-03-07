@@ -6,28 +6,36 @@ public class HangarUI : UI
 {
     public static HangarUI Instance { get; private set; }
     
-    private VisualElement lobbyModal;
-    private VisualElement modalContent;
-    private VisualElement tankSelectionModal;
+    /*  
+        private VisualElement lobbyModal;
+        private VisualElement modalContent;
+        
+        private Button startGameButton;
+        private Button hostGameButton;
+        private Button joinLobbyButton;
+        private Button closeModalButton; 
+        private TextField modalPlayerNameField;
+        private TextField lobbyCodeField;
+    */
+
+    //HANGAR
+    private Button backMainMenu;
+
+    //MODAL
+    private VisualElement tankSelectionModal; 
     private VisualElement tankModalContent;
-    private Button startGameButton;
-    private Button hostGameButton;
-    private Button joinLobbyButton;
-    private Button closeModalButton;
     private Button changeTankButton;
     private Button closeTankModalButton;
     private Button[] tankButtons = new Button[16];
     private VisualElement[] tankVisuals = new VisualElement[16];
-    private TextField modalPlayerNameField;
-    private TextField lobbyCodeField;
-
+    
     private VisualElement tankVisualContainer;
     
     private int selectedTankIndex = 0;
     
     // Events
-    public event Action<string> OnHostGame;
-    public event Action<string, string> OnJoinLobby;
+    /* public event Action<string> OnHostGame;
+    public event Action<string, string> OnJoinLobby; */
     public event Action<int> OnTankSelected;
     
     [SerializeField] private Sprite[] trackSpritesA = new Sprite[8]; // Track_1_A fino a Track_8_A
@@ -53,16 +61,20 @@ public class HangarUI : UI
     {
         base.OnEnable();
         
+        Show();
+
         if (root == null) return;
         
-        lobbyModal = root.Q<VisualElement>("LobbyModal");
+        /* lobbyModal = root.Q<VisualElement>("LobbyModal");
         modalContent = root.Q<VisualElement>("ModalContent");
         startGameButton = root.Q<Button>("StartGameButton");
         hostGameButton = root.Q<Button>("HostGameButton");
         joinLobbyButton = root.Q<Button>("JoinLobbyButton");
         closeModalButton = root.Q<Button>("CloseModalButton");
         modalPlayerNameField = root.Q<TextField>("ModalPlayerNameField");
-        lobbyCodeField = root.Q<TextField>("LobbyCodeField");
+        lobbyCodeField = root.Q<TextField>("LobbyCodeField"); */
+
+        backMainMenu = root.Q<Button>("BackGameButton");
         
         tankSelectionModal = root.Q<VisualElement>("TankSelectionModal");
         tankModalContent = root.Q<VisualElement>("TankModalContent");
@@ -82,8 +94,14 @@ public class HangarUI : UI
             tankVisuals[i] = tankVisualContainer.Q<VisualElement>($"MainTankVisual{i + 1}");
         }
         
-        LoadTankVisual(0);
-        
+        if(PlayerDataManager.Instance != null){
+            selectedTankIndex = PlayerDataManager.Instance.SelectedTankIndex;
+            
+        }
+
+        LoadTankVisual(selectedTankIndex);
+
+        /* 
         if (startGameButton != null)
             startGameButton.clicked += ShowLobbyModal;
         
@@ -95,12 +113,17 @@ public class HangarUI : UI
         
         if (closeModalButton != null)
             closeModalButton.clicked += HideLobbyModal;
-        
+         */
+
+
         if (changeTankButton != null)
             changeTankButton.clicked += ShowTankSelectionModal;
         
         if (closeTankModalButton != null)
             closeTankModalButton.clicked += HideTankSelectionModal;
+            
+        if (backMainMenu != null)
+            backMainMenu.clicked += OnBackMainMenuClicked;
        
         
         for (int i = 0; i < tankButtons.Length; i++)
@@ -120,7 +143,7 @@ public class HangarUI : UI
     
     void OnDisable()
     {
-        if (startGameButton != null)
+        /* if (startGameButton != null)
             startGameButton.clicked -= ShowLobbyModal;
         
         if (hostGameButton != null)
@@ -130,13 +153,17 @@ public class HangarUI : UI
             joinLobbyButton.clicked -= OnJoinLobbyButtonClicked;
         
         if (closeModalButton != null)
-            closeModalButton.clicked -= HideLobbyModal;
+            closeModalButton.clicked -= HideLobbyModal; */
         
         if (changeTankButton != null)
             changeTankButton.clicked -= ShowTankSelectionModal;
         
         if (closeTankModalButton != null)
             closeTankModalButton.clicked -= HideTankSelectionModal;
+
+        if (backMainMenu != null)
+            backMainMenu.clicked -= OnBackMainMenuClicked;
+       
         
         for (int i = 0; i < tankButtons.Length; i++)
         {
@@ -147,7 +174,17 @@ public class HangarUI : UI
             }
         }
     }
-    
+
+    private void OnBackMainMenuClicked()
+    {
+        this.Hide();
+        if(LoaderUI.Instance != null){
+            LoaderUI.Instance.StartCoroutine(LoaderUI.Instance.LoadScreenScene("MainMenu"));
+        }
+    }
+
+    /* 
+
     private void ShowLobbyModal()
     {
         if (lobbyModal == null) return;
@@ -185,8 +222,9 @@ public class HangarUI : UI
         {
             lobbyModal.style.display = DisplayStyle.None;
         }
-    }
-    
+    } */
+
+
     private void ShowTankSelectionModal()
     {
         if (tankSelectionModal == null) return;
@@ -237,6 +275,12 @@ public class HangarUI : UI
         LoadTankVisual(tankIndex);
         
         Debug.Log($"Tank {tankIndex + 1} selected!");
+        
+
+        if(PlayerDataManager.Instance != null){
+            PlayerDataManager.Instance.SelectedTankIndex = selectedTankIndex;
+        }
+
     }
     
     private void LoadTankVisual(int tankIndex)
@@ -356,6 +400,7 @@ public class HangarUI : UI
         }
     }
     
+    /* 
     private void OnHostGameButtonClicked()
     {
         string playerName = modalPlayerNameField?.value ?? "Player";
@@ -376,7 +421,7 @@ public class HangarUI : UI
         
         HideLobbyModal();
         OnJoinLobby?.Invoke(playerName, lobbyCode);
-    }
+    } */
     
     public void UpdateTankStats(int health, int speed, int damage, int armor)
     {

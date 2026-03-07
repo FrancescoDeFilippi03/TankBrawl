@@ -61,15 +61,7 @@ public class SessionManager : MonoBehaviour
         {
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
 
-
-            TankConfigData tankConfigData = new TankDataBuilder()
-            .WithTankId(0)
-            .WithPlayerId(AuthenticationService.Instance.PlayerId)
-            .WithClientId(NetworkManager.Singleton.LocalClientId)
-            .WithTeam(TeamColor.Red)
-            .Build();
-
-            TeamManager.Instance.tankConfigs.Add(tankConfigData);
+            TeamManager.Instance.tankConfigs.Add(ConvertLocalData());
 
             Debug.Log($"Host Session Created: {currentSession.Id} (Team: Red)");
             Debug.Log($"Code :{currentSession.Code}");
@@ -91,22 +83,28 @@ public class SessionManager : MonoBehaviour
 
             currentSession.RemovedFromSession += OnRemovedFromSession;
 
-            TeamColor assignedTeam = (TeamManager.Instance.tankConfigs.Count % 2 == 0) ? TeamColor.Red : TeamColor.Blue;
-            
-            TankConfigData tankConfigData = new TankDataBuilder()
-            .WithTankId(0)
-            .WithPlayerId(AuthenticationService.Instance.PlayerId)
-            .WithClientId(NetworkManager.Singleton.LocalClientId)
-            .WithTeam(assignedTeam)
-            .Build();
-            
-            TeamManager.Instance.RegisterMyPlayer(tankConfigData);
+            TeamManager.Instance.RegisterMyPlayer(ConvertLocalData());
         }
         catch (Exception e) 
         { 
             Debug.LogException(e);
         }
     }
+
+    private TankConfigData ConvertLocalData()
+    {
+        
+        TeamColor assignedTeam = (TeamManager.Instance.tankConfigs.Count % 2 == 0) ? TeamColor.Red : TeamColor.Blue;
+
+        var data = PlayerDataManager.Instance;
+
+        return new TankDataBuilder()
+            .WithTankId(data.SelectedTankIndex)
+            .WithPlayerId(data.name)
+            .WithClientId(NetworkManager.Singleton.LocalClientId)
+            .WithTeam(assignedTeam)
+            .Build();
+    } 
 
     private void OnRemovedFromSession()
     {
@@ -151,7 +149,7 @@ public class SessionManager : MonoBehaviour
 
         await currentSession.AsHost().SavePropertiesAsync();
         
-        NetworkManager.Singleton.SceneManager.LoadScene("TestGame", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("TestGame",LoadSceneMode.Single);
     }
 
     //UTILS
@@ -180,7 +178,7 @@ public class SessionManager : MonoBehaviour
 
         TankConfigData configData = new TankConfigData
         {
-            PlayerId = new Unity.Collections.FixedString64Bytes(playerId)
+            PlayerName = new Unity.Collections.FixedString64Bytes(playerId)
         };
         var teamProp = GetPlayerProperty(playerId, "Team");
 

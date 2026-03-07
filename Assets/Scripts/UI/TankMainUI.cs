@@ -3,8 +3,6 @@ using UnityEngine.UIElements;
 
 public class TankMainUI : UI
 {
-    [SerializeField] private UIDocument uiDocument;
-    
     [SerializeField] private VisualTreeAsset bulletTemplate; 
     
     private Tank subscribedTank;

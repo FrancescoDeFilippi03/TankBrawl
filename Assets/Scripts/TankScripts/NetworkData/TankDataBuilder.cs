@@ -21,9 +21,9 @@ public class TankDataBuilder
         return this;
     }
 
-    public TankDataBuilder WithPlayerId(string playerId)
+    public TankDataBuilder WithPlayerId(string playerName)
     {
-        _data.PlayerId = new Unity.Collections.FixedString64Bytes(playerId);
+        _data.PlayerName = new Unity.Collections.FixedString64Bytes(playerName);
         return this;
     }
 

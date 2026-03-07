@@ -8,9 +8,7 @@ public abstract class UI : MonoBehaviour
     protected VisualElement root;
 
     protected virtual void OnEnable()
-    {
-        if (uiDocument == null) return;
-        
+    {     
         root = uiDocument.rootVisualElement;
     }
 
