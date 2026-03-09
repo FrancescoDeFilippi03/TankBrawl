@@ -43,10 +43,10 @@ public class SpawnManager : NetworkBehaviour
 
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            TankConfigData configData = TeamManager.Instance.GetTankConfigDataForClient(clientId);
+            SessionPlayerData playerData = SessionDataManager.Instance.GetPlayerData(clientId);
             
-            Transform spawnPoint = GetSpawnPointForTeam(configData.Team, clientId);
-            NetworkObject tankPrefab = (configData.Team == TeamColor.Red) ? redTankPrefab[configData.TankId] : blueTankPrefab[configData.TankId];
+            Transform spawnPoint = GetSpawnPointForTeam(playerData.Team, clientId);
+            NetworkObject tankPrefab = (playerData.Team == TeamColor.Red) ? redTankPrefab[playerData.TankId] : blueTankPrefab[playerData.TankId];
             NetworkObject tankInstance = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
             tankInstance.SpawnAsPlayerObject(clientId);
         }

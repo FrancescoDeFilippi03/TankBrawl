@@ -61,7 +61,7 @@ public class SessionManager : MonoBehaviour
         {
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
 
-            TeamManager.Instance.tankConfigs.Add(ConvertLocalData());
+            
 
             Debug.Log($"Host Session Created: {currentSession.Id} (Team: Red)");
             Debug.Log($"Code :{currentSession.Code}");
@@ -83,28 +83,13 @@ public class SessionManager : MonoBehaviour
 
             currentSession.RemovedFromSession += OnRemovedFromSession;
 
-            TeamManager.Instance.RegisterMyPlayer(ConvertLocalData());
+            
         }
         catch (Exception e) 
         { 
             Debug.LogException(e);
         }
     }
-
-    private TankConfigData ConvertLocalData()
-    {
-        
-        TeamColor assignedTeam = (TeamManager.Instance.tankConfigs.Count % 2 == 0) ? TeamColor.Red : TeamColor.Blue;
-
-        var data = PlayerDataManager.Instance;
-
-        return new TankDataBuilder()
-            .WithTankId(data.SelectedTankIndex)
-            .WithPlayerId(data.name)
-            .WithClientId(NetworkManager.Singleton.LocalClientId)
-            .WithTeam(assignedTeam)
-            .Build();
-    } 
 
     private void OnRemovedFromSession()
     {
@@ -170,25 +155,6 @@ public class SessionManager : MonoBehaviour
             return player.Properties[propertyKey];
         }
         return null;
-    }
-    public TankConfigData GetTankConfigDataForPlayer(string playerId)
-    {
-        var player = GetPlayerById(playerId);
-        if (player == null) return default;
-
-        TankConfigData configData = new TankConfigData
-        {
-            PlayerName = new Unity.Collections.FixedString64Bytes(playerId)
-        };
-        var teamProp = GetPlayerProperty(playerId, "Team");
-
-
-        if (teamProp != null)     
-        {
-            configData.Team = (teamProp.Value == "Red") ? TeamColor.Red : TeamColor.Blue;
-        }
-
-        return configData;
     }
 
 }

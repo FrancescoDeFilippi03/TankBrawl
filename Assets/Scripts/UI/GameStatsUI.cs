@@ -25,7 +25,7 @@ public class GameStatsUI : UI
 
     public void BindTank(Tank tank)
     {
-        var row = teamRows[(int)tank.TankConfigData.ClientId];
+        var row = teamRows[(int)tank.PlayerData.ClientId];
         
         tank.kill.OnValueChanged += (prev, newVal) => 
             row.Q<Label>("Kill").text = newVal.ToString();

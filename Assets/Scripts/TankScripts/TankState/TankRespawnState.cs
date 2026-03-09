@@ -16,7 +16,7 @@ public class TankRespawnState : TankBaseState
         
         if (IsOwner)
         {
-            var configData = TeamManager.Instance.GetTankConfigDataForClient(tank.OwnerClientId);
+            var configData = SessionDataManager.Instance.GetPlayerData(tank.OwnerClientId);
             Transform spawnPoint = SpawnManager.Instance.GetSpawnPointForTeam(configData.Team, tank.OwnerClientId);
             
             tank.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);

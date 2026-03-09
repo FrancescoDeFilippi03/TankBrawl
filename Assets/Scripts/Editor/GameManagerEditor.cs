@@ -8,7 +8,7 @@ using UnityEditor.UIElements;
 public class GameManagerEditor : Editor
 {
     private GameManager gameManager;
-    private TeamManager teamManager;
+    private SessionDataManager teamManager;
     private VisualElement root;
 
     // UI References
@@ -23,7 +23,7 @@ public class GameManagerEditor : Editor
     {
         root = new VisualElement();
         gameManager = (GameManager)target;
-        teamManager = gameManager.GetComponent<TeamManager>();
+        teamManager = gameManager.GetComponent<SessionDataManager>();
 
         InspectorElement.FillDefaultInspector(root, serializedObject, this);
 
@@ -146,7 +146,7 @@ public class GameManagerEditor : Editor
     private void UpdateUIState()
     {
         if (!Application.isPlaying || gameManager == null) return;
-        if (teamManager == null) teamManager = gameManager.GetComponent<TeamManager>();
+        if (teamManager == null) teamManager = gameManager.GetComponent<SessionDataManager>();
 
         UpdateGameStateLabel();
 

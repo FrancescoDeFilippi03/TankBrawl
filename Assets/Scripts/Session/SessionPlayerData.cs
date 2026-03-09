@@ -2,14 +2,21 @@ using System;
 using Unity.Collections;
 using Unity.Netcode;
 
-// CONFIGURAZIONE (Dati pesanti,non cambiano mai)
 [Serializable]
-public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
+public struct SessionPlayerData : INetworkSerializable,IEquatable<SessionPlayerData>
 {
     public FixedString64Bytes PlayerName;
     public ulong ClientId;
     public TeamColor Team;
     public int TankId;
+
+    public SessionPlayerData(ulong clientId,string playerName, int tankId,TeamColor assignedTeam)
+    {
+        ClientId = clientId;
+        PlayerName = playerName;
+        TankId = tankId;
+        Team = assignedTeam;
+    }
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
@@ -19,7 +26,7 @@ public struct TankConfigData : INetworkSerializable,IEquatable<TankConfigData>
         serializer.SerializeValue(ref TankId);
     }
 
-    public readonly bool Equals(TankConfigData other)
+    public readonly bool Equals(SessionPlayerData other)
     {
         return  Team == other.Team &&
                 ClientId == other.ClientId &&

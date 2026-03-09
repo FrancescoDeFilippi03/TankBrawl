@@ -6,7 +6,7 @@ using Unity.Collections; // Necessario se usi FixedString
 
 // Assicurati che questo file sia posizionato all'interno di una cartella "Editor".
 
-[CustomEditor(typeof(TeamManager))]
+[CustomEditor(typeof(SessionDataManager))]
 public class TeamManagerEditor : Editor
 {
     // Definizioni di supporto (per la compilazione dell'Editor)
@@ -23,7 +23,7 @@ public class TeamManagerEditor : Editor
         // 1. Disegna l'Inspector di default
         DrawDefaultInspector();
 
-        TeamManager teamManager = (TeamManager)target;
+        SessionDataManager teamManager = (SessionDataManager)target;
 
         GUILayout.Space(15);
         GUI.backgroundColor = Color.cyan;
@@ -34,13 +34,13 @@ public class TeamManagerEditor : Editor
         // 2. Controlla lo stato del gioco e la lista
         if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
-            if (teamManager.tankConfigs == null || !teamManager.IsSpawned)
+            if (teamManager.Players == null || !teamManager.IsSpawned)
             {
                 EditorGUILayout.HelpBox("TeamManager non è ancora spawnato sulla rete (solo l'Host lo spawna) o la lista è null.", MessageType.Info);
                 return;
             }
             
-            if (teamManager.tankConfigs.Count == 0)
+            if (teamManager.Players.Count == 0)
             {
                  EditorGUILayout.HelpBox("NetworkList pronta, ma vuota (nessun giocatore registrato).", MessageType.Info);
                  return;
@@ -50,7 +50,7 @@ public class TeamManagerEditor : Editor
             EditorUtility.SetDirty(teamManager); 
             Repaint();
 
-            EditorGUILayout.LabelField($"Totale Giocatori: {teamManager.tankConfigs.Count}", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"Totale Giocatori: {teamManager.Players.Count}", EditorStyles.boldLabel);
             
             // Inizia l'area di visualizzazione dati
             EditorGUILayout.BeginVertical(GUI.skin.box);
@@ -64,10 +64,10 @@ public class TeamManagerEditor : Editor
             EditorGUILayout.EndHorizontal();
             
             // Itera sui dati
-            for (int i = 0; i < teamManager.tankConfigs.Count; i++)
+            for (int i = 0; i < teamManager.Players.Count; i++)
             {
                 // Leggiamo la struct
-                TankConfigData data = teamManager.tankConfigs[i];
+                SessionPlayerData data = teamManager.Players[i];
                 
                 // Colore per distinguere i team
                 Color bgColor = (data.Team == TeamColor.Red) ? new Color(1f, 0.7f, 0.7f) : new Color(0.7f, 0.7f, 1f);

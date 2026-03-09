@@ -84,8 +84,8 @@ public class Tank : NetworkBehaviour, IDamageble
     public ShootingSystem ShootingSystem => shootingSystem;
 
     // === Other ===
-    private TankConfigData tankConfigData;
-    public TankConfigData TankConfigData => tankConfigData;
+    private SessionPlayerData playerData;
+    public SessionPlayerData PlayerData => playerData;
     public bool isRedTeam = false;
 
     // === Game Stats === 
@@ -149,9 +149,9 @@ public class Tank : NetworkBehaviour, IDamageble
         
         if(!IsOwner) return;
 
-        tankConfigData = TeamManager.Instance.GetTankConfigDataForClient(OwnerClientId);
+        playerData = SessionDataManager.Instance.GetPlayerData(OwnerClientId);
 
-        isRedTeam = tankConfigData.Team == TeamColor.Red;
+        isRedTeam = playerData.Team == TeamColor.Red;
 
         CameraSetupOnSpawn();
 

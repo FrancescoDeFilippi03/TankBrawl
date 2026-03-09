@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Unity;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 public class LobbyUI : UI
@@ -25,21 +27,48 @@ public class LobbyUI : UI
         for (int i = 0; i < 6; i++)
         {
             string containerName = i % 2 == 0 ? "RedPlayer" + (i / 2 + 1) : "BluePlayer" + (i / 2 + 1);
-            Debug.Log($"Looking for container: {containerName}");
             var container = root.Q<VisualElement>(containerName);
             playerContainers.Add(container);
         }
 
-        
-        for (int i = 0; i < 6; i++)
-        {
-           playerContainers[i].Q<Label>("NameLabel").text = TeamManager.Instance.tankConfigs[i].PlayerName.ToString();
-        }
+        SessionDataManager.Instance.Players.OnListChanged += UpdateUIOnPlayersChanged;
 
+        UpdateUI();
     }
 
-    void Start()
+    void OnDisable()
     {
+        SessionDataManager.Instance.Players.OnListChanged -= UpdateUIOnPlayersChanged;
+    }
+
+    private void UpdateUIOnPlayersChanged(NetworkListEvent<SessionPlayerData> changeEvent)
+    {
+        UpdateUI();
+    }
+
+    void SetSelectedTank(VisualElement partsContainer , int index)
+    {
+        partsContainer.Q<VisualElement>("TankContainer").Q<VisualElement>("TankPartsContainer").Q<VisualElement>("MainTankVisual" + (index + 1)).style.display = DisplayStyle.Flex;
+    }
+
+    void SetPlayerName(VisualElement nameLabel , string name)
+    {
+        nameLabel.Q<Label>("NameLabel").text = name;
+    }
+    void SetPlayerInfoVisible(VisualElement playerVisual)
+    {
+        playerVisual.style.display = DisplayStyle.Flex;
+    }
+
+    void UpdateUI()
+    {
+        
+       for (int i = 0; i < SessionDataManager.Instance.Players.Count; i++)
+        {
+            SetPlayerName(playerContainers[i]  , SessionDataManager.Instance.Players[i].PlayerName.ToString());
+            SetSelectedTank(playerContainers[i] , SessionDataManager.Instance.Players[i].TankId);
+            SetPlayerInfoVisible(playerContainers[i]);
+        }
 
     }
 }

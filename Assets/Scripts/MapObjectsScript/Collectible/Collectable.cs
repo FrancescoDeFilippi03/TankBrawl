@@ -30,7 +30,7 @@ public abstract class Collectable : NetworkBehaviour
 
     private void ApplyClientSideRotation()
     {
-        TeamColor localplayerTeam = TeamManager.Instance.GetTankConfigDataForClient(NetworkManager.Singleton.LocalClientId).Team;
+        TeamColor localplayerTeam = SessionDataManager.Instance.GetPlayerData(NetworkManager.Singleton.LocalClientId).Team;
         Debug.Log($"Local player team: {localplayerTeam} clientId: {NetworkManager.Singleton.LocalClientId}");
         if (localplayerTeam == TeamColor.Red)
         {
