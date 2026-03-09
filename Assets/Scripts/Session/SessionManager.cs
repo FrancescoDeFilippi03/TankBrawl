@@ -13,7 +13,10 @@ public class SessionManager : MonoBehaviour
 {
     public static SessionManager Instance;
     private ISession currentSession;
-    public ISession CurrentSession => currentSession;
+    public ISession CurrentSession => currentSession;    
+    public event Action OnHostStarted;
+    public event Action OnClientStarted;
+    public event Action OnSessionEnded;
 
     private void Awake()
     {
@@ -55,13 +58,13 @@ public class SessionManager : MonoBehaviour
         var options = new SessionOptions { 
             MaxPlayers = 6,
             IsPrivate = true,
-        }.WithRelayNetwork();
+        }.WithRelayNetwork(new RelayNetworkOptions(RelayProtocol.WSS));
         
         try
         {
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
 
-            
+            OnHostStarted?.Invoke();
 
             Debug.Log($"Host Session Created: {currentSession.Id} (Team: Red)");
             Debug.Log($"Code :{currentSession.Code}");
@@ -82,8 +85,8 @@ public class SessionManager : MonoBehaviour
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
 
             currentSession.RemovedFromSession += OnRemovedFromSession;
-
             
+            OnClientStarted?.Invoke();
         }
         catch (Exception e) 
         { 
@@ -99,6 +102,8 @@ public class SessionManager : MonoBehaviour
     //COMMON LOGIC
     public async Task LeaveSession()
     {
+
+        Debug.Log("Leaving session....");
         if (currentSession != null)
         {
             try 
@@ -119,10 +124,11 @@ public class SessionManager : MonoBehaviour
             { 
                 Debug.LogException(e);
             }
+
+            OnSessionEnded?.Invoke();
             
             currentSession = null;
         }
-        SceneManager.LoadScene("Lobby");
     }
     public async Task StartGame(){
         
@@ -135,18 +141,15 @@ public class SessionManager : MonoBehaviour
         await currentSession.AsHost().SavePropertiesAsync();
         
         NetworkManager.Singleton.SceneManager.LoadScene("TestGame",LoadSceneMode.Single);
+
     }
-
     //UTILS
-
     public IPlayer GetPlayerById(string playerId)
     {
         if (currentSession == null) return null;
 
         return currentSession.AsHost().GetPlayer(playerId);
     }
-    
-
     public PlayerProperty GetPlayerProperty(string playerId, string propertyKey)
     {
         var player = GetPlayerById(playerId);

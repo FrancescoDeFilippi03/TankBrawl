@@ -179,7 +179,7 @@ public class HangarUI : UI
     {
         this.Hide();
         if(LoaderUI.Instance != null){
-            LoaderUI.Instance.StartCoroutine(LoaderUI.Instance.LoadScreenScene("MainMenu"));
+            LoaderUI.Instance.LoadScreenScene("MainMenu");
         }
     }
 

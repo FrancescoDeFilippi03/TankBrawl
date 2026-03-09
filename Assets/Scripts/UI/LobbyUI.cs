@@ -8,6 +8,7 @@ public class LobbyUI : UI
 {
     Label lobbyCode;
     Button startGameButton;
+    Button quitGameButton;
 
     List<VisualElement> playerContainers = new List<VisualElement>(6);
 
@@ -17,12 +18,16 @@ public class LobbyUI : UI
 
         lobbyCode = root.Q<Label>("LobbyCode");
         startGameButton = root.Q<Button>("StartGameButton");
+        quitGameButton = root.Q<Button>("QuitGameButton");
 
         if(SessionManager.Instance != null && SessionManager.Instance.CurrentSession != null)
         {
             lobbyCode.text = SessionManager.Instance.CurrentSession.Code;
-            startGameButton.style.display = SessionManager.Instance.CurrentSession.IsHost ? DisplayStyle.Flex : DisplayStyle.None;          
+            startGameButton.style.display = SessionManager.Instance.CurrentSession.IsHost ? DisplayStyle.Flex : DisplayStyle.None;
         }
+        startGameButton.clicked += OnStartGameButtonClicked;    
+        quitGameButton.clicked += OnQuitGameButtonClicked;      
+
 
         for (int i = 0; i < 6; i++)
         {
@@ -33,12 +38,33 @@ public class LobbyUI : UI
 
         SessionDataManager.Instance.Players.OnListChanged += UpdateUIOnPlayersChanged;
 
+        
+
         UpdateUI();
     }
 
     void OnDisable()
     {
+        startGameButton.clicked -= OnStartGameButtonClicked;    
+        quitGameButton.clicked -= OnQuitGameButtonClicked;      
+
+
         SessionDataManager.Instance.Players.OnListChanged -= UpdateUIOnPlayersChanged;
+
+
+    }
+
+    private async void OnQuitGameButtonClicked()
+    {
+        await SessionManager.Instance.LeaveSession();
+        LoaderUI.Instance.LoadScreenScene("MainMenu");
+    }
+
+    private async void OnStartGameButtonClicked()
+    {
+        
+        await SessionManager.Instance.StartGame();
+        
     }
 
     private void UpdateUIOnPlayersChanged(NetworkListEvent<SessionPlayerData> changeEvent)
@@ -71,4 +97,6 @@ public class LobbyUI : UI
         }
 
     }
+
+
 }

@@ -26,13 +26,13 @@ public class MainMenuController : MonoBehaviour
     {
         PlayerDataManager.Instance.PlayerName = playerName;
         await SessionManager.Instance.StartSessionAsHost();
-        LoaderUI.Instance.StartCoroutine(LoaderUI.Instance.LoadScreenScene("Lobby"));
+        LoaderUI.Instance.LoadScreenScene("Lobby");
     }
 
     private async void HandleJoinLobby(string playerName, string lobbyCode)
     {
         PlayerDataManager.Instance.PlayerName = playerName;
         await SessionManager.Instance.JoinSessionAsClient(lobbyCode);
-        LoaderUI.Instance.StartCoroutine(LoaderUI.Instance.LoadScreenScene("Lobby"));
+        LoaderUI.Instance.LoadScreenScene("Lobby");
     }
 }

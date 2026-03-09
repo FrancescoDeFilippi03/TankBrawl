@@ -30,6 +30,7 @@ public class SessionDataManager : NetworkBehaviour
     {
         if (IsServer)
         {
+            Players.Clear();
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         }
         
@@ -45,6 +46,7 @@ public class SessionDataManager : NetworkBehaviour
         {
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }
+        Players.Clear();
     }
 
     private void SendLocalPlayerDataToServer()
@@ -63,7 +65,6 @@ public class SessionDataManager : NetworkBehaviour
         Players.Add(newPlayer);
         Debug.Log($"Giocatore {playerName} (Client: {clientId}) registrato nel Team {assignedTeam}.");
     }
-
 
     private void OnClientDisconnected(ulong clientId)
     {
@@ -85,5 +86,7 @@ public class SessionDataManager : NetworkBehaviour
         }
         return default;
     }
+
+    
 
 }

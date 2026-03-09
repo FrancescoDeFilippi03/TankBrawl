@@ -32,7 +32,5 @@ public struct SessionPlayerData : INetworkSerializable,IEquatable<SessionPlayerD
                 ClientId == other.ClientId &&
                 TankId == other.TankId &&
                 PlayerName == other.PlayerName;
-    }
-
-    
+    }    
 }

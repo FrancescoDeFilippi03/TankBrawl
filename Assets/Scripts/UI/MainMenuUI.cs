@@ -154,7 +154,7 @@ public class MainMenuUI : UI
 
     private void OnHangarButtonClicked()
     {
-       LoaderUI.Instance.StartCoroutine(LoaderUI.Instance.LoadScreenScene("Hangar"));
+       LoaderUI.Instance.LoadScreenScene("Hangar");
     }
 
     private void OnPlayerNameChanged(ChangeEvent<string> evt)

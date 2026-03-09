@@ -35,8 +35,6 @@ public class ConnectionManager : NetworkBehaviour
 
     private void SetupConnectionCallbacks()
     {
-        
-
         // Eventi solo per il server
         if (IsServer)
         {
@@ -45,7 +43,6 @@ public class ConnectionManager : NetworkBehaviour
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
         }
         else{
-
             // Eventi per tutti i client
             NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect;
         }
@@ -84,9 +81,7 @@ public class ConnectionManager : NetworkBehaviour
             OnLocalClientDisconnected?.Invoke();
         }
     }
-
-
-
+    
     public override void OnNetworkDespawn()
     {
         if (NetworkManager.Singleton != null)
