@@ -19,26 +19,27 @@ Tank Brawl is a fast-paced multiplayer game where players control tanks in inten
 - **Unity Netcode for GameObjects** - Multiplayer networking
 - **C#** - Game programming
 
-## 🚀 Getting Started
-- **Installing** Game will be published on Itch.io
+## ⚠️ Important Notice
 
-### Prerequisites
+This repository contains **only the game logic** (scripts and core systems) of Tank Brawl. Art assets, animations, prefabs, and other resources are excluded from the repository. As a result, **the project cannot be directly built or run from source**.
 
-- Unity 2022.3 or later
-- Git
+## 🚀 Play the Game
 
-### Installation
+The game is available to play on **Itch.io**:
+👉 [Play Tank Brawl on Itch.io](https://itch.io)
+
+### For Developers
+
+If you want to explore the codebase:
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/TankBrawl.git
 ```
 
-2. Open the project in Unity Hub
+2. Open the project in Unity Hub (Unity 2022.3 or later required)
 
-3. Load the main scene from `Assets/Scenes/`
-
-4. Press Play to test in the Unity Editor
+3. Note: The project will be missing assets and **cannot be played** directly from the editor without the full asset set.
 
 ## 🎯 How to Play
 
