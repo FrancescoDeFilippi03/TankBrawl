@@ -33,7 +33,7 @@ MonoBehaviour:
     burstCount: 3
     burstDelay: 1
     bulletPrefab: {fileID: 558874143922897049, guid: c043a40a9cdc85c49a4a628ef277d9dc, type: 3}
-    ammoCapacity: 30
+    ammoCapacity: 5
     reloadTime: 1
     crosshairSprite: {fileID: 21300000, guid: b8e78032f8af0954784d1fe9e5a09187, type: 3}
     isAlternateFirePoints: 0

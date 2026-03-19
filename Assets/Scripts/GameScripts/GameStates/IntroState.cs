@@ -29,6 +29,9 @@ public class IntroState : GameStateBase
     {
         IntroUI.Instance.Hide();
         gameManager.introTimer.OnValueChanged -= IntroUI.Instance.UpdateTimer;
+
+        GameMainUI.Instance.Show();
+        TankMainUI.Instance.Show();
     }
 
     public override void Update()

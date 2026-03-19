@@ -26,6 +26,8 @@ public class GameMainUI : UI
         redTeamScoreLabel = root.Q<Label>("RedTeamScoreLabel");
         blueTeamScoreLabel = root.Q<Label>("BlueTeamScoreLabel");
         gameTimerLabel = root.Q<Label>("GameTimerLabel");
+
+        Hide();
     }
 
     public void UpdateTimer(float previousTime, float remainingTime)

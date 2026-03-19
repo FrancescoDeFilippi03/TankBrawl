@@ -49,5 +49,8 @@ TagManager:
   - name: Tank
     uniqueID: 1512117571
     locked: 0
+  - name: Bullet
+    uniqueID: 990234545
+    locked: 0
   m_RenderingLayers:
   - Default

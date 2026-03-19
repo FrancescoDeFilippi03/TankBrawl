@@ -11,8 +11,6 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private NetworkObject[] redTankPrefab;
     [SerializeField] private NetworkObject[] blueTankPrefab;
 
-
-
     public static SpawnManager Instance;
 
     public void Awake()
@@ -47,6 +45,7 @@ public class SpawnManager : NetworkBehaviour
             
             Transform spawnPoint = GetSpawnPointForTeam(playerData.Team, clientId);
             NetworkObject tankPrefab = (playerData.Team == TeamColor.Red) ? redTankPrefab[playerData.TankId] : blueTankPrefab[playerData.TankId];
+            
             NetworkObject tankInstance = Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
             tankInstance.SpawnAsPlayerObject(clientId);
         }

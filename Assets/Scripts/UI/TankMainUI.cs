@@ -40,7 +40,7 @@ public class TankMainUI : UI
         healthLabel = root.Q<Label>("HealthLabel");
         armorLabel = root.Q<Label>("ArmorLabel");
 
-
+        Hide();
     }
 
     public void SetupMainUI(int maxAmmo, float maxHealth, float maxArmor)

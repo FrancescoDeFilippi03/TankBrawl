@@ -3,6 +3,7 @@ using Unity.Netcode;
 using System;
 using System.Collections;
 using Unity.Services.Matchmaker.Models;
+using TMPro;
 
 public class Tank : NetworkBehaviour, IDamageble
 {
@@ -109,6 +110,10 @@ public class Tank : NetworkBehaviour, IDamageble
 
     private ulong lastDamageAppliedFrom;
 
+
+    [SerializeField] private GameObject playerNameText;
+    
+
     public override void OnNetworkSpawn()
     {
         healthNetwork.OnValueChanged += HandleHealthChanged;
@@ -178,6 +183,14 @@ public class Tank : NetworkBehaviour, IDamageble
         {
             TankMainUI.Instance.SubscribeToTank(this);
         }
+
+        //IN CASE I WANT ADD NAME TO TANK
+        //SetName(playerData.PlayerName.ToString());
+    }
+
+    public void SetName(string name)
+    {
+        playerNameText.GetComponent<TMP_Text>().text = name;
     }
 
     // ============================================

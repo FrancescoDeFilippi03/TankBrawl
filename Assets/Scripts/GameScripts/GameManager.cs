@@ -42,11 +42,16 @@ public class GameManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
 
-    public NetworkVariable<float> gameTimer = new NetworkVariable<float>(10f,
+    public NetworkVariable<float> gameTimer = new NetworkVariable<float>(30f,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
 
     public NetworkVariable<float> introTimer = new NetworkVariable<float>(
+        0f,
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server
+    );
+
+    public NetworkVariable<float> gameOverTimer = new NetworkVariable<float>(
         0f,
         NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server
     );

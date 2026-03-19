@@ -52,12 +52,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+        Debug.Log($"Bullet owned by {ownerClientId} collided with {other.name}");
+
         if (!other.TryGetComponent(out NetworkObject netObj))
         {
+            ReturnToPool();
             return;
         }
 
-        Debug.Log($"Bullet owned by {ownerClientId} hit {netObj.name} (Owner: {netObj.OwnerClientId})");
+        //Debug.Log($"Bullet owned by {ownerClientId} hit {netObj.name} (Owner: {netObj.OwnerClientId})");
         
         // Don't hit yourself
         if (ownerClientId == netObj.OwnerClientId && other.GetComponent<TankPlayerController>() != null)
