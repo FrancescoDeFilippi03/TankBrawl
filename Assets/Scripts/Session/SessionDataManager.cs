@@ -22,8 +22,13 @@ public class SessionDataManager : NetworkBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         Players = new NetworkList<SessionPlayerData>();
+    }
+
+    public override void OnDestroy()
+    {
+        Players?.Dispose();
     }
 
     public override void OnNetworkSpawn()
@@ -38,6 +43,7 @@ public class SessionDataManager : NetworkBehaviour
         {
             SendLocalPlayerDataToServer();
         }
+
     }
 
     public override void OnNetworkDespawn()
@@ -45,8 +51,9 @@ public class SessionDataManager : NetworkBehaviour
         if (IsServer)
         {
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+            Players.Clear();
         }
-        Players.Clear();
+        Instance = null;
     }
 
     private void SendLocalPlayerDataToServer()
@@ -72,6 +79,7 @@ public class SessionDataManager : NetworkBehaviour
         {
             if (Players[i].ClientId == clientId)
             {
+                Debug.Log("Removing PLayer " + i);
                 Players.RemoveAt(i);
                 break;
             }
@@ -82,7 +90,8 @@ public class SessionDataManager : NetworkBehaviour
     {
         foreach (var player in Players)
         {
-            if (player.ClientId == clientId) return player;
+            if (player.ClientId == clientId) 
+                return player;
         }
         return default;
     }

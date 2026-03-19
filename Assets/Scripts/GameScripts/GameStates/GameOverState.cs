@@ -20,7 +20,6 @@ public class GameOverState : GameStateBase
     public override void Exit()
     {
         Debug.Log("Exited Game Over State");
-        gameManager.CurrentGameState.Value = GameManager.GameState.ExitGame;
     }
 
     public override void Update()
@@ -31,7 +30,7 @@ public class GameOverState : GameStateBase
         
         if (elapsedTime >= gameOverDuration)
         {
-            Exit();
+            gameManager.CurrentGameState.Value = GameManager.GameState.ExitGame;
         }
     }   
 }

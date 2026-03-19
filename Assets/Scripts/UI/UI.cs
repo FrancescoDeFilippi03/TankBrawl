@@ -12,13 +12,13 @@ public abstract class UI : MonoBehaviour
         root = uiDocument.rootVisualElement;
     }
 
-    protected void Hide()
+    public void Hide()
     {
         root.style.display = DisplayStyle.None;
         //gameObject.SetActive(false);
     }
 
-    protected void Show()
+    public void Show()
     {
         root.style.display = DisplayStyle.Flex;
         //gameObject.SetActive(true);

@@ -8,7 +8,7 @@ public class InGameState : GameStateBase
     private float redScoreAccumulator = 0f;
     private float blueScoreAccumulator = 0f;
 
-
+    
     
     public InGameState(GameManager manager, GameStateFactory factory) : base(manager, factory)
     {
@@ -22,17 +22,23 @@ public class InGameState : GameStateBase
         redScoreAccumulator = 0f;
         blueScoreAccumulator = 0f;
 
-        gameManager.gameTimer.OnValueChanged += gameManager.gameMainUI.UpdateTimer;
-        gameManager.RedTeamScore.OnValueChanged += gameManager.gameMainUI.UpdateRedTeamScore;
-        gameManager.BlueTeamScore.OnValueChanged += gameManager.gameMainUI.UpdateBlueTeamScore;
+        gameManager.NotifyGameStarted();
 
+        if(GameMainUI.Instance == null) return;
+
+        gameManager.gameTimer.OnValueChanged += GameMainUI.Instance.UpdateTimer;
+        gameManager.RedTeamScore.OnValueChanged += GameMainUI.Instance.UpdateRedTeamScore;
+        gameManager.BlueTeamScore.OnValueChanged += GameMainUI.Instance.UpdateBlueTeamScore;
+        
     }
 
     public override void Exit()
     {
-        gameManager.gameTimer.OnValueChanged -= gameManager.gameMainUI.UpdateTimer;
-        gameManager.RedTeamScore.OnValueChanged -= gameManager.gameMainUI.UpdateRedTeamScore;
-        gameManager.BlueTeamScore.OnValueChanged -= gameManager.gameMainUI.UpdateBlueTeamScore;
+        if(GameMainUI.Instance == null) return;
+
+        gameManager.gameTimer.OnValueChanged -= GameMainUI.Instance.UpdateTimer;
+        gameManager.RedTeamScore.OnValueChanged -= GameMainUI.Instance.UpdateRedTeamScore;
+        gameManager.BlueTeamScore.OnValueChanged -= GameMainUI.Instance.UpdateBlueTeamScore;
     }
 
     public override void Update()

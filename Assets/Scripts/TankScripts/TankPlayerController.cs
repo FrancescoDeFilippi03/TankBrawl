@@ -39,7 +39,13 @@ public class TankPlayerController : NetworkBehaviour
         
         tankInput = new TankInput();
         
-        tankInput.Enable();
+        tankInput.Disable();
+
+        var gameManager = GameManager.Instance;
+        if (gameManager != null)
+        {
+            gameManager.OnGamesStarted += () => SetInputActive(true);
+        }
 
         tankInput.Tank.Shoot.performed += _ => isTriggerHeld = true;
         tankInput.Tank.Shoot.canceled += _ => isTriggerHeld = false;
@@ -50,7 +56,10 @@ public class TankPlayerController : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         if (!IsOwner) return;
-        tankInput.Disable();
+        SetInputActive(false);
+        tankInput.Tank.Shoot.performed -= _ => isTriggerHeld = true;
+        tankInput.Tank.Shoot.canceled -= _ => isTriggerHeld = false;
+        tankInput.Tank.Dash.performed -= _ => isDashing = true;
     }
 
     void Update()

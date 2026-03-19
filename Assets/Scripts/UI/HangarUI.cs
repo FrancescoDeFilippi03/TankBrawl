@@ -33,9 +33,6 @@ public class HangarUI : UI
     
     private int selectedTankIndex = 0;
     
-    // Events
-    /* public event Action<string> OnHostGame;
-    public event Action<string, string> OnJoinLobby; */
     public event Action<int> OnTankSelected;
     
     [SerializeField] private Sprite[] trackSpritesA = new Sprite[8]; // Track_1_A fino a Track_8_A
@@ -64,16 +61,7 @@ public class HangarUI : UI
         Show();
 
         if (root == null) return;
-        
-        /* lobbyModal = root.Q<VisualElement>("LobbyModal");
-        modalContent = root.Q<VisualElement>("ModalContent");
-        startGameButton = root.Q<Button>("StartGameButton");
-        hostGameButton = root.Q<Button>("HostGameButton");
-        joinLobbyButton = root.Q<Button>("JoinLobbyButton");
-        closeModalButton = root.Q<Button>("CloseModalButton");
-        modalPlayerNameField = root.Q<TextField>("ModalPlayerNameField");
-        lobbyCodeField = root.Q<TextField>("LobbyCodeField"); */
-
+    
         backMainMenu = root.Q<Button>("BackGameButton");
         
         tankSelectionModal = root.Q<VisualElement>("TankSelectionModal");
@@ -100,21 +88,6 @@ public class HangarUI : UI
         }
 
         LoadTankVisual(selectedTankIndex);
-
-        /* 
-        if (startGameButton != null)
-            startGameButton.clicked += ShowLobbyModal;
-        
-        if (hostGameButton != null)
-            hostGameButton.clicked += OnHostGameButtonClicked;
-        
-        if (joinLobbyButton != null)
-            joinLobbyButton.clicked += OnJoinLobbyButtonClicked;
-        
-        if (closeModalButton != null)
-            closeModalButton.clicked += HideLobbyModal;
-         */
-
 
         if (changeTankButton != null)
             changeTankButton.clicked += ShowTankSelectionModal;
@@ -143,18 +116,6 @@ public class HangarUI : UI
     
     void OnDisable()
     {
-        /* if (startGameButton != null)
-            startGameButton.clicked -= ShowLobbyModal;
-        
-        if (hostGameButton != null)
-            hostGameButton.clicked -= OnHostGameButtonClicked;
-        
-        if (joinLobbyButton != null)
-            joinLobbyButton.clicked -= OnJoinLobbyButtonClicked;
-        
-        if (closeModalButton != null)
-            closeModalButton.clicked -= HideLobbyModal; */
-        
         if (changeTankButton != null)
             changeTankButton.clicked -= ShowTankSelectionModal;
         
@@ -182,47 +143,6 @@ public class HangarUI : UI
             LoaderUI.Instance.LoadScreenScene("MainMenu");
         }
     }
-
-    /* 
-
-    private void ShowLobbyModal()
-    {
-        if (lobbyModal == null) return;
-        
-        lobbyModal.style.display = DisplayStyle.Flex;
-        
-        if (modalContent != null)
-        {
-            modalContent.style.scale = new Scale(new Vector3(0.7f, 0.7f, 1f));
-            modalContent.style.opacity = 0f;
-            
-            modalContent.schedule.Execute(() =>
-            {
-                modalContent.style.scale = new Scale(Vector3.one);
-                modalContent.style.opacity = 1f;
-            }).StartingIn(10);
-        }
-    }
-    
-    private void HideLobbyModal()
-    {
-        if (lobbyModal == null) return;
-        
-        if (modalContent != null)
-        {
-            modalContent.style.scale = new Scale(new Vector3(0.7f, 0.7f, 1f));
-            modalContent.style.opacity = 0f;
-            
-            lobbyModal.schedule.Execute(() =>
-            {
-                lobbyModal.style.display = DisplayStyle.None;
-            }).StartingIn(300);
-        }
-        else
-        {
-            lobbyModal.style.display = DisplayStyle.None;
-        }
-    } */
 
 
     private void ShowTankSelectionModal()
@@ -399,29 +319,6 @@ public class HangarUI : UI
             }
         }
     }
-    
-    /* 
-    private void OnHostGameButtonClicked()
-    {
-        string playerName = modalPlayerNameField?.value ?? "Player";
-        HideLobbyModal();
-        OnHostGame?.Invoke(playerName);
-    }
-    
-    private void OnJoinLobbyButtonClicked()
-    {
-        string playerName = modalPlayerNameField?.value ?? "Player";
-        string lobbyCode = lobbyCodeField?.value ?? "";
-        
-        if (string.IsNullOrEmpty(lobbyCode))
-        {
-            Debug.LogWarning("Lobby code is required to join a lobby!");
-            return;
-        }
-        
-        HideLobbyModal();
-        OnJoinLobby?.Invoke(playerName, lobbyCode);
-    } */
     
     public void UpdateTankStats(int health, int speed, int damage, int armor)
     {

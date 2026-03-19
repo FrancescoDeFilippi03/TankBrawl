@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Unity;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,6 +17,8 @@ public class LobbyUI : UI
     protected override void OnEnable()
     {
         base.OnEnable();
+
+        playerContainers.Clear();
 
         lobbyCode = root.Q<Label>("LobbyCode");
         startGameButton = root.Q<Button>("StartGameButton");
@@ -36,10 +40,12 @@ public class LobbyUI : UI
             playerContainers.Add(container);
         }
 
+        StartCoroutine(WaitForSessionDataManager());
+    }
+    private IEnumerator WaitForSessionDataManager()
+    {
+        yield return new WaitUntil(() => SessionDataManager.Instance != null);
         SessionDataManager.Instance.Players.OnListChanged += UpdateUIOnPlayersChanged;
-
-        
-
         UpdateUI();
     }
 
@@ -48,8 +54,8 @@ public class LobbyUI : UI
         startGameButton.clicked -= OnStartGameButtonClicked;    
         quitGameButton.clicked -= OnQuitGameButtonClicked;      
 
-
-        SessionDataManager.Instance.Players.OnListChanged -= UpdateUIOnPlayersChanged;
+        if (SessionDataManager.Instance != null)
+            SessionDataManager.Instance.Players.OnListChanged -= UpdateUIOnPlayersChanged;
 
 
     }
@@ -81,19 +87,26 @@ public class LobbyUI : UI
     {
         nameLabel.Q<Label>("NameLabel").text = name;
     }
-    void SetPlayerInfoVisible(VisualElement playerVisual)
+    void SetPlayerInfoVisible(VisualElement playerVisual , bool IsVisible)
     {
-        playerVisual.style.display = DisplayStyle.Flex;
+        playerVisual.style.display = IsVisible ?  DisplayStyle.Flex : DisplayStyle.None;
     }
 
     void UpdateUI()
     {
         
-       for (int i = 0; i < SessionDataManager.Instance.Players.Count; i++)
+        for (int i = 0; i < SessionDataManager.Instance.Players.Count; i++)
         {
             SetPlayerName(playerContainers[i]  , SessionDataManager.Instance.Players[i].PlayerName.ToString());
             SetSelectedTank(playerContainers[i] , SessionDataManager.Instance.Players[i].TankId);
-            SetPlayerInfoVisible(playerContainers[i]);
+            SetPlayerInfoVisible(playerContainers[i] , true);
+        }
+
+        for (int i = SessionDataManager.Instance.Players.Count; i < 6; i++)
+        {
+            SetPlayerName(playerContainers[i]  ,"Player");
+            SetSelectedTank(playerContainers[i] , 0 );
+            SetPlayerInfoVisible(playerContainers[i] , false);
         }
 
     }

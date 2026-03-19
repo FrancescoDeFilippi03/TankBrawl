@@ -4,10 +4,20 @@ using UnityEngine.UIElements;
 
 public class GameMainUI : UI
 {
-
+    public static GameMainUI Instance { get; private set; }
     private Label redTeamScoreLabel;
     private Label blueTeamScoreLabel;
     private Label gameTimerLabel;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     protected override void OnEnable()
     {

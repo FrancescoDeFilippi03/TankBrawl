@@ -29,8 +29,6 @@ public class GameManager : NetworkBehaviour
     public bool GetIsServer => IsServer;
 
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingForPlayers);
-
-
     //score for teams
     public NetworkVariable<int> RedTeamScore = new NetworkVariable<int>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
@@ -48,9 +46,14 @@ public class GameManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
 
-    [SerializeField] public GameMainUI gameMainUI;
+    public NetworkVariable<float> introTimer = new NetworkVariable<float>(
+        0f,
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server
+    );
 
-
+    //Events
+    public event Action OnGamesStarted;
+    public void NotifyGameStarted() => OnGamesStarted?.Invoke();
     public static GameManager Instance;
 
     public void Awake()
@@ -65,9 +68,9 @@ public class GameManager : NetworkBehaviour
     }
     public override void OnNetworkSpawn()
     {
-        if (ConnectionManager.Instance != null)
+        if (IsServer)
         {
-            ConnectionManager.Instance.OnSceneLoadedEvent += OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
         }
 
         stateFactory = new GameStateFactory(this);
@@ -82,9 +85,9 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        if (ConnectionManager.Instance != null)
+        if (IsServer)
         {
-            ConnectionManager.Instance.OnSceneLoadedEvent -= OnSceneLoaded;
+          NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
         }
 
         CurrentGameState.OnValueChanged -= OnGameStateChanged;

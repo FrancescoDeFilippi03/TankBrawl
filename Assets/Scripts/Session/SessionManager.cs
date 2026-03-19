@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Matchmaker.Models;
@@ -16,7 +17,8 @@ public class SessionManager : MonoBehaviour
     public ISession CurrentSession => currentSession;    
     public event Action OnHostStarted;
     public event Action OnClientStarted;
-    public event Action OnSessionEnded;
+    
+    [SerializeField] private GameObject sessionDataManagerPrefab;
 
     private void Awake()
     {
@@ -58,13 +60,17 @@ public class SessionManager : MonoBehaviour
         var options = new SessionOptions { 
             MaxPlayers = 6,
             IsPrivate = true,
-        }.WithRelayNetwork(new RelayNetworkOptions(RelayProtocol.WSS));
+        }.WithRelayNetwork(); //new RelayNetworkOptions(RelayProtocol.WSS) da usare poi alla fine
         
         try
         {
             currentSession = await MultiplayerService.Instance.CreateSessionAsync(options);
 
             OnHostStarted?.Invoke();
+
+            SubscribeToNetworkEvents();
+
+            Instantiate(sessionDataManagerPrefab).GetComponent<NetworkObject>().Spawn();
 
             Debug.Log($"Host Session Created: {currentSession.Id} (Team: Red)");
             Debug.Log($"Code :{currentSession.Code}");
@@ -75,8 +81,6 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-
-    
     //CLIENT LOGIC 
     public async Task JoinSessionAsClient(string joinCode)
     {
@@ -84,9 +88,12 @@ public class SessionManager : MonoBehaviour
         {
             currentSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(joinCode);
 
-            currentSession.RemovedFromSession += OnRemovedFromSession;
-            
+            //currentSession.RemovedFromSession += OnRemovedFromSession;
+
+            SubscribeToNetworkEvents();  
+
             OnClientStarted?.Invoke();
+
         }
         catch (Exception e) 
         { 
@@ -97,6 +104,8 @@ public class SessionManager : MonoBehaviour
     private void OnRemovedFromSession()
     {
         currentSession = null;
+        Debug.Log("Removed from session, returning to main menu");
+        LoaderUI.Instance.LoadScreenScene("MainMenu");
     }
 
     //COMMON LOGIC
@@ -106,6 +115,9 @@ public class SessionManager : MonoBehaviour
         Debug.Log("Leaving session....");
         if (currentSession != null)
         {
+
+            UnsubscribeFromNetworkEvents();
+
             try 
             {
                 if(currentSession.IsHost)
@@ -115,7 +127,7 @@ public class SessionManager : MonoBehaviour
                 }
                 else
                 {
-                    currentSession.RemovedFromSession -= OnRemovedFromSession;
+                    //currentSession.RemovedFromSession -= OnRemovedFromSession;
                     await currentSession.LeaveAsync();
                     Debug.Log("Left session.");
                 }
@@ -125,8 +137,6 @@ public class SessionManager : MonoBehaviour
                 Debug.LogException(e);
             }
 
-            OnSessionEnded?.Invoke();
-            
             currentSession = null;
         }
     }
@@ -143,6 +153,28 @@ public class SessionManager : MonoBehaviour
         NetworkManager.Singleton.SceneManager.LoadScene("TestGame",LoadSceneMode.Single);
 
     }
+
+    //NETWORK EVENTS
+    private void SubscribeToNetworkEvents()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnNetworkClientDisconnected;
+    }
+
+    private void UnsubscribeFromNetworkEvents()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback -= OnNetworkClientDisconnected;
+    }
+
+    private void OnNetworkClientDisconnected(ulong clientId)
+    {
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            Debug.Log("Disconnected from host");
+            currentSession = null;
+            LoaderUI.Instance.LoadScreenScene("MainMenu");
+        }
+    }
+
     //UTILS
     public IPlayer GetPlayerById(string playerId)
     {

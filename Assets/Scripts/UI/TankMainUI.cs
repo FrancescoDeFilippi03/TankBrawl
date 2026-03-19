@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 public class TankMainUI : UI
 {
+    public static TankMainUI Instance { get; private set; }
     [SerializeField] private VisualTreeAsset bulletTemplate; 
     
     private Tank subscribedTank;
@@ -16,6 +17,16 @@ public class TankMainUI : UI
     private Label ammoLabel;
     private Label healthLabel;
     private Label armorLabel;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     protected override void OnEnable()
     {
@@ -90,22 +101,21 @@ public class TankMainUI : UI
         subscribedTank = tank;
         
         // Subscribe to tank events
-        tank.OnHealthChanged += UpdateHealth;
-        tank.OnShieldChanged += UpdateArmor;
+        subscribedTank.OnHealthChanged += UpdateHealth;
+        subscribedTank.OnShieldChanged += UpdateArmor;
         
-        if (tank.ShootingSystem != null)
+        if (subscribedTank.ShootingSystem != null)
         {
-            tank.ShootingSystem.OnAmmoChanged += UpdateAmmo;
+            subscribedTank.ShootingSystem.OnAmmoChanged += UpdateAmmo;
         }
 
-        SetupMainUI(tank.TankConfig.weaponData.ammoCapacity,
-                    tank.TankConfig.maxHealth, 
-                    tank.TankConfig.maxShield);
+        SetupMainUI(subscribedTank.TankConfig.weaponData.ammoCapacity,
+                    subscribedTank.TankConfig.maxHealth, 
+                    subscribedTank.TankConfig.maxShield);
         
     }
 
-
-    private void UnsubscribeFromTank()
+    public void UnsubscribeFromTank()
     {
         if (subscribedTank != null)
         {
@@ -119,10 +129,5 @@ public class TankMainUI : UI
             
             subscribedTank = null;
         }
-    }
-
-    void OnDestroy()
-    {
-        UnsubscribeFromTank();
     }
 }

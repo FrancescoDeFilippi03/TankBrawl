@@ -123,6 +123,14 @@ public class Tank : NetworkBehaviour, IDamageble
         healthNetwork.OnValueChanged -= HandleHealthChanged;
         shieldNetwork.OnValueChanged -= HandleShieldChanged;
         visualAlpha.OnValueChanged -= HandleAlphaChanged;
+
+        if (TankMainUI.Instance != null)
+        {
+            TankMainUI.Instance.UnsubscribeFromTank();
+        }
+
+
+        CursorReset();
     }
     // ============================================
     // INITIALIZATION
@@ -146,6 +154,9 @@ public class Tank : NetworkBehaviour, IDamageble
         {
             gameStats.BindTank(this);
         }
+
+
+        
         
         if(!IsOwner) return;
 
@@ -163,10 +174,9 @@ public class Tank : NetworkBehaviour, IDamageble
         );
 
         // Connect to UI
-        var ui = FindAnyObjectByType<TankMainUI>();
-        if (ui != null)
+        if (TankMainUI.Instance != null)
         {
-            ui.SubscribeToTank(this);
+            TankMainUI.Instance.SubscribeToTank(this);
         }
     }
 
