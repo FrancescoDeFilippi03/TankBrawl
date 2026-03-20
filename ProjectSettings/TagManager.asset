@@ -13,11 +13,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - RedTeam
+  - BlueTeam
+  - BulletRed
+  - BulletBlue
+  - BoundsMap
   - 
   - 
   - 

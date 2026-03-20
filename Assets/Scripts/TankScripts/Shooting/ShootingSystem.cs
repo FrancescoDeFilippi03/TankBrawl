@@ -26,10 +26,13 @@ public class ShootingSystem : NetworkBehaviour
     public int MaxAmmo => currentWeapon.ammoCapacity;
     public WeaponData CurrentWeapon => currentWeapon;
 
-    public void InitializeWeapon(WeaponData weaponData)
+    private TeamColor teamColor;
+
+    public void InitializeWeapon(WeaponData weaponData , TeamColor teamColor)
     {
         currentWeapon = weaponData;
         currentFirePointIndex = 0;
+        this.teamColor = teamColor;
 
 
         currentAmmo = currentWeapon.ammoCapacity;
@@ -38,7 +41,7 @@ public class ShootingSystem : NetworkBehaviour
         
         if (currentWeapon.bulletPrefab != null)
         {
-            bulletPool.InitializePool(currentWeapon.bulletPrefab, currentWeapon.ammoCapacity);
+            bulletPool.InitializePool(currentWeapon.bulletPrefab, currentWeapon.ammoCapacity , teamColor);
         }
 
         reloadIndicator.fillAmount = 0f;
@@ -108,7 +111,7 @@ public class ShootingSystem : NetworkBehaviour
         }
     }
 
-    private void Shoot(Vector2 shootDirection)
+    /* private void Shoot(Vector2 shootDirection)
     {
         if (firePoints == null || firePoints.Length == 0 || currentWeapon.bulletPrefab == null) return;
 
@@ -144,8 +147,58 @@ public class ShootingSystem : NetworkBehaviour
         
         currentAmmo--;
         OnAmmoChanged?.Invoke(currentAmmo, currentWeapon.ammoCapacity);
+    } */
+
+    void Shoot(Vector2 shootDirection)
+    {
+        int bulletLayer = (teamColor == TeamColor.Red) ? LayerMask.NameToLayer("BulletRed") : LayerMask.NameToLayer("BulletBlue");
+        Debug.Log("Team color: " + teamColor + " , bullet layer: " + LayerMask.LayerToName(bulletLayer));
+        
+        int mask = Physics2D.GetLayerCollisionMask(bulletLayer);
+
+        Debug.Log($"Shooting with layer {LayerMask.LayerToName(bulletLayer)} and mask {mask}");
+
+        Vector2 origin = firePoints[0].position;
+        Vector2 dir = shootDirection.normalized;
+        ShootServerRpc(origin, dir, mask , currentWeapon.range);
     }
 
+    [ServerRpc]
+    private void ShootServerRpc(Vector2 origin, Vector2 dir, int mask = 0 , float range = 0f)
+    {
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, dir, range, mask);
+
+        if(hit.collider != null)
+        {
+            if (hit.collider.TryGetComponent<IDamageble>(out var damageble))
+            {
+                damageble.TakeDamage(currentWeapon.damage);
+                Debug.Log($"Raycast hit {hit.collider.gameObject.name} and applied {currentWeapon.damage} damage");
+            }
+        }
+        float length = hit.collider != null ? hit.distance : range;
+
+        SpawnBulletVisualClientRpc(origin, dir , length);
+        currentAmmo--;
+        OnAmmoChanged?.Invoke(currentAmmo, currentWeapon.ammoCapacity);
+        
+        /* 
+        Debug.Log($"Raycast hit {hit.collider?.gameObject.name ?? "nothing"} at distance: {hit.distance} , {currentWeapon.range}");
+        Debug.DrawRay(origin, dir * length, Color.red, 1f); */
+    }
+
+    [ClientRpc]
+    void SpawnBulletVisualClientRpc(Vector2 pos, Vector2 dir, float distance)
+    {
+        if (currentWeapon.bulletPrefab == null || bulletPool == null) return;
+        
+        Bullet bullet = bulletPool.bulletPool.Get(); 
+        bullet.transform.position = pos;
+        bullet.Initialize(dir, distance, bulletPool.bulletPool, currentWeapon);
+    }
+
+    
     void UpdateReloading()
     {
         if (isReloading)
@@ -170,7 +223,7 @@ public class ShootingSystem : NetworkBehaviour
         reloadTimer = currentWeapon.reloadTime;
     }
 
-    //multiplayer bullet spawning
+/*     //multiplayer bullet spawning
     private void SpawnBulletLocally(Vector2 pos, Vector2 dir)
     {
         if (currentWeapon.bulletPrefab == null || bulletPool == null) return;
@@ -202,7 +255,8 @@ public class ShootingSystem : NetworkBehaviour
         SpawnBulletVisual(pos, dir);
     }
 
-    public void ReportHit(ulong targetId)
+ */  
+ /*    public void ReportHit(ulong targetId)
     {
         if(!IsOwner) return;
         ApplyDamageServerRpc(targetId);
@@ -229,7 +283,7 @@ public class ShootingSystem : NetworkBehaviour
             }
         }
     }
-
+ */
     public void ResetShootingState()
     {
         StopAllCoroutines();

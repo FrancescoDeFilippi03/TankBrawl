@@ -28,9 +28,11 @@ public class GameOverState : GameStateBase
 
 
         GameOverUI.Instance.SetWinnerText(winnerTeam);
-        gameManager.gameOverTimer.Value = gameOverDuration;
+        
         gameManager.gameOverTimer.OnValueChanged += GameOverUI.Instance.UpdateTimerBackToLobby;
     
+        if (!gameManager.GetIsServer) return;
+            gameManager.gameOverTimer.Value = gameOverDuration;
         
     }
 
@@ -47,6 +49,7 @@ public class GameOverState : GameStateBase
     public override void Update()
     {
         if (!gameManager.GetIsServer) return;
+        
         elapsedTime += Time.deltaTime;
         gameManager.gameOverTimer.Value = Mathf.Max(0f, gameOverDuration - elapsedTime);    
 

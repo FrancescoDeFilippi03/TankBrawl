@@ -171,7 +171,9 @@ public class SessionManager : MonoBehaviour
         {
             Debug.Log("Disconnected from host");
             currentSession = null;
-            LoaderUI.Instance.LoadScreenScene("MainMenu");
+
+            if(LoaderUI.Instance != null)
+                LoaderUI.Instance.LoadScreenScene("MainMenu");
         }
     }
 

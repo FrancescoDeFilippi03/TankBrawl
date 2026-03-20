@@ -53,6 +53,9 @@ public class Tank : NetworkBehaviour, IDamageble
 
     private float MaxHealth;
     private float MaxShield;
+    private float shieldRegenRate;
+    private float shieldRegenDelay;
+    private float lastDamageTakenTime = -999f;
 
     // === Movement ===
     public event Action<Vector2> OnDashPerformed;
@@ -137,20 +140,25 @@ public class Tank : NetworkBehaviour, IDamageble
 
         CursorReset();
     }
+
     // ============================================
     // INITIALIZATION
     // ============================================
     public void InitializeTank(TankConfig tankConfig)
     {
+        playerData = SessionDataManager.Instance.GetPlayerData(OwnerClientId);
+
         // Initialize shooting on all clients (needed for bullet pool)
-        InitializeShooting(tankConfig.weaponData);
+        InitializeShooting(tankConfig.weaponData , playerData.Team);
         
         // Initialize Health on server (needed for respawn)
         if (IsServer)
         {
             InitializeHealth(
                 tankConfig.maxHealth,
-                tankConfig.maxShield
+                tankConfig.maxShield,
+                tankConfig.shieldRegenRate,
+                tankConfig.shieldRegenDelay
             );
         }
 
@@ -165,7 +173,6 @@ public class Tank : NetworkBehaviour, IDamageble
         
         if(!IsOwner) return;
 
-        playerData = SessionDataManager.Instance.GetPlayerData(OwnerClientId);
 
         isRedTeam = playerData.Team == TeamColor.Red;
 
@@ -215,13 +222,35 @@ public class Tank : NetworkBehaviour, IDamageble
         OnShieldChanged?.Invoke(previousValue, newValue);
     }
 
-    public void InitializeHealth(float health, float shield)
+    public void InitializeHealth(float health, float shield, float regenRate, float regenDelay)
     {
         MaxHealth = health;
         MaxShield = shield;
+        shieldRegenRate = regenRate;
+        shieldRegenDelay = regenDelay;
 
         healthNetwork.Value = MaxHealth;
         shieldNetwork.Value = MaxShield;
+    }
+
+    private void Update()
+    {
+        if (!IsServer) return;
+
+        if (tankStateManager != null &&
+            (tankStateManager.playerState.Value == TankStateManager.PlayerState.Dead ||
+             tankStateManager.playerState.Value == TankStateManager.PlayerState.Respawn))
+            return;
+
+        CheckShieldRegen();
+    }
+
+    void CheckShieldRegen()
+    {
+        if (shieldNetwork.Value < MaxShield && Time.time >= lastDamageTakenTime + shieldRegenDelay)
+        {
+            shieldNetwork.Value = Mathf.Min(shieldNetwork.Value + shieldRegenRate * Time.deltaTime, MaxShield);
+        }
     }
 
     public void TakeDamage(float damageAmount)
@@ -238,13 +267,13 @@ public class Tank : NetworkBehaviour, IDamageble
         float totalDamage = damageAmount;
         Color hitColor = new Color(2f, 2f, 2f, 1f);
 
+        lastDamageTakenTime = Time.time;
+
         if (shieldNetwork.Value > 0)
         {
-            float shieldDamage = Mathf.Min(shieldNetwork.Value, damageAmount);
-            shieldNetwork.Value -= shieldDamage;
-            damageAmount -= shieldDamage;
+            shieldNetwork.Value = Mathf.Max(shieldNetwork.Value - damageAmount, 0f);
         }
-        if (damageAmount > 0)
+        else
         {
             healthNetwork.Value = Mathf.Max(healthNetwork.Value - damageAmount, 0);
             hitColor = Color.red;
@@ -379,9 +408,9 @@ public class Tank : NetworkBehaviour, IDamageble
     // SHOOTING SYSTEM
     // ============================================
 
-    public void InitializeShooting(WeaponData weaponData)
+    public void InitializeShooting(WeaponData weaponData , TeamColor teamColor)
     {
-        shootingSystem.InitializeWeapon(weaponData);
+        shootingSystem.InitializeWeapon(weaponData,teamColor);
         CursorInitialization(weaponData.crosshairSprite);
         OnWeaponChanged?.Invoke(weaponData);
     }

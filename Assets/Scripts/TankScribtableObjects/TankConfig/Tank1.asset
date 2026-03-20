@@ -12,28 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34394e2e36db888419e294177eb15b2d, type: 3}
   m_Name: Tank1
   m_EditorClassIdentifier: Assembly-CSharp::TankConfig
-  tankName: TankGeneral
-  hull: {fileID: 21300000, guid: adc7c30ba0cb5ec4087508c79a599060, type: 3}
-  turret: {fileID: 21300000, guid: 95b058a2d4b44d54a8b5970c0badd2d8, type: 3}
-  track: {fileID: 21300000, guid: 34c763469f39b964b97f455dcd6a4534, type: 3}
-  maxHealth: 100
-  maxShield: 100
-  shieldRegenRate: 5
-  moveSpeed: 10
+  tankName: 'TanK 1 '
+  maxHealth: 2500
+  maxShield: 1000
+  shieldRegenRate: 150
+  shieldRegenDelay: 4
+  moveSpeed: 7
   dashSpeed: 20
   dashDuration: 1
   dashCooldown: 1
-  rotationSpeed: 5
+  rotationSpeed: 3
   weaponData:
     shootingType: 2
-    fireRate: 5
+    fireRate: 6
     range: 10
-    damage: 20
-    bulletSpeed: 10
+    damage: 150
+    bulletSpeed: 25
     burstCount: 3
     burstDelay: 1
     bulletPrefab: {fileID: 558874143922897049, guid: c043a40a9cdc85c49a4a628ef277d9dc, type: 3}
-    ammoCapacity: 5
+    ammoCapacity: 30
     reloadTime: 1
     crosshairSprite: {fileID: 21300000, guid: b8e78032f8af0954784d1fe9e5a09187, type: 3}
     isAlternateFirePoints: 0

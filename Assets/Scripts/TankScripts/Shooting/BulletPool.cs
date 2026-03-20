@@ -6,8 +6,9 @@ public class BulletPool : MonoBehaviour
     private GameObject currentBulletPrefab;
     public IObjectPool<Bullet> bulletPool;
     private Transform containerTransform;
+    private TeamColor teamColor;
     
-    public void InitializePool(GameObject prefab, int defaultCapacity = 20)
+    public void InitializePool(GameObject prefab, int defaultCapacity = 20 , TeamColor teamColor = TeamColor.Red)
     {
         if (prefab == null)
         {
@@ -16,6 +17,7 @@ public class BulletPool : MonoBehaviour
         }
         
         currentBulletPrefab = prefab;
+        this.teamColor = teamColor;
 
         GameObject container = new($"Pool_{this.name}");
         containerTransform = container.transform;
@@ -33,6 +35,9 @@ public class BulletPool : MonoBehaviour
     private Bullet CreateBullet()
     {
         GameObject bulletObj = Instantiate(currentBulletPrefab, containerTransform);
+
+        bulletObj.layer = (teamColor == TeamColor.Red) ? LayerMask.NameToLayer("BulletRed") : LayerMask.NameToLayer("BulletBlue");
+       
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         
         if (bullet == null)

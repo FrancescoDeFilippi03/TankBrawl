@@ -8,17 +8,13 @@ public class TankConfig : ScriptableObject
     [Header("General Info")]
     public string tankName;
 
-    //sprite per mostare 
-    [Header("Sprite Visual")]
-    public Sprite hull;
-    public Sprite turret;
-    public Sprite track;
-
     //health stats
     [Header("Health Stats")]
     public float maxHealth;
     public float maxShield;
     public float shieldRegenRate;
+    [Tooltip("Seconds after last damage before shield starts regenerating")]
+    public float shieldRegenDelay = 3f;
 
 
     //movement stats
