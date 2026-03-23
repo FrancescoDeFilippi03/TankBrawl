@@ -23,6 +23,6 @@ MonoBehaviour:
   damangeMultiplier: 1.2
   fireRateMultiplier: 0.8
   projectileSpeedMultiplier: 1
-  rangeMultiplier: 1
-  reloadTimeMultiplier: 1
+  rangeMultiplier: 1.2
+  reloadTimeMultiplier: 1.2
   ammoCapacityMultiplier: 1
