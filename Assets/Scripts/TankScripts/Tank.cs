@@ -243,7 +243,7 @@ public class Tank : NetworkBehaviour, IDamageble
 
     void CheckShieldRegen()
     {
-        if (shieldNetwork.Value < MaxShield && Time.time >= lastDamageTakenTime + shieldRegenDelay)
+        if (shieldNetwork.Value < MaxShield && shieldNetwork.Value > 0 && Time.time >= lastDamageTakenTime + shieldRegenDelay)
         {
             shieldNetwork.Value = Mathf.Min(shieldNetwork.Value + shieldRegenRate * Time.deltaTime, MaxShield);
         }
@@ -261,7 +261,7 @@ public class Tank : NetworkBehaviour, IDamageble
         }
 
         float totalDamage = damageAmount;
-        Color hitColor = new Color(2f, 2f, 2f, 1f);
+        
 
         lastDamageTakenTime = Time.time;
 
@@ -272,15 +272,22 @@ public class Tank : NetworkBehaviour, IDamageble
         else
         {
             healthNetwork.Value = Mathf.Max(healthNetwork.Value - damageAmount, 0);
-            hitColor = Color.red;
+            
         }
 
         if(healthNetwork.Value <= 0)
             ReportKill();
 
-        ShowHitEffectClientRpc(hitColor);
-
         OnDamageTaken?.Invoke(totalDamage);
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void ShowHitEffectServerRpc()
+    {
+        Color hitColor = new Color(2f, 2f, 2f, 1f);
+        if ( shieldNetwork.Value <= 0)
+            hitColor = Color.red;
+        ShowHitEffectClientRpc(hitColor);
     }
 
     [ClientRpc]

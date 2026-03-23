@@ -129,13 +129,12 @@ public class ShootingSystem : NetworkBehaviour
             if (firePoints[i] != null)
             {
                 Vector2 origin = firePoints[i].position;
-                ShootServerRpc(origin, dir, mask , TankConfig.Range);
+                ShootClientAuthoritative(origin, dir, mask , TankConfig.Range);
             }
         }
     }
 
-    [ServerRpc]
-    private void ShootServerRpc(Vector2 origin, Vector2 dir, int mask = 0 , float range = 0f)
+    private void ShootClientAuthoritative(Vector2 origin, Vector2 dir, int mask = 0 , float range = 0f)
     {
         if (currentAmmo <= 0 ) return;
 
@@ -152,6 +151,35 @@ public class ShootingSystem : NetworkBehaviour
         }
         float length = hit.collider != null ? hit.distance : range;
 
+        if (hit.collider != null && hit.collider.TryGetComponent<NetworkObject>(out var netObj))
+        {
+            if(netObj.TryGetComponent<Tank>(out var hitTank))
+            {
+                ReportHitAndApplyDamageServerRpc(origin, dir, length, netObj.NetworkObjectId);
+                hitTank.ShowHitEffectServerRpc();
+            }
+        }
+
+        SpawnBulletVisual(origin, dir , length);
+    }
+
+
+
+    [ServerRpc]
+    private void ReportHitAndApplyDamageServerRpc(Vector2 origin, Vector2 dir,float length , ulong hitObjectId)
+    {
+        if (currentAmmo <= 0) return;
+
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(hitObjectId, out var hitObject))
+        {
+            if (hitObject.TryGetComponent<IDamageble>(out var damageable))
+            {
+                damageable.TakeDamage(TankConfig.Damage);
+            }
+        }
+
+        SpawnBulletVisual(origin, dir, length);
+
         SpawnBulletVisualClientRpc(origin, dir , length);
 
         currentAmmo--;      
@@ -163,7 +191,15 @@ public class ShootingSystem : NetworkBehaviour
     }
 
     [ClientRpc]
-    void SpawnBulletVisualClientRpc(Vector2 pos, Vector2 dir, float distance)
+    private void SpawnBulletVisualClientRpc(Vector2 origin, Vector2 dir, float distance)
+    {
+        if (IsOwner) return; // Owner already spawned the bullet visual in ShootClientAuthoritative
+
+        SpawnBulletVisual(origin, dir, distance);
+    }
+
+
+    void SpawnBulletVisual(Vector2 pos, Vector2 dir, float distance)
     {
         if (TankConfig.BulletPrefab == null || bulletPool == null) return;
         
