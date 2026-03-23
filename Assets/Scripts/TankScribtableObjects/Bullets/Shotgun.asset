@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
   bulletName: Shotgun
   speed: 3
-  damage: 50
+  damage: 500
   bulletPrefab: {fileID: 4684347343666965779, guid: 2d81a60ef7728cb47899bd2c874ec993, type: 3}

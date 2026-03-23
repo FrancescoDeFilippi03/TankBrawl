@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Medium_Shell
   m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
   bulletName: Medium_Shell
-  speed: 6
-  damage: 20
+  speed: 10
+  damage: 200
   bulletPrefab: {fileID: 7540603068286962051, guid: 65a44a9c6afd1c64082cb5c83d0b7797, type: 3}

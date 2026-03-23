@@ -70,13 +70,13 @@ public class TankMainUI : UI
     {
         armorLabel.text = $"{maxArmor}";
     }
-    public void UpdateAmmo(int currentCount, int maxCount)
+    public void UpdateAmmo(int previousAmmo, int currentAmmo)
     {
         for (int i = 0; i < ammoBar.childCount; i++)
         {
-            ammoBar[i].visible = i < currentCount;
+            ammoBar[i].visible = i < currentAmmo;
         }
-        ammoLabel.text = $"{currentCount}/{maxCount}";
+        ammoLabel.text = $"{currentAmmo}/{subscribedTank.TankConfig.weaponData.ammoCapacity}";
     }
 
     public void UpdateHealth(float previousHealth, float currentHealth)
@@ -103,11 +103,7 @@ public class TankMainUI : UI
         // Subscribe to tank events
         subscribedTank.OnHealthChanged += UpdateHealth;
         subscribedTank.OnShieldChanged += UpdateArmor;
-        
-        if (subscribedTank.ShootingSystem != null)
-        {
-            subscribedTank.ShootingSystem.OnAmmoChanged += UpdateAmmo;
-        }
+        subscribedTank.currentAmmo.OnValueChanged += (current, max) => UpdateAmmo(current, max);
 
         SetupMainUI(subscribedTank.TankConfig.weaponData.ammoCapacity,
                     subscribedTank.TankConfig.maxHealth, 
@@ -121,11 +117,7 @@ public class TankMainUI : UI
         {
             subscribedTank.OnHealthChanged -= UpdateHealth;
             subscribedTank.OnShieldChanged -= UpdateArmor;
-            
-            if (subscribedTank.ShootingSystem != null)
-            {
-                subscribedTank.ShootingSystem.OnAmmoChanged -= UpdateAmmo;
-            }
+            subscribedTank.currentAmmo.OnValueChanged -= (current, max) => UpdateAmmo(current, max);
             
             subscribedTank = null;
         }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b43b37e4ac8b34a85d8aac84eed2ea, type: 3}
+  m_Name: PlasmaGun
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  weaponName: PlasmaGun
+  shootingType: 2
+  fireRate: 2
+  range: 3
+  weaponDamageMultiplier: 1
+  bulletSpeedMultiplier: 1
+  ammoCapacity: 10
+  reloadTime: 2
+  burstCount: 0
+  burstDelay: 0
+  bulletConfig: {fileID: 11400000, guid: 69f320db699838b40b63c7afcd794695, type: 2}

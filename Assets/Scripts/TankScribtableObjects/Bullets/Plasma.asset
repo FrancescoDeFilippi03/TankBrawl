@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Plasma
   m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
   bulletName: Plasma
-  speed: 4
-  damage: 25
+  speed: 6
+  damage: 250
   bulletPrefab: {fileID: 935202685760797960, guid: e727112f47e6dde4fb9226cd9d6e100d, type: 3}

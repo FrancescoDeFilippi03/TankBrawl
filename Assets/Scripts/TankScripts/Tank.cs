@@ -45,6 +45,12 @@ public class Tank : NetworkBehaviour, IDamageble
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
+    public NetworkVariable<int> currentAmmo = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     public NetworkVariable<float> visualAlpha = new NetworkVariable<float>(
         1f,
         NetworkVariableReadPermission.Everyone,
@@ -64,16 +70,16 @@ public class Tank : NetworkBehaviour, IDamageble
 
     [SerializeField] private float movementSmoothing = 5f;
     [SerializeField] private float rotationSmoothing = 7f;
+    [SerializeField] private float baseMoveSpeed = 10f;
+
+    [SerializeField] private float maxWeight = 80f; //in tons
+    [SerializeField] private float minWeight = 20f; //in tons
 
     private Vector2 smoothedMovementInput;
     private Vector2 currentVelocity = Vector2.zero;
-    private float movementSpeed;
-    private float dashSpeed;
-    private float dashDuration;
 
     // === Shooting ===
     public event Action<Vector2> OnShootPerformed;
-    public event Action<WeaponData> OnWeaponChanged;
     public event Action OnAmmoEmpty;
 
     [SerializeField] private float turretRotationSmoothing = 7f;
@@ -83,7 +89,7 @@ public class Tank : NetworkBehaviour, IDamageble
     public Rigidbody2D Rigidbody => rb;
     public NetworkVariable<float> Health => healthNetwork;
     public NetworkVariable<float> Shield => shieldNetwork;
-    public float DashDuration => dashDuration;
+    public float DashDuration => 1f; // Placeholder, can be moved to TankConfig if needed
     public Transform WeaponPivotTransform => weaponPivotTransform;
     public ShootingSystem ShootingSystem => shootingSystem;
 
@@ -146,10 +152,10 @@ public class Tank : NetworkBehaviour, IDamageble
     // ============================================
     public void InitializeTank(TankConfig tankConfig)
     {
+        
         playerData = SessionDataManager.Instance.GetPlayerData(OwnerClientId);
-
         // Initialize shooting on all clients (needed for bullet pool)
-        InitializeShooting(tankConfig.weaponData , playerData.Team);
+        InitializeShooting();
         
         // Initialize Health on server (needed for respawn)
         if (IsServer)
@@ -167,23 +173,12 @@ public class Tank : NetworkBehaviour, IDamageble
         {
             gameStats.BindTank(this);
         }
-
-
-        
         
         if(!IsOwner) return;
-
 
         isRedTeam = playerData.Team == TeamColor.Red;
 
         CameraSetupOnSpawn();
-
-        // Initialize Movement
-        InitializeMovement(
-            tankConfig.moveSpeed,
-            tankConfig.dashSpeed,
-            tankConfig.dashDuration
-        );
 
         // Connect to UI
         if (TankMainUI.Instance != null)
@@ -348,13 +343,6 @@ public class Tank : NetworkBehaviour, IDamageble
     // MOVEMENT SYSTEM
     // ============================================
 
-    public void InitializeMovement(float movementSpeed, float dashSpeed, float dashDuration)
-    {
-        this.movementSpeed = movementSpeed;
-        this.dashSpeed = dashSpeed;
-        this.dashDuration = dashDuration;
-    }
-
     public void MoveTank(Vector2 movementInput)
     {
         smoothedMovementInput = Vector2.SmoothDamp(
@@ -364,9 +352,11 @@ public class Tank : NetworkBehaviour, IDamageble
             1f / movementSmoothing
         );
 
+        float weightScale = (tankConfig.WeightScale - minWeight) / (maxWeight - minWeight);
+
         if (smoothedMovementInput.magnitude > 0.01f)
         {
-            Vector2 movement = movementSpeed * Time.fixedDeltaTime * smoothedMovementInput;
+            Vector2 movement = baseMoveSpeed * weightScale * Time.fixedDeltaTime * smoothedMovementInput;
             rb.MovePosition(rb.position + movement);
         }
 
@@ -389,7 +379,7 @@ public class Tank : NetworkBehaviour, IDamageble
 
     public void Dash(Vector2 movementInput)
     {
-        Vector2 dashVelocity = Time.fixedDeltaTime * dashSpeed * movementInput.normalized;
+        Vector2 dashVelocity = Time.fixedDeltaTime * 20f* movementInput.normalized;
         rb.MovePosition(rb.position + dashVelocity);
 
         OnDashPerformed?.Invoke(movementInput.normalized);
@@ -408,11 +398,10 @@ public class Tank : NetworkBehaviour, IDamageble
     // SHOOTING SYSTEM
     // ============================================
 
-    public void InitializeShooting(WeaponData weaponData , TeamColor teamColor)
+    public void InitializeShooting()
     {
-        shootingSystem.InitializeWeapon(weaponData,teamColor);
-        CursorInitialization(weaponData.crosshairSprite);
-        OnWeaponChanged?.Invoke(weaponData);
+        shootingSystem.InitializeWeapon(this);
+        CursorInitialization(TankConfig.crosshairSprite);
     }
 
     public void Shoot(bool isHoldingTrigger)
