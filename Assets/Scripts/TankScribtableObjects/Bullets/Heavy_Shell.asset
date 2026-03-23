@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Heavy_Shell
   m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
   bulletName: Heavy_Shell
-  speed: 5
+  speed: 15
   damage: 300
   bulletPrefab: {fileID: 3518944836395426001, guid: 3e1402425dba89344817bcaf5a5d6b05, type: 3}

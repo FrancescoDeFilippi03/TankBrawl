@@ -70,7 +70,8 @@ public class Tank : NetworkBehaviour, IDamageble
 
     [SerializeField] private float movementSmoothing = 5f;
     [SerializeField] private float rotationSmoothing = 7f;
-    [SerializeField] private float baseMoveSpeed = 10f;
+    [SerializeField] private float maxSpeed = 12f;
+    [SerializeField] private float minSpeed = 6f;
 
     [SerializeField] private float maxWeight = 80f; //in tons
     [SerializeField] private float minWeight = 20f; //in tons
@@ -352,11 +353,12 @@ public class Tank : NetworkBehaviour, IDamageble
             1f / movementSmoothing
         );
 
-        float weightScale = (tankConfig.WeightScale - minWeight) / (maxWeight - minWeight);
+        float weightScale = Mathf.InverseLerp(minWeight, maxWeight, tankConfig.weight);
+        float moveSpeed = Mathf.Lerp(maxSpeed, minSpeed, weightScale);
 
         if (smoothedMovementInput.magnitude > 0.01f)
         {
-            Vector2 movement = baseMoveSpeed * weightScale * Time.fixedDeltaTime * smoothedMovementInput;
+            Vector2 movement = moveSpeed * Time.fixedDeltaTime * smoothedMovementInput;
             rb.MovePosition(rb.position + movement);
         }
 
@@ -401,7 +403,7 @@ public class Tank : NetworkBehaviour, IDamageble
     public void InitializeShooting()
     {
         shootingSystem.InitializeWeapon(this);
-        CursorInitialization(TankConfig.crosshairSprite);
+        CursorInitialization(TankConfig.weaponData.crosshairTexture);
     }
 
     public void Shoot(bool isHoldingTrigger)
@@ -435,13 +437,11 @@ public class Tank : NetworkBehaviour, IDamageble
         );
     }
 
-    private void CursorInitialization(Sprite crosshairSprite)
+    private void CursorInitialization(Texture2D crosshairSprite)
     {
         if (crosshairSprite != null)
         {
-            Texture2D cursorTexture = crosshairSprite.texture;
-            Vector2 hotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
-            Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
+            Cursor.SetCursor(crosshairSprite, new Vector2(crosshairSprite.width / 2, crosshairSprite.height / 2), CursorMode.Auto);
         }
         Cursor.visible = true;
     }

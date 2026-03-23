@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   weaponName: MachineGun
   shootingType: 2
-  fireRate: 5
-  range: 5
+  fireRate: 10
+  range: 13
   weaponDamageMultiplier: 1
   bulletSpeedMultiplier: 1
   ammoCapacity: 50
@@ -23,3 +23,4 @@ MonoBehaviour:
   burstCount: 0
   burstDelay: 0
   bulletConfig: {fileID: 11400000, guid: 04139559ee596b34789c095723ff8b33, type: 2}
+  crosshairTexture: {fileID: 2800000, guid: 11e5ab06858788e4283a67ae91eca8b5, type: 3}

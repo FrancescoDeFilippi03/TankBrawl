@@ -17,7 +17,7 @@ public class HangarUI : UI
         private TextField modalPlayerNameField;
         private TextField lobbyCodeField;
     */
-
+    [SerializeField] private TankConfig[] tankConfigs = new TankConfig[16];
     //HANGAR
     private Button backMainMenu;
 
@@ -43,6 +43,10 @@ public class HangarUI : UI
     private IVisualElementScheduledItem trackAnimationScheduler;
     private IVisualElementScheduledItem burstAnimationScheduler;
     private bool isAnimatingTracks = false;
+
+
+
+
 
     void Awake()
     {
@@ -73,6 +77,7 @@ public class HangarUI : UI
         for (int i = 0; i < 16; i++)
         {
             tankButtons[i] = root.Q<Button>($"Tank{i + 1}Button");
+            tankButtons[i].Q<Label>().text = tankConfigs[i].tankName;
         }
 
         tankVisualContainer = root.Q<VisualElement>("TankPartsContainer");
@@ -87,7 +92,7 @@ public class HangarUI : UI
             
         }
 
-        LoadTankVisual(selectedTankIndex);
+        SelectTank(selectedTankIndex);
 
         if (changeTankButton != null)
             changeTankButton.clicked += ShowTankSelectionModal;
@@ -193,6 +198,7 @@ public class HangarUI : UI
         OnTankSelected?.Invoke(tankIndex);
 
         LoadTankVisual(tankIndex);
+        UpdateTankStats(tankIndex);
         
         Debug.Log($"Tank {tankIndex + 1} selected!");
         
@@ -320,14 +326,15 @@ public class HangarUI : UI
         }
     }
     
-    public void UpdateTankStats(int health, int speed, int damage, int armor)
+    public void UpdateTankStats(int index)
     {
         if (root == null) return;
         
-        root.Q<Label>("HealthValue").text = health.ToString();
-        root.Q<Label>("SpeedValue").text = speed.ToString();
-        root.Q<Label>("DamageValue").text = damage.ToString();
-        root.Q<Label>("ArmorValue").text = armor.ToString();
+        root.Q<Label>("HealthValue").text = tankConfigs[index].maxHealth.ToString();
+        root.Q<Label>("ShieldValue").text = tankConfigs[index].maxShield.ToString();
+        root.Q<Label>("DamageValue").text = tankConfigs[index].Damage.ToString();
+        root.Q<Label>("WeaponValue").text = tankConfigs[index].weaponData.name;
+        root.Q<Label>("WeightValue").text = tankConfigs[index].weight.ToString();
     }
     
     public int GetSelectedTankIndex()

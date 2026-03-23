@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Light_Shell
   m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
   bulletName: Light_Shell
-  speed: 15
+  speed: 25
   damage: 100
   bulletPrefab: {fileID: 558874143922897049, guid: c043a40a9cdc85c49a4a628ef277d9dc, type: 3}

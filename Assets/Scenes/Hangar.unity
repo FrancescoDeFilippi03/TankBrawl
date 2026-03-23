@@ -150,6 +150,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HangarUI
   uiDocument: {fileID: 1445833506}
+  tankConfigs:
+  - {fileID: 11400000, guid: 9bc1b16509fad3f478137bd6c55f2e50, type: 2}
+  - {fileID: 11400000, guid: 0d81fd4e05c136c488ab1d7fa2b72d55, type: 2}
+  - {fileID: 11400000, guid: 10fbb05b71b52c14aa79eeba5032c980, type: 2}
+  - {fileID: 11400000, guid: 357ad47d2353b3143a6ffffb13617e0e, type: 2}
+  - {fileID: 11400000, guid: da70f95515db5fe409667222712609f9, type: 2}
+  - {fileID: 11400000, guid: 896ecdd0b12f4134585cacea8481579e, type: 2}
+  - {fileID: 11400000, guid: 758e4018a62e306479c76927d5937fa6, type: 2}
+  - {fileID: 11400000, guid: 82d6b2be777ae6a45be0bd10a8604c07, type: 2}
+  - {fileID: 11400000, guid: 8bf1d1143f115084f89aaba057b95865, type: 2}
+  - {fileID: 11400000, guid: 67e5cc9294b474247b4b456b13584dca, type: 2}
+  - {fileID: 11400000, guid: 364d09480b051f74bbf4cc314f3f445d, type: 2}
+  - {fileID: 11400000, guid: c8d9702db7a6c8a4c8e9c880327a2910, type: 2}
+  - {fileID: 11400000, guid: 7b92b2f135ab4c24d81e7b4155beadf9, type: 2}
+  - {fileID: 11400000, guid: 9304cf29428238046ae7c5e5eb7f41ba, type: 2}
+  - {fileID: 11400000, guid: 599bc0f361dae714da4a084fa7f510f7, type: 2}
+  - {fileID: 11400000, guid: 62706fc405910bb438ee7dfbeb28df93, type: 2}
   trackSpritesA:
   - {fileID: 21300000, guid: 34c763469f39b964b97f455dcd6a4534, type: 3}
   - {fileID: 21300000, guid: c15aeb2f63a96a248b021cd1ca22863f, type: 3}

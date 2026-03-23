@@ -1,5 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="Background" style="flex-grow: 1; justify-content: center; align-self: center; width: 100%; height: 100%; align-items: center; background-image: url(&quot;project://database/Assets/Art/top-down-tank-game-user-interface/PNG/Hangar/Decor_Table_01.png?fileID=2800000&amp;guid=80f25361cc87f874ea9389af8b396ca5&amp;type=3#Decor_Table_01&quot;);">
+        <ui:Label text="GAME START IN" name="GameStartIn" style="align-self: center; align-content: center; justify-content: center; width: 40%; height: 20%; -unity-font-definition: url(&quot;project://database/Assets/Font/AldotheApache.ttf?fileID=12800000&amp;guid=35db1d0ecf5f46b48af76c68e2649c27&amp;type=3#AldotheApache&quot;); color: rgb(255, 255, 255); font-size: 78%; -unity-text-align: middle-center; top: -15%;" />
         <ui:Label name="StartingTimerLabel" style="font-size: 100%; -unity-font-definition: url(&quot;project://database/Assets/Font/AldotheApache.ttf?fileID=12800000&amp;guid=35db1d0ecf5f46b48af76c68e2649c27&amp;type=3#AldotheApache&quot;); color: rgb(255, 255, 255);" />
     </ui:VisualElement>
 </ui:UXML>

@@ -22,5 +22,6 @@ public class Weapon : ScriptableObject
     public GameObject bulletPrefab => bulletConfig.bulletPrefab;
     public float damage => bulletConfig.damage * weaponDamageMultiplier;
     public float bulletSpeed => bulletConfig.speed * bulletSpeedMultiplier;
+    public Texture2D crosshairTexture;
 
 }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sniper_shell
   m_EditorClassIdentifier: Assembly-CSharp::BulletConfig
   bulletName: Sniper_shell
-  speed: 20
+  speed: 30
   damage: 650
   bulletPrefab: {fileID: 8113968679250624279, guid: 20f27016a6b54854a911710e0f01c69c, type: 3}

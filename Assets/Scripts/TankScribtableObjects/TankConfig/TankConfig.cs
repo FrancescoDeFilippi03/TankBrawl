@@ -29,7 +29,7 @@ public class TankConfig : ScriptableObject
     //weapon stats
     [Header("Weapon Stats")]
     public Weapon weaponData;
-    public Sprite crosshairSprite;
+    
 
     public float damangeMultiplier = 1f;
     public float fireRateMultiplier = 1f;
@@ -39,7 +39,6 @@ public class TankConfig : ScriptableObject
     public float ammoCapacityMultiplier = 1f;
 
     //movement info 
-    public float WeightScale => 1f / weight;
 
     //weapon info scaled based on tank config
     public float Damage => weaponData.damage * damangeMultiplier;

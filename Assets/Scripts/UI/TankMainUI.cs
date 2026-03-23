@@ -76,7 +76,7 @@ public class TankMainUI : UI
         {
             ammoBar[i].visible = i < currentAmmo;
         }
-        ammoLabel.text = $"{currentAmmo}/{subscribedTank.TankConfig.weaponData.ammoCapacity}";
+        ammoLabel.text = $"{currentAmmo}/{subscribedTank.TankConfig.AmmoCapacity}";
     }
 
     public void UpdateHealth(float previousHealth, float currentHealth)
@@ -105,7 +105,7 @@ public class TankMainUI : UI
         subscribedTank.OnShieldChanged += UpdateArmor;
         subscribedTank.currentAmmo.OnValueChanged += (current, max) => UpdateAmmo(current, max);
 
-        SetupMainUI(subscribedTank.TankConfig.weaponData.ammoCapacity,
+        SetupMainUI(subscribedTank.TankConfig.AmmoCapacity,
                     subscribedTank.TankConfig.maxHealth, 
                     subscribedTank.TankConfig.maxShield);
         

@@ -286,7 +286,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SessionManager
   sessionDataManagerPrefab: {fileID: 6313760404973574747, guid: 39558c9f598d21344ac88c69128ec03b, type: 3}
-  connectionManagerPrefab: {fileID: 3139022947946072109, guid: 7132b103bc9b8c24c8521595f888c4ec, type: 3}
 --- !u!4 &188236890
 Transform:
   m_ObjectHideFlags: 0
@@ -346,7 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Transports.UTP.UnityTransport
   m_ProtocolType: 0
-  m_UseWebSockets: 0
+  m_UseWebSockets: 1
   m_UseEncryption: 0
   m_MaxPacketQueueSize: 128
   m_MaxPayloadSize: 6144

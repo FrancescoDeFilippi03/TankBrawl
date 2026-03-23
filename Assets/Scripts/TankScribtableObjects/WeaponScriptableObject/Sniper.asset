@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: Sniper
   shootingType: 0
   fireRate: 1
-  range: 10
+  range: 20
   weaponDamageMultiplier: 1
   bulletSpeedMultiplier: 1
   ammoCapacity: 3
@@ -23,3 +23,4 @@ MonoBehaviour:
   burstCount: 0
   burstDelay: 0
   bulletConfig: {fileID: 11400000, guid: 77aa1187416373f4b805e953bf27e974, type: 2}
+  crosshairTexture: {fileID: 2800000, guid: a8e5031638aa2204082c6f51d5fe1edb, type: 3}
