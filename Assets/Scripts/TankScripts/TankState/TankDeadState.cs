@@ -1,10 +1,11 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class TankDeadState : TankBaseState
 {
 
     private float timeInDeadState = 0f;
-    private readonly float deadAnimDuration = 1.0f;
+    private float deadAnimDuration = 1.0f;
     public TankDeadState(TankStateManager tankStateManager) : base(tankStateManager)
     {
     }
@@ -14,9 +15,16 @@ public class TankDeadState : TankBaseState
         Debug.Log("Entering Dead State");
 
         if (IsOwner) tank.PlayerController.SetInputActive(false);
-
-        if(tank.TryGetComponent<Rigidbody2D>(out var rb)) rb.simulated = false;
+        
+        Tank.SetInvincibleServerRpc(true);
+        
         timeInDeadState = 0f;
+
+        deadAnimDuration = Tank.deathAnimation != null ? Tank.deathAnimation.length : 1.0f;
+
+        Tank.SetAlpha(0f);
+
+        Tank.SpawnDeathEffectServerRpc(Tank.transform.position);
     }
 
     public override void Update()
@@ -36,6 +44,5 @@ public class TankDeadState : TankBaseState
     public override void Exit()
     {
         Debug.Log("Exiting Dead State");
-
     }
 }

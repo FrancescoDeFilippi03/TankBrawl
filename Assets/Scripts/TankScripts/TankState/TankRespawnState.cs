@@ -25,14 +25,6 @@ public class TankRespawnState : TankBaseState
             // Reset health immediately on respawn
             Tank.ResetHealth();
         }
-
-        if (tank.TryGetComponent<Rigidbody2D>(out var rb))
-        {
-            rb.simulated = true;
-        }
-
-
-        Tank.SetAlpha(0f);
     }
 
     public override void Update()
@@ -57,6 +49,7 @@ public class TankRespawnState : TankBaseState
     {
         Debug.Log("Exiting Respawn State");
         Tank.SetAlpha(1f);
+        Tank.SetInvincibleServerRpc(false);
         
         if (IsOwner)
         {

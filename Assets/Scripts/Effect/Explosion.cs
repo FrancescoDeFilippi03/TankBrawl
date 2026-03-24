@@ -13,15 +13,6 @@ public class Explosion : NetworkBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (!IsServer) return;
-        if (other.TryGetComponent<IDamageble>(out var damageble))
-        {
-            damageble.TakeDamage(damage);
-        }
-    }
-
     private System.Collections.IEnumerator DestroyAfterSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);

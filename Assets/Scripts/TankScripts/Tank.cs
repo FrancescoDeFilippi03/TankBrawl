@@ -118,11 +118,18 @@ public class Tank : NetworkBehaviour, IDamageble
         NetworkVariableWritePermission.Server
     );
 
+    public NetworkVariable<bool> isInvincible = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     private ulong lastDamageAppliedFrom;
 
-
     [SerializeField] private GameObject playerNameText;
-    
+
+    [SerializeField] public GameObject deathEffectPrefab;
+    [SerializeField] public AnimationClip deathAnimation;
 
     public override void OnNetworkSpawn()
     {
@@ -527,5 +534,24 @@ public class Tank : NetworkBehaviour, IDamageble
         tankSprites.Turret.color = normalColor;
         tankSprites.LeftTrack.color = normalColor;
         tankSprites.RightTrack.color = normalColor;
+    }
+
+    [ServerRpc]
+    public void SpawnDeathEffectServerRpc(Vector3 position)
+    {
+        if (deathEffectPrefab != null)
+        {
+            GameObject deathEffect = GameObject.Instantiate(deathEffectPrefab, position, Quaternion.identity);
+            if (deathEffect.TryGetComponent<NetworkObject>(out var networkObject))
+            {
+                networkObject.Spawn();
+            }
+        }
+    }
+
+    [ServerRpc]
+    public void SetInvincibleServerRpc(bool value)
+    {
+        isInvincible.Value = value;
     }
 }

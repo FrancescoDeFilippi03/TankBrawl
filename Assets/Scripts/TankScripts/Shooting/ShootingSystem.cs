@@ -139,21 +139,12 @@ public class ShootingSystem : NetworkBehaviour
         if (currentAmmo <= 0 ) return;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, dir, range, mask);
-
-        if(hit.collider != null)
-        {
-            if (hit.collider.TryGetComponent<IDamageble>(out var damageble))
-            {
-                damageble.TakeDamage(TankConfig.Damage);
-            }
-
-            Debug.Log($"Bullet hit: {hit.collider.name} at distance: {hit.distance}");
-        }
+        
         float length = hit.collider != null ? hit.distance : range;
 
         if (hit.collider != null && hit.collider.TryGetComponent<NetworkObject>(out var netObj))
         {
-            if(netObj.TryGetComponent<Tank>(out var hitTank))
+            if(netObj.TryGetComponent<Tank>(out var hitTank) && !hitTank.isInvincible.Value)
             {
                 ReportHitAndApplyDamageServerRpc(origin, dir, length, netObj.NetworkObjectId);
                 hitTank.ShowHitEffectServerRpc();
@@ -177,8 +168,6 @@ public class ShootingSystem : NetworkBehaviour
                 damageable.TakeDamage(TankConfig.Damage);
             }
         }
-
-        SpawnBulletVisual(origin, dir, length);
 
         SpawnBulletVisualClientRpc(origin, dir , length);
 
